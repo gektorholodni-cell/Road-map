@@ -33,7 +33,7 @@ interface Props {
 
 /** Отступы под шапку и нижние панели, чтобы острова не прятались под интерфейсом. */
 const hudInset = (w: number, h: number) =>
-  w < 860 ? { top: 90, right: 10, bottom: 150, left: 10 } : { top: Math.min(140, h * 0.14), right: 30, bottom: Math.min(110, h * 0.1), left: 30 };
+  w < 600 ? { top: 70, right: 8, bottom: 120, left: 8 } : w < 860 ? { top: 90, right: 10, bottom: 150, left: 10 } : { top: Math.min(140, h * 0.14), right: 30, bottom: Math.min(110, h * 0.1), left: 30 };
 
 function worldBounds(islands: Island[]): Rect {
   if (!islands.length) return { x: 0, y: 0, w: 2000, h: 1400 };
@@ -52,7 +52,14 @@ export const WorldMap = forwardRef<WorldMapHandle, Props>(function WorldMap({ pr
     () => ({ x: islandsBounds.x - 900, y: islandsBounds.y - 700, w: islandsBounds.w + 1800, h: islandsBounds.h + 1300 }),
     [islandsBounds],
   );
-  const [cam, setCam] = useState<Camera>(() => fitCamera(islandsBounds, window.innerWidth, window.innerHeight, hudInset(window.innerWidth, window.innerHeight)));
+  const [cam, setCam] = useState<Camera>(() => {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    // На телефоне весь мир не помещается читаемо — начинаем с текущего острова.
+    const cur = currentIsland(project);
+    if (w < 600 && cur) return centerOn(cur.map.x + islandRadius(cur) * 0.6, cur.map.y, (Math.min(w, h) * 0.3) / islandRadius(cur), w, h);
+    return fitCamera(islandsBounds, w, h, hudInset(w, h));
+  });
   const camRef = useRef(cam);
   camRef.current = cam;
   const cancelAnim = useRef<() => void>(() => {});
@@ -108,17 +115,42 @@ export const WorldMap = forwardRef<WorldMapHandle, Props>(function WorldMap({ pr
     [project.islands, fly, size, islandsBounds],
   );
 
-  // ----- Перетаскивание и масштабирование -----
+  // ----- Перетаскивание и масштабирование (мышь, палец, щипок двумя пальцами) -----
   const drag = useRef<{ sx: number; sy: number; cx: number; cy: number; moved: boolean; id: number } | null>(null);
+  const pointers = useRef(new Map<number, { x: number; y: number }>());
+  const pinch = useRef<{ d0: number; mx: number; my: number; cam0: Camera } | null>(null);
   const suppressClick = useRef(false);
+
+  const pinchFrame = () => {
+    const [a, b] = [...pointers.current.values()];
+    return { d: Math.hypot(a.x - b.x, a.y - b.y), mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2 };
+  };
 
   const onPointerDown = (e: React.PointerEvent) => {
     if (!interactive || e.button !== 0) return;
     cancelAnim.current();
+    pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pointers.current.size === 2) {
+      const f = pinchFrame();
+      pinch.current = { d0: Math.max(1, f.d), mx: f.mx, my: f.my, cam0: camRef.current };
+      drag.current = null;
+      suppressClick.current = true;
+      for (const id of pointers.current.keys()) box.current?.setPointerCapture(id);
+      return;
+    }
     drag.current = { sx: e.clientX, sy: e.clientY, cx: cam.x, cy: cam.y, moved: false, id: e.pointerId };
     suppressClick.current = false;
   };
   const onPointerMove = (e: React.PointerEvent) => {
+    if (pointers.current.has(e.pointerId)) pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    const p = pinch.current;
+    if (p && pointers.current.size >= 2) {
+      const f = pinchFrame();
+      const r = box.current!.getBoundingClientRect();
+      const z = zoomAt(p.cam0, f.d / p.d0, p.mx - r.left, p.my - r.top);
+      set({ k: z.k, x: z.x + f.mx - p.mx, y: z.y + f.my - p.my });
+      return;
+    }
     const d = drag.current;
     if (!d) return;
     const dx = e.clientX - d.sx;
@@ -129,7 +161,13 @@ export const WorldMap = forwardRef<WorldMapHandle, Props>(function WorldMap({ pr
     }
     if (d.moved) set({ k: cam.k, x: d.cx + dx, y: d.cy + dy });
   };
-  const onPointerUp = () => {
+  const onPointerUp = (e: React.PointerEvent) => {
+    pointers.current.delete(e.pointerId);
+    if (pinch.current) {
+      if (pointers.current.size < 2) pinch.current = null;
+      drag.current = null;
+      return;
+    }
     if (drag.current?.moved) suppressClick.current = true;
     drag.current = null;
   };
@@ -250,7 +288,7 @@ export const WorldMap = forwardRef<WorldMapHandle, Props>(function WorldMap({ pr
               key={island.id}
               className={`map-label state-${st} ${hover === island.id ? 'hover' : ''}`}
               style={{ transform: `translate(${Math.round(sx)}px, ${Math.round(sy)}px)`, ['--glow' as string]: THEMES[island.theme].glow }}
-              onClick={() => onIslandClick(island.id)}
+              onClick={() => handleIsland(island.id)}
               onPointerEnter={() => setHover(island.id)}
               onPointerLeave={() => setHover((h) => (h === island.id ? null : h))}
               tabIndex={interactive ? 0 : -1}

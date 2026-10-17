@@ -328,14 +328,14 @@ export function IslandScene({ island, animated, paused, arriving, onExit, onOpen
         </div>
       </div>
       {nearTask && !paused && (
-        <div className="near-prompt glass" role="status">
+        <button className="near-prompt glass" onClick={() => onOpenTask(nearTask.id)}>
           <kbd>E</kbd> открыть «{nearTask.title}»
           {taskState(project, nearTask).status === 'locked' && (
             <span className="locked">
               <Lock size={12} /> заблокировано
             </span>
           )}
-        </div>
+        </button>
       )}
       <div className="scene-hint">WASD / стрелки — движение · клик — подойти · E — открыть · M — карта · Esc — меню</div>
     </div>

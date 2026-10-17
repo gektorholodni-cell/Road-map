@@ -12,7 +12,7 @@ export interface Rect {
   h: number;
 }
 
-export const MIN_K = 0.15;
+export const MIN_K = 0.07;
 export const MAX_K = 2.2;
 
 /** Вписывает область в экран с отступами под элементы интерфейса. */
