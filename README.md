@@ -26,6 +26,10 @@ npm run preview    # http://localhost:4173
 npm test
 ```
 
+## Сайт (GitHub Pages)
+
+`.github/workflows/pages.yml` собирает и публикует сайт при каждом изменении `main`. Один раз включите в настройках репозитория **Pages → Source: GitHub Actions** (для бесплатного аккаунта репозиторий должен быть публичным). Адрес: `https://<пользователь>.github.io/<репозиторий>/`.
+
 ## Android (APK)
 
 `android/` — обёртка WebView, собирается без Android Studio и Gradle:
