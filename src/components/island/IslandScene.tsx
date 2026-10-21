@@ -10,6 +10,8 @@ import { buildLayout, clampToWalk, SCENE_H, SCENE_W } from './layout';
 import { SceneBackdrop, SceneGround, SceneParticles, sceneDecorations } from './SceneArt';
 import { PoiSprite } from './PoiSprite';
 import { Hero } from './Hero';
+import { RemoteHeroes } from './RemoteHeroes';
+import { sendPosition } from '../../multiplayer/room';
 import { StatusMarker } from './StatusMarker';
 
 interface Props {
@@ -53,6 +55,8 @@ export function IslandScene({ island, animated, paused, arriving, onExit, onOpen
   pausedRef.current = paused;
   const poisRef = useRef(layout.pois);
   poisRef.current = layout.pois;
+  const islandIdRef = useRef(island.id);
+  islandIdRef.current = island.id;
   const openRef = useRef(onOpenTask);
   openRef.current = onOpenTask;
 
@@ -124,6 +128,7 @@ export function IslandScene({ island, animated, paused, arriving, onExit, onOpen
       if (SCENE_W * k < vw) tx = (vw - SCENE_W * k) / 2;
       world.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${k})`;
       hero.style.transform = `translate3d(${pos.current.x - 30}px, ${pos.current.y - 88}px, 0)`;
+      sendPosition(islandIdRef.current, pos.current.x, pos.current.y, hero.classList.contains('flip'), moving);
       hero.style.zIndex = String(Math.round(pos.current.y) + 1);
       if (backRef.current) backRef.current.style.transform = `translate3d(${tx * 0.06}px, ${ty * 0.04}px, 0) scale(1.12)`;
       // Ближайшее задание.
@@ -274,6 +279,7 @@ export function IslandScene({ island, animated, paused, arriving, onExit, onOpen
           );
         })}
         <Hero ref={heroRef} scarf={theme.accent} />
+        <RemoteHeroes islandId={island.id} />
         {hoverPoi && hoverTask && (
           <div className="poi-tip glass" style={{ left: hoverPoi.x, top: hoverPoi.y - 150, zIndex: 100000 }} role="tooltip">
             <div className="tip-title">{hoverTask.title}</div>

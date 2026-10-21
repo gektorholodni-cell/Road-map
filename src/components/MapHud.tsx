@@ -1,5 +1,6 @@
 // Интерфейс поверх карты: заголовок, общий прогресс, режимы и действия.
-import { Bot, Download, Pencil, RotateCcw, Settings, Trophy, Upload, Compass } from 'lucide-react';
+import { Bot, Download, Pencil, RotateCcw, Settings, Trophy, Upload, Compass, Users } from 'lucide-react';
+import { usePeers } from '../multiplayer/room';
 import type { Project } from '../types';
 import { islandMapState, islandProgress, projectProgress } from '../systems/progress';
 import { ProgressRing } from './panels/IslandOverview';
@@ -11,12 +12,14 @@ interface Props {
   onAchievements: () => void;
   onAssistant: () => void;
   onSettings: () => void;
+  onCoop: () => void;
   onImport: () => void;
   onExport: () => void;
   onReset: () => void;
 }
 
-export function MapHud({ project, saveState, onEditor, onAchievements, onAssistant, onSettings, onImport, onExport, onReset }: Props) {
+export function MapHud({ project, saveState, onEditor, onAchievements, onAssistant, onSettings, onCoop, onImport, onExport, onReset }: Props) {
+  const peers = usePeers();
   const prog = projectProgress(project);
   const states = project.islands.map((i) => {
     const st = islandMapState(project, i);
@@ -79,6 +82,10 @@ export function MapHud({ project, saveState, onEditor, onAchievements, onAssista
         <div className={`save-dot s-${saveState}`} title={saveState === 'saved' ? 'Сохранено' : saveState === 'saving' ? 'Сохранение…' : 'Ошибка сохранения'}>
           {saveState === 'saved' ? 'Сохранено' : saveState === 'saving' ? 'Сохранение…' : 'Ошибка сохранения'}
         </div>
+        <button className="btn glass coop-btn" onClick={onCoop} aria-label={`Вместе с другом${peers.length ? `, онлайн ${peers.length}` : ''}`}>
+          <Users size={16} /> Вместе
+          {peers.length > 0 && <span className="coop-count">{peers.length}</span>}
+        </button>
         <button className="btn glass" onClick={onAchievements}>
           <Trophy size={16} /> Достижения
         </button>

@@ -1,9 +1,9 @@
 // Маленький исследователь: стилизованный персонаж с анимацией ходьбы и ожидания.
 import { forwardRef } from 'react';
 
-export const Hero = forwardRef<HTMLDivElement, { scarf: string }>(function Hero({ scarf }, ref) {
+export const Hero = forwardRef<HTMLDivElement, { scarf: string; className?: string; label?: string }>(function Hero({ scarf, className = '', label = 'Исследователь' }, ref) {
   return (
-    <div ref={ref} className="hero" aria-label="Исследователь">
+    <div ref={ref} className={`hero ${className}`} aria-label={label}>
       <svg viewBox="-30 -84 60 92" width="60" height="92" aria-hidden>
         <ellipse className="hero-shadow" cx="0" cy="2" rx="16" ry="5" fill="#000" opacity=".35" />
         <g className="hero-body">
