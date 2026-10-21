@@ -3,6 +3,8 @@ import type { GameEvent, Project } from '../types';
 import { apply, isSessionAction, type Action } from './actions';
 import { eventId, sync } from '../systems/sync';
 import { saveProject } from '../storage/db';
+import { connectShared, sharedJson, type SharedDoc } from '../storage/shared';
+import { parseProject } from '../storage/io';
 import { playSound } from '../systems/sound';
 
 interface State {
@@ -18,7 +20,8 @@ function reducer(state: State, a: Internal): State {
   const now = new Date().toISOString();
   let next = apply(state.project, a, now);
   if (next === state.project) return state;
-  if (!isSessionAction(a)) next = { ...next, updatedAt: now };
+  // Замена целиком (импорт, общий прогресс) сохраняет время изменения из источника, иначе две страницы перезаписывали бы друг друга по кругу.
+  if (!isSessionAction(a) && a.type !== 'replace') next = { ...next, updatedAt: now };
   // При полной замене проекта (импорт, восстановление) события прошлого не нужны.
   const { project, events } = sync(a.type === 'replace' ? null : state.project, next, now);
   return { project, events: a.type === 'replace' ? state.events : [...state.events, ...events] };
@@ -47,8 +50,78 @@ export function StoreProvider({ initial, children }: { initial: Project; childre
   const timer = useRef<number | undefined>(undefined);
   const first = useRef(true);
 
+  // ----- Общий прогресс (только на странице в Claude) -----
+  const shared = useRef<SharedDoc | null>(null);
+  const lastShared = useRef<string | null>(null);
+  const pushing = useRef(false);
+  const pushAgain = useRef(false);
+  const readOnly = useRef(false);
+
+  const pushShared = useCallback(async () => {
+    const doc = shared.current;
+    if (!doc || readOnly.current) return;
+    if (pushing.current) {
+      pushAgain.current = true;
+      return;
+    }
+    const json = sharedJson(latest.current);
+    if (json === lastShared.current) return;
+    pushing.current = true;
+    try {
+      await doc.set({ json, savedAt: new Date().toISOString() });
+      lastShared.current = json;
+    } catch (e) {
+      // Участник без права записи видит общий прогресс, но не меняет его.
+      if ((e as { code?: string }).code === 'invalid_argument') readOnly.current = true;
+    } finally {
+      pushing.current = false;
+      if (pushAgain.current) {
+        pushAgain.current = false;
+        void pushShared();
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    let alive = true;
+    let stop = () => {};
+    let first = true;
+    void connectShared().then((doc) => {
+      if (!doc || !alive) return;
+      shared.current = doc;
+      stop = doc.onSnapshot(
+        (snap) => {
+          if (snap.metadata.hasPendingWrites) return;
+          const json = snap.data()?.json;
+          if (!snap.exists || typeof json !== 'string') {
+            // Общего прогресса ещё нет — первым его заполняет тот, кто открыл страницу.
+            void pushShared();
+            return;
+          }
+          if (json === lastShared.current) return;
+          const parsed = parseProject(json);
+          if (!parsed.ok) return;
+          const local = latest.current;
+          const next = { ...parsed.project, session: local.session, settings: local.settings };
+          lastShared.current = sharedJson(next);
+          raw({ type: 'replace', project: next });
+          raw({ type: '__toast', text: first ? 'Подключён общий прогресс.' : 'Общий прогресс обновлён.', tone: 'info' });
+          first = false;
+        },
+        () => {
+          shared.current = null;
+        },
+      );
+    });
+    return () => {
+      alive = false;
+      stop();
+    };
+  }, [pushShared]);
+
   const flush = useCallback(async () => {
     window.clearTimeout(timer.current);
+    void pushShared();
     try {
       await saveProject(latest.current);
       setSaveState('saved');
@@ -57,7 +130,7 @@ export function StoreProvider({ initial, children }: { initial: Project; childre
       setSaveState('error');
       setSaveError((e as Error).message);
     }
-  }, []);
+  }, [pushShared]);
 
   // Автосохранение с небольшой задержкой — без потери данных при частых изменениях.
   useEffect(() => {
