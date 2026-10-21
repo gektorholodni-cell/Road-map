@@ -1,6 +1,7 @@
-// Общий прогресс для страницы, выложенной в Claude: один документ в хранилище страницы,
-// который видят все, кому открыт доступ. В обычном браузере и в APK этого хранилища нет.
+// Общий прогресс: на странице в Claude — документ в хранилище страницы,
+// на сайте и в APK — комната совместной игры (Supabase), если игрок в неё вошёл.
 import type { Project } from '../types';
+import { connectRoomDoc } from '../multiplayer/room';
 
 interface Snapshot {
   exists: boolean;
@@ -19,7 +20,7 @@ interface ClaudeRuntime {
 
 export async function connectShared(): Promise<SharedDoc | null> {
   const claude = (window as unknown as { claude?: ClaudeRuntime }).claude;
-  if (!claude?.use) return null;
+  if (!claude?.use) return connectRoomDoc();
   try {
     const db = await claude.use('db');
     return db ? db.doc('shared/project') : null;

@@ -12,6 +12,8 @@ import { AchievementsJournal, EventToasts } from './components/panels/Achievemen
 import { IslandComplete } from './components/panels/IslandComplete';
 import { SettingsPanel, useDataActions } from './components/panels/Settings';
 import { AssistantPanel } from './components/panels/Assistant';
+import { CoopPanel } from './components/panels/Coop';
+import { roomFromHash, setPresence } from './multiplayer/room';
 import { Editor } from './components/editor/Editor';
 import { Modal } from './components/ui/Modal';
 import { useConfirm } from './components/ui/confirm';
@@ -24,7 +26,8 @@ type Panel =
   | { type: 'achievements' }
   | { type: 'settings' }
   | { type: 'assistant' }
-  | { type: 'menu' };
+  | { type: 'menu' }
+  | { type: 'coop' };
 
 function usePrefersReducedMotion() {
   const [v, setV] = useState(() => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false);
@@ -51,7 +54,8 @@ export default function App() {
   const [sceneId, setSceneId] = useState<string | null>(() => (startIsland && isIslandUnlocked(project, startIsland) ? startIsland.id : null));
   const [arriving, setArriving] = useState(!!sceneId);
   const [transition, setTransition] = useState<TransitionSpec | null>(null);
-  const [panels, setPanels] = useState<Panel[]>([]);
+  // Ссылка-приглашение в комнату сразу открывает окно совместной игры.
+  const [panels, setPanels] = useState<Panel[]>(() => (roomFromHash() ? [{ type: 'coop' }] : []));
   const [editor, setEditor] = useState(false);
   const [selected, setSelected] = useState<string | undefined>();
   const [completeQueue, setCompleteQueue] = useState<string[]>([]);
@@ -103,6 +107,9 @@ export default function App() {
     closeAll();
     setTransition({ kind: 'exit', islandId: scene.id, theme: scene.theme, title: scene.name, subtitle: scene.subtitle, nonce: Date.now() });
   }, [scene]);
+
+  // Другие игроки комнаты видят, где вы: на карте или на острове.
+  useEffect(() => setPresence(sceneId ? 'island' : 'map', sceneId ?? undefined), [sceneId]);
 
   // Кнопка «Назад» в Android-сборке: закрывает верхнее окно, затем редактор, затем выходит с острова на карту.
   const backRef = useRef<() => boolean>(() => false);
@@ -223,6 +230,7 @@ export default function App() {
             onAchievements={() => push({ type: 'achievements' })}
             onAssistant={() => push({ type: 'assistant' })}
             onSettings={() => push({ type: 'settings' })}
+            onCoop={() => push({ type: 'coop' })}
             onImport={() => void data.pickFile()}
             onExport={data.doExport}
             onReset={() => void data.reset()}
@@ -278,6 +286,8 @@ export default function App() {
             return <AchievementsJournal key="ach" onClose={pop} />;
           case 'settings':
             return <SettingsPanel key="set" onClose={pop} />;
+          case 'coop':
+            return <CoopPanel key="coop" onClose={pop} />;
           case 'assistant':
             return <AssistantPanel key="ai" onClose={pop} onOpenTask={(id) => push({ type: 'task', taskId: id })} contextIslandId={sceneId ?? selected} />;
           case 'menu':

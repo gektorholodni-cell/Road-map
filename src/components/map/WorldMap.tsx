@@ -13,6 +13,7 @@ import { MiniMap } from './MiniMap';
 import { animateCamera, centerOn, clampCamera, fitCamera, zoomAt, type Camera, type Rect } from './camera';
 import { pct } from '../ui/labels';
 import { ART_SCALE, islandRadius } from './geometry';
+import { usePeers } from '../../multiplayer/room';
 
 
 export interface WorldMapHandle {
@@ -64,6 +65,7 @@ export const WorldMap = forwardRef<WorldMapHandle, Props>(function WorldMap({ pr
   camRef.current = cam;
   const cancelAnim = useRef<() => void>(() => {});
   const [hover, setHover] = useState<string | null>(null);
+  const peers = usePeers();
 
   useLayoutEffect(() => {
     const el = box.current;
@@ -304,6 +306,17 @@ export const WorldMap = forwardRef<WorldMapHandle, Props>(function WorldMap({ pr
                 <span className="pct">{pct(prog.ratio)}</span>
                 <span className="caption">{island.name}</span>
               </span>
+              {peers.some((p) => p.view === 'island' && p.islandId === island.id) && (
+                <span className="map-peers">
+                  {peers
+                    .filter((p) => p.view === 'island' && p.islandId === island.id)
+                    .map((p) => (
+                      <i key={p.id} style={{ background: p.color }} title={`${p.name} здесь`}>
+                        {p.name.slice(0, 1).toUpperCase()}
+                      </i>
+                    ))}
+                </span>
+              )}
               <span className="pin" aria-hidden />
             </button>
           );

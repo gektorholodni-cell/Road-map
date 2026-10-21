@@ -655,6 +655,9 @@ kbd {
 .hud-modes button:hover {
   color: #fff;
 }
+.coop-btn {
+  position: relative;
+}
 .hud-actions-bottom {
   position: absolute;
   right: 22px;
@@ -3077,4 +3080,89 @@ kbd {
   .poi-tip {
     display: none;
   }
+}
+
+/* ---------- Совместная игра ---------- */
+.remote-hero {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 60px;
+  height: 92px;
+  pointer-events: none;
+  transition: transform 0.16s linear;
+}
+.remote-hero .hero {
+  position: absolute;
+}
+.remote-tag {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translate(-50%, -2px);
+  white-space: nowrap;
+  font-size: 13px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(8, 12, 28, 0.78);
+  border: 2px solid;
+  color: #fff;
+}
+.coop-link {
+  display: flex;
+  gap: 8px;
+}
+.coop-link input {
+  flex: 1;
+  min-width: 0;
+}
+.coop-peers {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+.coop-peers li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.coop-peers i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex: none;
+}
+.map-peers {
+  display: flex;
+  gap: 3px;
+  margin-left: 4px;
+}
+.map-peers i {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 600;
+  color: #0b1026;
+}
+.coop-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 17px;
+  height: 17px;
+  border-radius: 9px;
+  background: var(--ok);
+  color: #0b1026;
+  font-size: 11px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  padding: 0 4px;
 }
