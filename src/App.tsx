@@ -104,6 +104,27 @@ export default function App() {
     setTransition({ kind: 'exit', islandId: scene.id, theme: scene.theme, title: scene.name, subtitle: scene.subtitle, nonce: Date.now() });
   }, [scene]);
 
+  // Кнопка «Назад» в Android-сборке: закрывает верхнее окно, затем редактор, затем выходит с острова на карту.
+  const backRef = useRef<() => boolean>(() => false);
+  backRef.current = () => {
+    if (document.querySelector('[data-modal]')) {
+      document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+      return true;
+    }
+    if (editor) {
+      setEditor(false);
+      return true;
+    }
+    if (scene) {
+      exitIsland();
+      return true;
+    }
+    return false;
+  };
+  useEffect(() => {
+    (window as unknown as { __androidBack?: () => boolean }).__androidBack = () => backRef.current();
+  }, []);
+
   const onTransitionMid = () => {
     if (!transition) return;
     if (transition.kind === 'enter') {

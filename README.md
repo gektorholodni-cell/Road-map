@@ -26,6 +26,17 @@ npm run preview    # http://localhost:4173
 npm test
 ```
 
+## Android (APK)
+
+`android/` — обёртка WebView, собирается без Android Studio и Gradle:
+
+```bash
+sudo apt install aapt apksigner zipalign dalvik-exchange android-sdk-platform-23   # Ubuntu/Debian
+./android/build.sh            # → android/build/islands-roadmap.apk
+```
+
+Ключ подписи создаётся при первой сборке (`android/release.keystore`, путь можно задать через `KEYSTORE`). Чтобы обновлять приложение поверх установленного, собирайте тем же ключом. В APK данные хранятся внутри приложения, кнопка «Назад» закрывает окно или выходит с острова, экспорт открывает системный диалог сохранения.
+
 ## Управление
 
 | Где | Действие |

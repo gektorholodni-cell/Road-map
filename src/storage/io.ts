@@ -173,6 +173,12 @@ export function normalize(raw: unknown): ParseResult {
 }
 
 export function downloadText(filename: string, text: string) {
+  // В Android-сборке файл сохраняется через системный диалог «Сохранить как».
+  const bridge = (window as unknown as { AndroidBridge?: { saveFile(name: string, text: string): void } }).AndroidBridge;
+  if (bridge) {
+    bridge.saveFile(filename, text);
+    return;
+  }
   const blob = new Blob([text], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
