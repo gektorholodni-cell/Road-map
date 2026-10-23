@@ -22,6 +22,9 @@ export interface Channel {
   track(state: PeerState): void;
   sendPos(pos: PeerPos): void;
   sendChanged(): void;
+  /** Голосования: состояние опроса целиком и просьба прислать известные опросы. */
+  sendPoll(poll: unknown): void;
+  sendPollHello(): void;
   leave(): void;
 }
 
@@ -29,6 +32,9 @@ export interface ChannelHandlers {
   onPeers(peers: PeerState[]): void;
   onPos(pos: PeerPos): void;
   onChanged(): void;
+  onPoll?(poll: unknown): void;
+  onPollHello?(): void;
+  onJoined?(): void;
 }
 
 export interface Transport {
@@ -64,12 +70,15 @@ export function getTransport(): Promise<Transport | null> {
         });
         ch.on('broadcast', { event: 'pos' }, ({ payload }) => h.onPos(payload as PeerPos));
         ch.on('broadcast', { event: 'changed' }, () => h.onChanged());
+        ch.on('broadcast', { event: 'poll' }, ({ payload }) => h.onPoll?.(payload));
+        ch.on('broadcast', { event: 'poll-hello' }, () => h.onPollHello?.());
         let last: PeerState | null = null;
         let joined = false;
         ch.subscribe((status) => {
           if (status === 'SUBSCRIBED') {
             joined = true;
             if (last) void ch.track(last);
+            h.onJoined?.();
           }
         });
         return {
@@ -82,6 +91,12 @@ export function getTransport(): Promise<Transport | null> {
           },
           sendChanged() {
             if (joined) void ch.send({ type: 'broadcast', event: 'changed', payload: {} });
+          },
+          sendPoll(poll) {
+            if (joined) void ch.send({ type: 'broadcast', event: 'poll', payload: poll });
+          },
+          sendPollHello() {
+            if (joined) void ch.send({ type: 'broadcast', event: 'poll-hello', payload: {} });
           },
           leave() {
             void client.removeChannel(ch);
