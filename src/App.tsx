@@ -13,7 +13,9 @@ import { IslandComplete } from './components/panels/IslandComplete';
 import { SettingsPanel, useDataActions } from './components/panels/Settings';
 import { AssistantPanel } from './components/panels/Assistant';
 import { CoopPanel } from './components/panels/Coop';
-import { roomFromHash, setPresence } from './multiplayer/room';
+import { PollDock } from './components/panels/Polls';
+import { coopSettings, roomFromHash, setPresence } from './multiplayer/room';
+import { coopConfigured } from './multiplayer/transport';
 import { Editor } from './components/editor/Editor';
 import { Modal } from './components/ui/Modal';
 import { useConfirm } from './components/ui/confirm';
@@ -216,6 +218,7 @@ export default function App() {
 
   const completeIsland = completeQueue.length ? getIsland(project, completeQueue[0]) : undefined;
   const nextAfter = completeIsland ? project.islands[project.islands.findIndex((i) => i.id === completeIsland.id) + 1] : undefined;
+  const inRoom = !!coopSettings() && coopConfigured();
   const scenePaused = panels.length > 0 || editor || !!transition || !!completeIsland;
 
   return (
@@ -351,6 +354,7 @@ export default function App() {
 
       {transition && <Transition key={transition.nonce} {...transition} reduced={reduced} onMid={onTransitionMid} onDone={onTransitionDone} />}
 
+      {inRoom && !editor && <PollDock soundOn={project.settings.soundEnabled} />}
       <EventToasts />
       {!sceneId && top === undefined && !editor && (
         <button className="sr-only" onClick={goCurrent}>

@@ -77,6 +77,13 @@ let channel: Channel | null = null;
 let me: PeerState | null = null;
 let changedHandler: (() => void) | null = null;
 
+/** Связь с голосованиями (polls.ts), чтобы не было циклического импорта. */
+export const pollBridge: { onPoll(poll: unknown): void; onHello(): void; onJoined(): void } = {
+  onPoll() {},
+  onHello() {},
+  onJoined() {},
+};
+
 const emit = () => listeners.forEach((l) => l());
 const subscribe = (l: Listener) => {
   listeners.add(l);
@@ -119,6 +126,9 @@ async function ensureChannel(): Promise<Channel | null> {
     onChanged() {
       changedHandler?.();
     },
+    onPoll: (poll) => pollBridge.onPoll(poll),
+    onPollHello: () => pollBridge.onHello(),
+    onJoined: () => pollBridge.onJoined(),
   });
   if (me) channel.track(me);
   return channel;
@@ -143,6 +153,14 @@ export function sendPosition(islandId: string, x: number, y: number, flip: boole
   lastSent = now;
   lastKey = key;
   channel.sendPos({ id: deviceId, islandId, x: Math.round(x), y: Math.round(y), flip, walking });
+}
+
+export function sendPoll(poll: unknown) {
+  channel?.sendPoll(poll);
+}
+
+export function sendPollHello() {
+  channel?.sendPollHello();
 }
 
 /** Общий прогресс комнаты в виде документа, совместимого с хранилищем страницы в Claude. */

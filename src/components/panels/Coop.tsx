@@ -1,12 +1,13 @@
 // Совместная игра: создать комнату, пригласить друга по ссылке, видеть, кто сейчас в игре.
 import { useState } from 'react';
-import { Copy, LogIn, LogOut, Plus, Users } from 'lucide-react';
+import { Copy, LogIn, LogOut, Plus, Users, Vote } from 'lucide-react';
 import { useStore } from '../../state/store';
 import { Modal } from '../ui/Modal';
 import { useConfirm } from '../ui/confirm';
 import { createBackup } from '../../storage/db';
 import { projectProgress } from '../../systems/progress';
 import { coopConfigured } from '../../multiplayer/transport';
+import { PollCreate } from './Polls';
 import { coopSettings, inviteLink, leaveRoom, newRoomCode, randomColor, roomFromHash, saveCoopSettings, usePeers } from '../../multiplayer/room';
 
 const isClaudePage = () => !!(window as unknown as { claude?: unknown }).claude;
@@ -25,6 +26,7 @@ export function CoopPanel({ onClose }: { onClose: () => void }) {
   const invited = roomFromHash();
   const [name, setName] = useState(current?.name ?? '');
   const [code, setCode] = useState(invited ?? '');
+  const [polling, setPolling] = useState(false);
 
   if (isClaudePage()) {
     return (
@@ -119,6 +121,24 @@ export function CoopPanel({ onClose }: { onClose: () => void }) {
             {peers.length === 0 && <li className="muted">Друзей пока нет онлайн.</li>}
           </ul>
         </section>
+        <section>
+          <h3>Решить вместе</h3>
+          <p className="muted">Задайте вопрос с вариантами — голосование появится на экране у всех в комнате.</p>
+          <div className="btn-row">
+            <button className="btn primary" onClick={() => setPolling(true)}>
+              <Vote size={16} /> Начать голосование
+            </button>
+          </div>
+        </section>
+        {polling && (
+          <PollCreate
+            onClose={() => setPolling(false)}
+            onCreated={() => {
+              setPolling(false);
+              onClose();
+            }}
+          />
+        )}
         <div className="btn-row">
           <button className="btn ghost" onClick={() => void leave()}>
             <LogOut size={16} /> Выйти из комнаты
