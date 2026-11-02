@@ -6,7 +6,7 @@ import { Modal } from '../ui/Modal';
 import { useConfirm } from '../ui/confirm';
 import { createBackup, deleteBackup, listBackups, readBackup, type BackupMeta } from '../../storage/db';
 import { downloadText, exportProject, parseProject } from '../../storage/io';
-import { buildSeedProject } from '../../data/seed';
+import { buildDefaultProject } from '../../data/defaultProject';
 import { projectProgress } from '../../systems/progress';
 import { formatDate } from '../ui/labels';
 
@@ -78,7 +78,7 @@ export function useDataActions() {
   const reset = async () => {
     const ok = await confirm(
       'Сбросить проект?',
-      <p>Все задачи, статусы, заметки и достижения вернутся к стартовому шаблону. Перед сбросом будет создана резервная копия.</p>,
+      <p>Все задачи, статусы, заметки и достижения вернутся к исходному проекту «Сектор Ноль». Перед сбросом будет создана резервная копия.</p>,
       'Сбросить',
       true,
     );
@@ -89,9 +89,9 @@ export function useDataActions() {
     } catch {
       /* продолжаем */
     }
-    const fresh = buildSeedProject();
+    const fresh = buildDefaultProject();
     dispatch({ type: 'replace', project: { ...fresh, settings: project.settings } });
-    toast('Проект сброшен к стартовому шаблону.', 'info');
+    toast('Проект сброшен к исходному «Сектор Ноль».', 'info');
   };
 
   return { doExport, importText, pickFile, reset };
@@ -200,7 +200,7 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
             <Upload size={16} /> Импорт из JSON
           </button>
           <button className="btn danger" onClick={() => void reset()}>
-            <RotateCcw size={16} /> Сброс к шаблону
+            <RotateCcw size={16} /> Сброс к «Сектор Ноль»
           </button>
         </div>
         <h4>Резервные копии</h4>

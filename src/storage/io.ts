@@ -149,7 +149,7 @@ export function normalize(raw: unknown): ParseResult {
     app: APP_ID,
     schemaVersion: SCHEMA_VERSION,
     id: str(data.id, `project-${Date.now().toString(36)}`),
-    name: str(data.name, 'Моя игра'),
+    name: str(data.name, 'Без названия'),
     createdAt: str(data.createdAt, now),
     updatedAt: str(data.updatedAt, now),
     islands,

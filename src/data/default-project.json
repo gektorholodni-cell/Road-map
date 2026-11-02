@@ -1,0 +1,2461 @@
+{
+  "app": "islands-roadmap",
+  "schemaVersion": 1,
+  "id": "project-sektor-nol-v2",
+  "name": "Сектор Ноль: от идеи до продаж",
+  "createdAt": "2026-11-02T19:10:00.000Z",
+  "updatedAt": "2026-11-02T19:10:00.000Z",
+  "islands": [
+    {
+      "id": "i1",
+      "name": "Зелёный остров",
+      "subtitle": "Идея и концепция",
+      "description": "Идея хоррора про лиминальные пространства и советские легенды — всё решено и зафиксировано.",
+      "theme": "meadow",
+      "completionCriteria": "Есть своя концепция и понятный объём первой версии.",
+      "chapters": [
+        {
+          "id": "i1-c0",
+          "title": "Своя идея",
+          "description": "Игра в духе Backrooms, но оригинальная.",
+          "stages": [
+            {
+              "id": "i1-c0-s0",
+              "title": "Ядро",
+              "taskIds": [
+                "i1-t01",
+                "i1-t02",
+                "i1-t03",
+                "i1-t04"
+              ]
+            },
+            {
+              "id": "i1-c0-s1",
+              "title": "Атмосфера",
+              "taskIds": [
+                "i1-t05",
+                "i1-t06"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "i1-c1",
+          "title": "Объём первой версии",
+          "description": "Что войдёт в игру.",
+          "stages": [
+            {
+              "id": "i1-c1-s0",
+              "title": "Границы",
+              "taskIds": [
+                "i1-t07",
+                "i1-t08",
+                "i1-t09"
+              ]
+            }
+          ]
+        }
+      ],
+      "unlockRule": "sequential",
+      "manuallyUnlocked": false,
+      "unlockedAt": "2026-10-30T18:01:36.791Z",
+      "map": {
+        "x": 520,
+        "y": 2050,
+        "scale": 0.72
+      }
+    },
+    {
+      "id": "i2",
+      "name": "Остров чертежей",
+      "subtitle": "Планирование и архитектура",
+      "description": "Движок Godot 4, структура проекта и дизайн-документ.",
+      "theme": "architecture",
+      "completionCriteria": "Проект в Godot создан, дизайн-документ написан.",
+      "chapters": [
+        {
+          "id": "i2-c0",
+          "title": "Технический фундамент",
+          "description": "Движок и структура.",
+          "stages": [
+            {
+              "id": "i2-c0-s0",
+              "title": "Подготовка",
+              "taskIds": [
+                "i2-t01",
+                "i2-t02",
+                "i2-t03",
+                "i2-t04"
+              ]
+            }
+          ]
+        }
+      ],
+      "unlockRule": "sequential",
+      "manuallyUnlocked": false,
+      "map": {
+        "x": 1130,
+        "y": 1640,
+        "scale": 0.82
+      }
+    },
+    {
+      "id": "i3",
+      "name": "Остров механизмов",
+      "subtitle": "Прототип",
+      "description": "Первый коридор, первый монстр, первый испуг.",
+      "theme": "mechanics",
+      "completionCriteria": "В прототипе можно пройти, убежать от монстра и умереть.",
+      "chapters": [
+        {
+          "id": "i3-c0",
+          "title": "Игрок и мир",
+          "description": "Ходьба и атмосфера.",
+          "stages": [
+            {
+              "id": "i3-c0-s0",
+              "title": "Управление",
+              "taskIds": [
+                "i3-t01",
+                "i3-t02",
+                "i3-t03"
+              ]
+            },
+            {
+              "id": "i3-c0-s1",
+              "title": "Монстр",
+              "taskIds": [
+                "i3-t04",
+                "i3-t05",
+                "i3-t06"
+              ]
+            }
+          ]
+        }
+      ],
+      "unlockRule": "sequential",
+      "manuallyUnlocked": false,
+      "map": {
+        "x": 1690,
+        "y": 2060,
+        "scale": 0.88
+      }
+    },
+    {
+      "id": "i4",
+      "name": "Магический город",
+      "subtitle": "Зона 1 «Сектор Ноль» и системы игры",
+      "description": "Первая зона доводится до максимума: графика, сюжет, звук, монстр, лифт. Рядом — общие системы игры.",
+      "theme": "citadel",
+      "completionCriteria": "Зона 1 полностью играбельна, страшна и красива; меню, настройки и сохранения работают.",
+      "chapters": [
+        {
+          "id": "i4-c0",
+          "title": "Зона 1: готово",
+          "description": "Что уже сделано в версии v5.",
+          "stages": [
+            {
+              "id": "i4-c0-s0",
+              "title": "Сделано",
+              "taskIds": [
+                "i4-t01",
+                "i4-t02",
+                "i4-t03",
+                "i4-t04",
+                "i4-t05"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "i4-c1",
+          "title": "Зона 1: правки по отзыву 02.11",
+          "description": "Что Айдын заметил при игре.",
+          "stages": [
+            {
+              "id": "i4-c1-s0",
+              "title": "Монстр и смерть",
+              "taskIds": [
+                "i4-t06",
+                "i4-t07"
+              ]
+            },
+            {
+              "id": "i4-c1-s1",
+              "title": "Звук и графика",
+              "taskIds": [
+                "i4-t08",
+                "i4-t09",
+                "i4-t10"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "i4-c2",
+          "title": "Общие системы",
+          "description": "Что нужно любой зоне.",
+          "stages": [
+            {
+              "id": "i4-c2-s0",
+              "title": "Меню и сохранения",
+              "taskIds": [
+                "i4-t11",
+                "i4-t12",
+                "i4-t13",
+                "i4-t14"
+              ]
+            },
+            {
+              "id": "i4-c2-s1",
+              "title": "Отложенное из промпта ChatGPT",
+              "taskIds": [
+                "i4-t15",
+                "i4-t16",
+                "i4-t17",
+                "i4-t18",
+                "i4-t19",
+                "i4-t20"
+              ]
+            }
+          ]
+        }
+      ],
+      "unlockRule": "sequential",
+      "manuallyUnlocked": false,
+      "map": {
+        "x": 2260,
+        "y": 1560,
+        "scale": 0.97
+      }
+    },
+    {
+      "id": "i5",
+      "name": "Подводное царство",
+      "subtitle": "Зоны 2, 3 и финал",
+      "description": "Остальной контент: офисы с телевизорами, третья зона, финальный побег.",
+      "theme": "underwater",
+      "completionCriteria": "Все три зоны проходятся от начала до конца, финал есть.",
+      "chapters": [
+        {
+          "id": "i5-c0",
+          "title": "Зона 2: офисы с ТВ",
+          "description": "Переделка по решению Айдына от 02.11.",
+          "stages": [
+            {
+              "id": "i5-c0-s0",
+              "title": "Мир",
+              "taskIds": [
+                "i5-t01",
+                "i5-t02",
+                "i5-t03",
+                "i5-t04",
+                "i5-t05"
+              ]
+            },
+            {
+              "id": "i5-c0-s1",
+              "title": "Монстр и цель",
+              "taskIds": [
+                "i5-t06",
+                "i5-t07",
+                "i5-t08",
+                "i5-t09",
+                "i5-t10",
+                "i5-t11"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "i5-c1",
+          "title": "Зона 3",
+          "description": "Третья локация.",
+          "stages": [
+            {
+              "id": "i5-c1-s0",
+              "title": "Идея и мир",
+              "taskIds": [
+                "i5-t12",
+                "i5-t13",
+                "i5-t14"
+              ]
+            },
+            {
+              "id": "i5-c1-s1",
+              "title": "Монстр и задача",
+              "taskIds": [
+                "i5-t15",
+                "i5-t16",
+                "i5-t17"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "i5-c2",
+          "title": "Финал",
+          "description": "Выбраться наружу.",
+          "stages": [
+            {
+              "id": "i5-c2-s0",
+              "title": "Концовка",
+              "taskIds": [
+                "i5-t18",
+                "i5-t19",
+                "i5-t20",
+                "i5-t21"
+              ]
+            }
+          ]
+        }
+      ],
+      "unlockRule": "sequential",
+      "manuallyUnlocked": false,
+      "map": {
+        "x": 2800,
+        "y": 2120,
+        "scale": 1
+      }
+    },
+    {
+      "id": "i6",
+      "name": "Ледяной бастион",
+      "subtitle": "Полировка и тестирование",
+      "description": "Игра превращается в продукт: баги, баланс, оптимизация, внешние тестеры.",
+      "theme": "ice",
+      "completionCriteria": "Игра стабильна, понятна новичку и проходится на разных ПК.",
+      "chapters": [
+        {
+          "id": "i6-c0",
+          "title": "Своя проверка",
+          "description": "Пройти самому.",
+          "stages": [
+            {
+              "id": "i6-c0-s0",
+              "title": "Прохождения",
+              "taskIds": [
+                "i6-t01",
+                "i6-t02",
+                "i6-t03",
+                "i6-t04"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "i6-c1",
+          "title": "Тестеры",
+          "description": "Свежие глаза.",
+          "stages": [
+            {
+              "id": "i6-c1-s0",
+              "title": "Тест с людьми",
+              "taskIds": [
+                "i6-t05",
+                "i6-t06",
+                "i6-t07",
+                "i6-t08"
+              ]
+            },
+            {
+              "id": "i6-c1-s1",
+              "title": "Полировка",
+              "taskIds": [
+                "i6-t09",
+                "i6-t10",
+                "i6-t11",
+                "i6-t12"
+              ]
+            }
+          ]
+        }
+      ],
+      "unlockRule": "sequential",
+      "manuallyUnlocked": false,
+      "map": {
+        "x": 3380,
+        "y": 1620,
+        "scale": 1.06
+      }
+    },
+    {
+      "id": "i7",
+      "name": "Небесное царство",
+      "subtitle": "Steam, маркетинг и релиз",
+      "description": "Страница в Steam, вишлисты, трейлер, Next Fest, цена и день релиза.",
+      "theme": "sky",
+      "completionCriteria": "Игра в продаже в Steam.",
+      "chapters": [
+        {
+          "id": "i7-c0",
+          "title": "Steam-страница",
+          "description": "Витрина игры.",
+          "stages": [
+            {
+              "id": "i7-c0-s0",
+              "title": "Подготовка",
+              "taskIds": [
+                "i7-t01",
+                "i7-t02",
+                "i7-t03",
+                "i7-t04",
+                "i7-t05"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "i7-c1",
+          "title": "Маркетинг",
+          "description": "Чтобы про игру узнали.",
+          "stages": [
+            {
+              "id": "i7-c1-s0",
+              "title": "Контент",
+              "taskIds": [
+                "i7-t06",
+                "i7-t07",
+                "i7-t08",
+                "i7-t09"
+              ]
+            },
+            {
+              "id": "i7-c1-s1",
+              "title": "Охват",
+              "taskIds": [
+                "i7-t10",
+                "i7-t11",
+                "i7-t12"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "i7-c2",
+          "title": "Релиз",
+          "description": "День выхода.",
+          "stages": [
+            {
+              "id": "i7-c2-s0",
+              "title": "Подготовка",
+              "taskIds": [
+                "i7-t13",
+                "i7-t14",
+                "i7-t15",
+                "i7-t16",
+                "i7-t17"
+              ]
+            }
+          ]
+        }
+      ],
+      "unlockRule": "sequential",
+      "manuallyUnlocked": false,
+      "map": {
+        "x": 2980,
+        "y": 960,
+        "scale": 1.16
+      }
+    },
+    {
+      "id": "i8",
+      "name": "Космическая цитадель",
+      "subtitle": "После релиза",
+      "description": "Отзывы, патчи, скидки, обновления, новые языки и следующий проект.",
+      "theme": "cosmos",
+      "completionCriteria": "Игра поддерживается, есть план дальше.",
+      "chapters": [
+        {
+          "id": "i8-c0",
+          "title": "Поддержка",
+          "description": "Первые недели.",
+          "stages": [
+            {
+              "id": "i8-c0-s0",
+              "title": "Первые недели",
+              "taskIds": [
+                "i8-t01",
+                "i8-t02",
+                "i8-t03"
+              ]
+            },
+            {
+              "id": "i8-c0-s1",
+              "title": "Деньги",
+              "taskIds": [
+                "i8-t04",
+                "i8-t05",
+                "i8-t06"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "i8-c1",
+          "title": "Развитие",
+          "description": "Что дальше.",
+          "stages": [
+            {
+              "id": "i8-c1-s0",
+              "title": "Обновления",
+              "taskIds": [
+                "i8-t07",
+                "i8-t08",
+                "i8-t09",
+                "i8-t10"
+              ]
+            }
+          ]
+        }
+      ],
+      "unlockRule": "sequential",
+      "manuallyUnlocked": false,
+      "map": {
+        "x": 3820,
+        "y": 600,
+        "scale": 1.34
+      }
+    }
+  ],
+  "tasks": {
+    "i1-t01": {
+      "id": "i1-t01",
+      "islandId": "i1",
+      "chapterId": "i1-c0",
+      "stageId": "i1-c0-s0",
+      "title": "Сформулировать концепцию",
+      "description": "Заперт в советском НИИ, где живёт монстр из легенд; цель — выбраться, оружие слабое.",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i1-t02": {
+      "id": "i1-t02",
+      "islandId": "i1",
+      "chapterId": "i1-c0",
+      "stageId": "i1-c0-s0",
+      "title": "Своё название и мир",
+      "description": "Рабочее название «Сектор Ноль / Sector Zero», объект «Тишина», НИИ 1987.",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i1-t03": {
+      "id": "i1-t03",
+      "islandId": "i1",
+      "chapterId": "i1-c0",
+      "stageId": "i1-c0-s0",
+      "title": "Формат: одиночная, от первого лица, 3D",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i1-t04": {
+      "id": "i1-t04",
+      "islandId": "i1",
+      "chapterId": "i1-c0",
+      "stageId": "i1-c0-s0",
+      "title": "Отказаться от старой идеи (2D-краб)",
+      "description": "Решено 30.10: основная игра — хоррор.",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "critical",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i1-t05": {
+      "id": "i1-t05",
+      "islandId": "i1",
+      "chapterId": "i1-c0",
+      "stageId": "i1-c0-s1",
+      "title": "Собрать референсы катсцен (видео «легенды СССР»)",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i1-t06": {
+      "id": "i1-t06",
+      "islandId": "i1",
+      "chapterId": "i1-c0",
+      "stageId": "i1-c0-s1",
+      "title": "Чем отличаемся от других лиминальных хорроров",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i1-t07": {
+      "id": "i1-t07",
+      "islandId": "i1",
+      "chapterId": "i1-c1",
+      "stageId": "i1-c1-s0",
+      "title": "Утвердить объём: 3 зоны, 3 монстра, катсцены",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "critical",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i1-t08": {
+      "id": "i1-t08",
+      "islandId": "i1",
+      "chapterId": "i1-c1",
+      "stageId": "i1-c1-s0",
+      "title": "Бюджет и сроки ($300 старт, Steam Direct $100)",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i1-t09": {
+      "id": "i1-t09",
+      "islandId": "i1",
+      "chapterId": "i1-c1",
+      "stageId": "i1-c1-s0",
+      "title": "Языки: русский + английский",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i2-t01": {
+      "id": "i2-t01",
+      "islandId": "i2",
+      "chapterId": "i2-c0",
+      "stageId": "i2-c0-s0",
+      "title": "Дизайн-документ (design-v0.md)",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i2-t02": {
+      "id": "i2-t02",
+      "islandId": "i2",
+      "chapterId": "i2-c0",
+      "stageId": "i2-c0-s0",
+      "title": "Godot 4.4 и структура проекта",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i2-t03": {
+      "id": "i2-t03",
+      "islandId": "i2",
+      "chapterId": "i2-c0",
+      "stageId": "i2-c0-s0",
+      "title": "Стиль: реалистичная графика на CC0-ассетах",
+      "description": "Бесплатные CC0-модели и текстуры.",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i2-t04": {
+      "id": "i2-t04",
+      "islandId": "i2",
+      "chapterId": "i2-c0",
+      "stageId": "i2-c0-s0",
+      "title": "Сборки для Windows и macOS (экспорт)",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i3-t01": {
+      "id": "i3-t01",
+      "islandId": "i3",
+      "chapterId": "i3-c0",
+      "stageId": "i3-c0-s0",
+      "title": "Ходьба, бег, камера от первого лица",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i3-t02": {
+      "id": "i3-t02",
+      "islandId": "i3",
+      "chapterId": "i3-c0",
+      "stageId": "i3-c0-s0",
+      "title": "Фонарик и батарейки",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i3-t03": {
+      "id": "i3-t03",
+      "islandId": "i3",
+      "chapterId": "i3-c0",
+      "stageId": "i3-c0-s0",
+      "title": "Мигающий свет, туман, гул ламп",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i3-t04": {
+      "id": "i3-t04",
+      "islandId": "i3",
+      "chapterId": "i3-c0",
+      "stageId": "i3-c0-s1",
+      "title": "Монстр патрулирует и гонится за игроком",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "critical",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i3-t05": {
+      "id": "i3-t05",
+      "islandId": "i3",
+      "chapterId": "i3-c0",
+      "stageId": "i3-c0-s1",
+      "title": "Смерть и перезапуск",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i3-t06": {
+      "id": "i3-t06",
+      "islandId": "i3",
+      "chapterId": "i3-c0",
+      "stageId": "i3-c0-s1",
+      "title": "Первый показ другу (отзыв 30.10: было легко и мало)",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i4-t01": {
+      "id": "i4-t01",
+      "islandId": "i4",
+      "chapterId": "i4-c0",
+      "stageId": "i4-c0-s0",
+      "title": "Графика CC0: стены, пол, мебель, бочки, трубы",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i4-t02": {
+      "id": "i4-t02",
+      "islandId": "i4",
+      "chapterId": "i4-c0",
+      "stageId": "i4-c0-s0",
+      "title": "Сюжет: объект «Тишина», НИИ 1987, сторож Лукин",
+      "description": "Файл story-zone1.md.",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i4-t03": {
+      "id": "i4-t03",
+      "islandId": "i4",
+      "chapterId": "i4-c0",
+      "stageId": "i4-c0-s0",
+      "title": "13 записок, телефон, дверь Лукина, кассета",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i4-t04": {
+      "id": "i4-t04",
+      "islandId": "i4",
+      "chapterId": "i4-c0",
+      "stageId": "i4-c0-s0",
+      "title": "Блэкаут, лифт «-1», «товарищ Лукин»",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i4-t05": {
+      "id": "i4-t05",
+      "islandId": "i4",
+      "chapterId": "i4-c0",
+      "stageId": "i4-c0-s0",
+      "title": "CC0-модель монстра в игре",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i4-t06": {
+      "id": "i4-t06",
+      "islandId": "i4",
+      "chapterId": "i4-c1",
+      "stageId": "i4-c1-s0",
+      "title": "Монстр подходит, хватает, трясёт и выкидывает игрока",
+      "description": "Сейчас стоит и только кричит.",
+      "criteria": "Игрок падает и умирает, труп остаётся на полу.",
+      "status": "in_progress",
+      "priority": "critical",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [
+        {
+          "id": "i4-t06-st1",
+          "title": "Анимация подхода и захвата",
+          "done": false
+        },
+        {
+          "id": "i4-t06-st2",
+          "title": "Тряска и бросок",
+          "done": false
+        },
+        {
+          "id": "i4-t06-st3",
+          "title": "Падение игрока и труп",
+          "done": false
+        },
+        {
+          "id": "i4-t06-st4",
+          "title": "Проверка в игре",
+          "done": false
+        }
+      ]
+    },
+    "i4-t07": {
+      "id": "i4-t07",
+      "islandId": "i4",
+      "chapterId": "i4-c1",
+      "stageId": "i4-c1-s0",
+      "title": "Экран смерти: грустная мелодия вместо шороха",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "in_progress",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i4-t08": {
+      "id": "i4-t08",
+      "islandId": "i4",
+      "chapterId": "i4-c1",
+      "stageId": "i4-c1-s1",
+      "title": "Переделать звуки и шаги (сейчас плохие)",
+      "description": "Шаги по поверхностям, более живой гул.",
+      "criteria": "Айдын слышит и говорит «нормально».",
+      "status": "in_progress",
+      "priority": "critical",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [
+        {
+          "id": "i4-t08-st1",
+          "title": "Шаги по плитке/бетону",
+          "done": false
+        },
+        {
+          "id": "i4-t08-st2",
+          "title": "Эхо в коридорах",
+          "done": false
+        },
+        {
+          "id": "i4-t08-st3",
+          "title": "Дыхание и сердце",
+          "done": false
+        }
+      ]
+    },
+    "i4-t09": {
+      "id": "i4-t09",
+      "islandId": "i4",
+      "chapterId": "i4-c1",
+      "stageId": "i4-c1-s1",
+      "title": "Улучшить графику лифта (выглядит убого)",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "in_progress",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i4-t10": {
+      "id": "i4-t10",
+      "islandId": "i4",
+      "chapterId": "i4-c1",
+      "stageId": "i4-c1-s1",
+      "title": "Новая сборка зоны 1 и отзыв Айдына",
+      "description": "Выложить сборки в builds, Айдын играет и пишет отзыв.",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i4-t11": {
+      "id": "i4-t11",
+      "islandId": "i4",
+      "chapterId": "i4-c2",
+      "stageId": "i4-c2-s0",
+      "title": "Главное меню, пауза",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i4-t12": {
+      "id": "i4-t12",
+      "islandId": "i4",
+      "chapterId": "i4-c2",
+      "stageId": "i4-c2-s0",
+      "title": "Меню настроек: громкость, чувствительность, графика, язык",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i4-t13": {
+      "id": "i4-t13",
+      "islandId": "i4",
+      "chapterId": "i4-c2",
+      "stageId": "i4-c2-s0",
+      "title": "Сохранение прогресса и чекпоинты",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i4-t14": {
+      "id": "i4-t14",
+      "islandId": "i4",
+      "chapterId": "i4-c2",
+      "stageId": "i4-c2-s0",
+      "title": "Переключатель языка RU/EN во всей игре",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i4-t15": {
+      "id": "i4-t15",
+      "islandId": "i4",
+      "chapterId": "i4-c2",
+      "stageId": "i4-c2-s1",
+      "title": "Комната видеонаблюдения",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "low",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i4-t16": {
+      "id": "i4-t16",
+      "islandId": "i4",
+      "chapterId": "i4-c2",
+      "stageId": "i4-c2-s1",
+      "title": "Акустический прибор (слушать монстра)",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "low",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i4-t17": {
+      "id": "i4-t17",
+      "islandId": "i4",
+      "chapterId": "i4-c2",
+      "stageId": "i4-c2-s1",
+      "title": "ИИ монстра: 8 состояний и адаптация к игроку",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i4-t18": {
+      "id": "i4-t18",
+      "islandId": "i4",
+      "chapterId": "i4-c2",
+      "stageId": "i4-c2-s1",
+      "title": "Звук поверхностей",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i4-t19": {
+      "id": "i4-t19",
+      "islandId": "i4",
+      "chapterId": "i4-c2",
+      "stageId": "i4-c2-s1",
+      "title": "Озвучка (голоса, катсцены)",
+      "description": "Платная нейроозвучка или актёры — решить позже.",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i4-t20": {
+      "id": "i4-t20",
+      "islandId": "i4",
+      "chapterId": "i4-c2",
+      "stageId": "i4-c2-s1",
+      "title": "Визуальная архивная катсцена",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i5-t01": {
+      "id": "i5-t01",
+      "islandId": "i5",
+      "chapterId": "i5-c0",
+      "stageId": "i5-c0-s0",
+      "title": "Первая версия зоны 2 сделана",
+      "description": "Будет заменена.",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "done",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": [],
+      "completedAt": "2026-11-02T19:10:00.000Z"
+    },
+    "i5-t02": {
+      "id": "i5-t02",
+      "islandId": "i5",
+      "chapterId": "i5-c0",
+      "stageId": "i5-c0-s0",
+      "title": "Новая карта: офисы со множеством телевизоров",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "in_progress",
+      "priority": "critical",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i5-t03": {
+      "id": "i5-t03",
+      "islandId": "i5",
+      "chapterId": "i5-c0",
+      "stageId": "i5-c0-s0",
+      "title": "«Батончики» в офисах (подбираемая еда/ресурс)",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i5-t04": {
+      "id": "i5-t04",
+      "islandId": "i5",
+      "chapterId": "i5-c0",
+      "stageId": "i5-c0-s0",
+      "title": "Предметы меняют место при каждом заходе и после смерти",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i5-t05": {
+      "id": "i5-t05",
+      "islandId": "i5",
+      "chapterId": "i5-c0",
+      "stageId": "i5-c0-s0",
+      "title": "Подсказки словами и меткой предмета",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i5-t06": {
+      "id": "i5-t06",
+      "islandId": "i5",
+      "chapterId": "i5-c0",
+      "stageId": "i5-c0-s1",
+      "title": "Новый ТВ-монстр",
+      "description": "Связан с телевизорами.",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "critical",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i5-t07": {
+      "id": "i5-t07",
+      "islandId": "i5",
+      "chapterId": "i5-c0",
+      "stageId": "i5-c0-s1",
+      "title": "Страшный звук монстра (не просто крик)",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i5-t08": {
+      "id": "i5-t08",
+      "islandId": "i5",
+      "chapterId": "i5-c0",
+      "stageId": "i5-c0-s1",
+      "title": "Цель: собрать кабели и войти в телевизор",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i5-t09": {
+      "id": "i5-t09",
+      "islandId": "i5",
+      "chapterId": "i5-c0",
+      "stageId": "i5-c0-s1",
+      "title": "Катсцена «легенда СССР» перед зоной 2 (RU+EN)",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i5-t10": {
+      "id": "i5-t10",
+      "islandId": "i5",
+      "chapterId": "i5-c0",
+      "stageId": "i5-c0-s1",
+      "title": "Сюжет зоны 2 (story-zone2.md)",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "in_progress",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i5-t11": {
+      "id": "i5-t11",
+      "islandId": "i5",
+      "chapterId": "i5-c0",
+      "stageId": "i5-c0-s1",
+      "title": "Проверка и отзыв по зоне 2",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i5-t12": {
+      "id": "i5-t12",
+      "islandId": "i5",
+      "chapterId": "i5-c1",
+      "stageId": "i5-c1-s0",
+      "title": "Придумать зону 3: место, монстр, цель",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "critical",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i5-t13": {
+      "id": "i5-t13",
+      "islandId": "i5",
+      "chapterId": "i5-c1",
+      "stageId": "i5-c1-s0",
+      "title": "Сюжет и записки зоны 3",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i5-t14": {
+      "id": "i5-t14",
+      "islandId": "i5",
+      "chapterId": "i5-c1",
+      "stageId": "i5-c1-s0",
+      "title": "Построить карту зоны 3",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i5-t15": {
+      "id": "i5-t15",
+      "islandId": "i5",
+      "chapterId": "i5-c1",
+      "stageId": "i5-c1-s1",
+      "title": "Третий монстр",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "critical",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i5-t16": {
+      "id": "i5-t16",
+      "islandId": "i5",
+      "chapterId": "i5-c1",
+      "stageId": "i5-c1-s1",
+      "title": "Задача зоны 3 и её головоломка",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i5-t17": {
+      "id": "i5-t17",
+      "islandId": "i5",
+      "chapterId": "i5-c1",
+      "stageId": "i5-c1-s1",
+      "title": "Катсцена перед зоной 3",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i5-t18": {
+      "id": "i5-t18",
+      "islandId": "i5",
+      "chapterId": "i5-c2",
+      "stageId": "i5-c2-s0",
+      "title": "Финальная погоня / побег",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "critical",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i5-t19": {
+      "id": "i5-t19",
+      "islandId": "i5",
+      "chapterId": "i5-c2",
+      "stageId": "i5-c2-s0",
+      "title": "Финальная катсцена и титры",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i5-t20": {
+      "id": "i5-t20",
+      "islandId": "i5",
+      "chapterId": "i5-c2",
+      "stageId": "i5-c2-s0",
+      "title": "Вторая концовка или секрет (по желанию)",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "low",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i5-t21": {
+      "id": "i5-t21",
+      "islandId": "i5",
+      "chapterId": "i5-c2",
+      "stageId": "i5-c2-s0",
+      "title": "Достижения Steam (список)",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i6-t01": {
+      "id": "i6-t01",
+      "islandId": "i6",
+      "chapterId": "i6-c0",
+      "stageId": "i6-c0-s0",
+      "title": "Пройти всю игру самому 3 раза",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i6-t02": {
+      "id": "i6-t02",
+      "islandId": "i6",
+      "chapterId": "i6-c0",
+      "stageId": "i6-c0-s0",
+      "title": "Список багов и исправление критических",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "critical",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i6-t03": {
+      "id": "i6-t03",
+      "islandId": "i6",
+      "chapterId": "i6-c0",
+      "stageId": "i6-c0-s0",
+      "title": "Оптимизация: FPS на слабом ПК",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i6-t04": {
+      "id": "i6-t04",
+      "islandId": "i6",
+      "chapterId": "i6-c0",
+      "stageId": "i6-c0-s0",
+      "title": "Проверка Windows и macOS на реальных компьютерах",
+      "description": "Сборки пока не проверены на чужих ПК.",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i6-t05": {
+      "id": "i6-t05",
+      "islandId": "i6",
+      "chapterId": "i6-c1",
+      "stageId": "i6-c1-s0",
+      "title": "Дать игру 5 друзьям и снять реакции",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i6-t06": {
+      "id": "i6-t06",
+      "islandId": "i6",
+      "chapterId": "i6-c1",
+      "stageId": "i6-c1-s0",
+      "title": "Закрытый тест 20+ человек (Discord / Steam Playtest)",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i6-t07": {
+      "id": "i6-t07",
+      "islandId": "i6",
+      "chapterId": "i6-c1",
+      "stageId": "i6-c1-s0",
+      "title": "Баланс: сложность, батарейки, монстры",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i6-t08": {
+      "id": "i6-t08",
+      "islandId": "i6",
+      "chapterId": "i6-c1",
+      "stageId": "i6-c1-s0",
+      "title": "Подсказки и обучение для новичка",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i6-t09": {
+      "id": "i6-t09",
+      "islandId": "i6",
+      "chapterId": "i6-c1",
+      "stageId": "i6-c1-s1",
+      "title": "Финальная графика: свет, пост-обработка",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i6-t10": {
+      "id": "i6-t10",
+      "islandId": "i6",
+      "chapterId": "i6-c1",
+      "stageId": "i6-c1-s1",
+      "title": "Финальный звук и музыка (микс)",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i6-t11": {
+      "id": "i6-t11",
+      "islandId": "i6",
+      "chapterId": "i6-c1",
+      "stageId": "i6-c1-s1",
+      "title": "Проверка переводов RU/EN",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i6-t12": {
+      "id": "i6-t12",
+      "islandId": "i6",
+      "chapterId": "i6-c1",
+      "stageId": "i6-c1-s1",
+      "title": "Проверка лицензий всех ассетов (CC0 и купленные)",
+      "description": "Записать источник каждой модели/звука.",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "critical",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i7-t01": {
+      "id": "i7-t01",
+      "islandId": "i7",
+      "chapterId": "i7-c0",
+      "stageId": "i7-c0-s0",
+      "title": "Оплатить Steam Direct ($100) и пройти проверку",
+      "description": "Нужны паспорт/налоговые данные и банк.",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "critical",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i7-t02": {
+      "id": "i7-t02",
+      "islandId": "i7",
+      "chapterId": "i7-c0",
+      "stageId": "i7-c0-s0",
+      "title": "Создать страницу игры (Steamworks)",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "critical",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i7-t03": {
+      "id": "i7-t03",
+      "islandId": "i7",
+      "chapterId": "i7-c0",
+      "stageId": "i7-c0-s0",
+      "title": "Скриншоты, описание, теги, возрастной рейтинг",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i7-t04": {
+      "id": "i7-t04",
+      "islandId": "i7",
+      "chapterId": "i7-c0",
+      "stageId": "i7-c0-s0",
+      "title": "Капсулы (картинки) для магазина",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i7-t05": {
+      "id": "i7-t05",
+      "islandId": "i7",
+      "chapterId": "i7-c0",
+      "stageId": "i7-c0-s0",
+      "title": "Опубликовать страницу «Скоро» — собирать вишлисты",
+      "description": "Лучше за 3–6 месяцев до релиза.",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "critical",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i7-t06": {
+      "id": "i7-t06",
+      "islandId": "i7",
+      "chapterId": "i7-c1",
+      "stageId": "i7-c1-s0",
+      "title": "Трейлер в стиле катсцены «легенда СССР»",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i7-t07": {
+      "id": "i7-t07",
+      "islandId": "i7",
+      "chapterId": "i7-c1",
+      "stageId": "i7-c1-s0",
+      "title": "Серия Shorts/TikTok: 3 ролика в неделю",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i7-t08": {
+      "id": "i7-t08",
+      "islandId": "i7",
+      "chapterId": "i7-c1",
+      "stageId": "i7-c1-s0",
+      "title": "Группа в Discord",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i7-t09": {
+      "id": "i7-t09",
+      "islandId": "i7",
+      "chapterId": "i7-c1",
+      "stageId": "i7-c1-s0",
+      "title": "Демо-версия (зона 1) в Steam",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i7-t10": {
+      "id": "i7-t10",
+      "islandId": "i7",
+      "chapterId": "i7-c1",
+      "stageId": "i7-c1-s1",
+      "title": "Steam Next Fest (участие с демо)",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i7-t11": {
+      "id": "i7-t11",
+      "islandId": "i7",
+      "chapterId": "i7-c1",
+      "stageId": "i7-c1-s1",
+      "title": "Рассылка ютуберам и стримерам хорроров",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i7-t12": {
+      "id": "i7-t12",
+      "islandId": "i7",
+      "chapterId": "i7-c1",
+      "stageId": "i7-c1-s1",
+      "title": "Цель: 5–10 тысяч вишлистов до релиза",
+      "description": "Ориентир для нормальных продаж.",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "critical",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i7-t13": {
+      "id": "i7-t13",
+      "islandId": "i7",
+      "chapterId": "i7-c2",
+      "stageId": "i7-c2-s0",
+      "title": "Цена (ориентир $5–10) и скидка запуска",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i7-t14": {
+      "id": "i7-t14",
+      "islandId": "i7",
+      "chapterId": "i7-c2",
+      "stageId": "i7-c2-s0",
+      "title": "Релизная сборка и загрузка в Steam",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "critical",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i7-t15": {
+      "id": "i7-t15",
+      "islandId": "i7",
+      "chapterId": "i7-c2",
+      "stageId": "i7-c2-s0",
+      "title": "Проверка сборки через Steam (скачать и поиграть)",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "critical",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i7-t16": {
+      "id": "i7-t16",
+      "islandId": "i7",
+      "chapterId": "i7-c2",
+      "stageId": "i7-c2-s0",
+      "title": "Запуск «Review» от Valve (за 2+ недели)",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "critical",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i7-t17": {
+      "id": "i7-t17",
+      "islandId": "i7",
+      "chapterId": "i7-c2",
+      "stageId": "i7-c2-s0",
+      "title": "РЕЛИЗ",
+      "description": "День запуска: пост, Shorts, стримеры.",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "critical",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i8-t01": {
+      "id": "i8-t01",
+      "islandId": "i8",
+      "chapterId": "i8-c0",
+      "stageId": "i8-c0-s0",
+      "title": "Читать отзывы и обсуждения каждый день",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i8-t02": {
+      "id": "i8-t02",
+      "islandId": "i8",
+      "chapterId": "i8-c0",
+      "stageId": "i8-c0-s0",
+      "title": "Горячие патчи критических багов",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "critical",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i8-t03": {
+      "id": "i8-t03",
+      "islandId": "i8",
+      "chapterId": "i8-c0",
+      "stageId": "i8-c0-s0",
+      "title": "Ответы игрокам, благодарность в Discord",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i8-t04": {
+      "id": "i8-t04",
+      "islandId": "i8",
+      "chapterId": "i8-c0",
+      "stageId": "i8-c0-s1",
+      "title": "Скидки: сезонные распродажи Steam",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i8-t05": {
+      "id": "i8-t05",
+      "islandId": "i8",
+      "chapterId": "i8-c0",
+      "stageId": "i8-c0-s1",
+      "title": "Проверка продаж и выплат Steam",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i8-t06": {
+      "id": "i8-t06",
+      "islandId": "i8",
+      "chapterId": "i8-c0",
+      "stageId": "i8-c0-s1",
+      "title": "Налоги и вывод денег (учёт для дома)",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "high",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i8-t07": {
+      "id": "i8-t07",
+      "islandId": "i8",
+      "chapterId": "i8-c1",
+      "stageId": "i8-c1-s0",
+      "title": "Бесплатное обновление: новая зона / режим",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i8-t08": {
+      "id": "i8-t08",
+      "islandId": "i8",
+      "chapterId": "i8-c1",
+      "stageId": "i8-c1-s0",
+      "title": "Локализации: китайский, немецкий, испанский, турецкий",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i8-t09": {
+      "id": "i8-t09",
+      "islandId": "i8",
+      "chapterId": "i8-c1",
+      "stageId": "i8-c1-s0",
+      "title": "Версия для других платформ (Linux, консоли)",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "low",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    },
+    "i8-t10": {
+      "id": "i8-t10",
+      "islandId": "i8",
+      "chapterId": "i8-c1",
+      "stageId": "i8-c1-s0",
+      "title": "Следующая игра или DLC",
+      "description": "",
+      "criteria": "Пункт выполнен и проверен.",
+      "status": "todo",
+      "priority": "medium",
+      "required": true,
+      "dependsOn": [],
+      "achievementIds": [],
+      "notes": "",
+      "createdAt": "2026-11-02T19:10:00.000Z",
+      "subtasks": []
+    }
+  },
+  "achievements": [
+    {
+      "id": "first-step",
+      "title": "Первый шаг",
+      "description": "Путешествие началось: первая задача выполнена.",
+      "conditionText": "Завершить любую задачу.",
+      "condition": {
+        "type": "tasks_done",
+        "count": 1
+      },
+      "icon": "footprints",
+      "rarity": "common"
+    },
+    {
+      "id": "pathfinder",
+      "title": "Следопыт",
+      "description": "Десять задач позади — маршрут становится привычным.",
+      "conditionText": "Завершить 10 задач.",
+      "condition": {
+        "type": "tasks_done",
+        "count": 10
+      },
+      "icon": "compass",
+      "rarity": "common"
+    },
+    {
+      "id": "dreamer",
+      "title": "Мечтатель",
+      "description": "Идея обрела форму и границы.",
+      "conditionText": "Завершить Зелёный остров.",
+      "condition": {
+        "type": "island_complete",
+        "islandId": "i1"
+      },
+      "icon": "flame",
+      "rarity": "common"
+    },
+    {
+      "id": "architect",
+      "title": "Архитектор",
+      "description": "Чертежи готовы, фундамент заложен.",
+      "conditionText": "Завершить остров планирования.",
+      "condition": {
+        "type": "island_complete",
+        "islandId": "i2"
+      },
+      "icon": "ruler",
+      "rarity": "rare"
+    },
+    {
+      "id": "inventor",
+      "title": "Изобретатель",
+      "description": "Шестерни крутятся — прототип работает.",
+      "conditionText": "Завершить остров прототипа.",
+      "condition": {
+        "type": "island_complete",
+        "islandId": "i3"
+      },
+      "icon": "cog",
+      "rarity": "rare"
+    },
+    {
+      "id": "world-maker",
+      "title": "Создатель миров",
+      "description": "Магический город построен: все системы соединены.",
+      "conditionText": "Завершить основную разработку.",
+      "condition": {
+        "type": "island_complete",
+        "islandId": "i4"
+      },
+      "icon": "castle",
+      "rarity": "epic"
+    },
+    {
+      "id": "deep-lord",
+      "title": "Повелитель глубин",
+      "description": "Подводное царство наполнено жизнью.",
+      "conditionText": "Завершить подводный остров.",
+      "condition": {
+        "type": "island_complete",
+        "islandId": "i5"
+      },
+      "icon": "waves",
+      "rarity": "epic"
+    },
+    {
+      "id": "cold-mind",
+      "title": "Холодный разум",
+      "description": "Ни одна критическая ошибка не ускользнула.",
+      "conditionText": "Завершить тестирование.",
+      "condition": {
+        "type": "island_complete",
+        "islandId": "i6"
+      },
+      "icon": "snowflake",
+      "rarity": "epic"
+    },
+    {
+      "id": "top-of-world",
+      "title": "На вершине мира",
+      "description": "Релиз подготовлен — игра готова выйти в мир.",
+      "conditionText": "Завершить остров релиза.",
+      "condition": {
+        "type": "island_complete",
+        "islandId": "i7"
+      },
+      "icon": "sun",
+      "rarity": "legendary"
+    },
+    {
+      "id": "galaxy",
+      "title": "Покоритель галактики",
+      "description": "Основной маршрут пройден целиком.",
+      "conditionText": "Завершить все острова карты.",
+      "condition": {
+        "type": "all_islands"
+      },
+      "icon": "orbit",
+      "rarity": "legendary"
+    },
+    {
+      "id": "perfectionist",
+      "title": "Перфекционист",
+      "description": "Ни одной пропущенной мелочи.",
+      "conditionText": "Выполнить все обязательные и дополнительные задачи одного острова (без пропусков).",
+      "condition": {
+        "type": "perfectionist"
+      },
+      "icon": "gem",
+      "rarity": "epic"
+    },
+    {
+      "id": "no-return",
+      "title": "Без возврата",
+      "description": "Остров пройден уверенно, без отката решений.",
+      "conditionText": "Завершить остров, ни разу не открывая заново завершённые на нём задачи.",
+      "condition": {
+        "type": "no_return"
+      },
+      "icon": "shield",
+      "rarity": "rare"
+    },
+    {
+      "id": "detail-master",
+      "title": "Мастер деталей",
+      "description": "Большие задачи раскладываются на маленькие шаги.",
+      "conditionText": "Отметить выполненными 10 подзадач.",
+      "condition": {
+        "type": "subtasks_done",
+        "count": 10
+      },
+      "icon": "feather",
+      "rarity": "common"
+    },
+    {
+      "id": "chronicler",
+      "title": "Летописец",
+      "description": "Записи путешествия сохранены для будущего себя.",
+      "conditionText": "Оставить заметки в 5 задачах.",
+      "condition": {
+        "type": "notes",
+        "count": 5
+      },
+      "icon": "scroll",
+      "rarity": "common"
+    },
+    {
+      "id": "free-explorer",
+      "title": "Свободный исследователь",
+      "description": "Иногда нужно заглянуть вперёд.",
+      "conditionText": "Вручную открыть остров для свободного исследования.",
+      "condition": {
+        "type": "manual_unlock"
+      },
+      "icon": "key",
+      "rarity": "rare"
+    }
+  ],
+  "unlocked": {},
+  "stats": {
+    "reopened": {}
+  },
+  "settings": {
+    "soundEnabled": false,
+    "reducedMotion": "auto",
+    "allowManualUnlock": true,
+    "showMinimap": true
+  },
+  "session": {
+    "view": "map",
+    "heroPos": {}
+  },
+  "exportedAt": "2026-11-02T19:10:00.000Z"
+}

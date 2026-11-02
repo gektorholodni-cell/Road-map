@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildSeedProject } from '../data/seed';
+import { buildSeedProject } from '../test/legacyTemplate';
 import { apply, type Action } from '../state/actions';
 import { sync } from './sync';
 import { isIslandComplete, isIslandUnlocked, islandProgress, islandTaskIds, taskState } from './progress';

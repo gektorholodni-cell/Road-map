@@ -1,14 +1,20 @@
 // Загрузка проекта из IndexedDB с обработкой ошибок и повреждённых данных.
 import { Component, useEffect, useState, type ReactNode } from 'react';
 import type { Project } from './types';
-import { clearProject, loadRaw, saveProject } from './storage/db';
+import { clearProject, createBackup, loadRaw, saveProject } from './storage/db';
 import { downloadText, parseProject } from './storage/io';
-import { buildSeedProject } from './data/seed';
+import { buildDefaultProject } from './data/defaultProject';
+import { isLegacyProject, legacyChoiceMade, rememberLegacyChoice } from './data/legacy';
+import { projectProgress } from './systems/progress';
 import { StoreProvider } from './state/store';
 import { ConfirmProvider } from './components/ui/confirm';
 import App from './App';
 
-type BootState = { kind: 'loading' } | { kind: 'ready'; project: Project; volatile?: string } | { kind: 'corrupt'; error: string; raw: string };
+type BootState =
+  | { kind: 'loading' }
+  | { kind: 'ready'; project: Project; volatile?: string }
+  | { kind: 'corrupt'; error: string; raw: string }
+  | { kind: 'legacy'; project: Project };
 
 export function Boot() {
   const [state, setState] = useState<BootState>({ kind: 'loading' });
@@ -19,16 +25,20 @@ export function Boot() {
       .then((raw) => {
         if (!alive) return;
         if (raw == null) {
-          setState({ kind: 'ready', project: buildSeedProject() });
+          // Первый запуск: в браузере ещё нет данных — загружаем «Сектор Ноль» и сразу сохраняем.
+          const p = buildDefaultProject();
+          saveProject(p).catch(() => {});
+          setState({ kind: 'ready', project: p });
           return;
         }
         const r = parseProject(raw);
-        if (r.ok) setState({ kind: 'ready', project: r.project });
+        if (r.ok && isLegacyProject(r.project) && !legacyChoiceMade(r.project)) setState({ kind: 'legacy', project: r.project });
+        else if (r.ok) setState({ kind: 'ready', project: r.project });
         else setState({ kind: 'corrupt', error: r.error, raw });
       })
       .catch((e: Error) => {
         // IndexedDB недоступен (например, приватный режим): работаем без сохранения.
-        if (alive) setState({ kind: 'ready', project: buildSeedProject(), volatile: e.message });
+        if (alive) setState({ kind: 'ready', project: buildDefaultProject(), volatile: e.message });
       });
     return () => {
       alive = false;
@@ -57,18 +67,58 @@ export function Boot() {
             <button
               className="btn danger"
               onClick={async () => {
-                const p = buildSeedProject();
+                const p = buildDefaultProject();
                 await clearProject().catch(() => {});
                 await saveProject(p).catch(() => {});
                 setState({ kind: 'ready', project: p });
               }}
             >
-              Начать с шаблона
+              Начать с «Сектор Ноль»
             </button>
           </div>
         </div>
       </div>
     );
+
+  if (state.kind === 'legacy') {
+    const old = state.project;
+    const pr = projectProgress(old);
+    return (
+      <div className="boot">
+        <div className="boot-card glass">
+          <h1>Найден старый проект</h1>
+          <p>
+            В этом браузере сохранён проект «{old.name}» (выполнено задач: {pr.done} из {pr.total}). Теперь по умолчанию используется проект
+            «Сектор Ноль: от идеи до продаж».
+          </p>
+          <p>Если заменить, старый проект не пропадёт: он сохранится в резервных копиях (Настройки → Резервные копии).</p>
+          <div className="btn-row">
+            <button
+              className="btn ghost"
+              onClick={() => {
+                rememberLegacyChoice(old);
+                setState({ kind: 'ready', project: old });
+              }}
+            >
+              Оставить
+            </button>
+            <button
+              className="btn primary"
+              onClick={async () => {
+                await createBackup(old, 'Старый проект перед заменой на «Сектор Ноль»', pr.done, pr.total).catch(() => {});
+                const p = { ...buildDefaultProject(), settings: old.settings };
+                await saveProject(p).catch(() => {});
+                rememberLegacyChoice(old);
+                setState({ kind: 'ready', project: p });
+              }}
+            >
+              Заменить на Сектор Ноль
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <ErrorBoundary>
