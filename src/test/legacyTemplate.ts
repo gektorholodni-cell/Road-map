@@ -1,8 +1,8 @@
-// Стартовый шаблон: восемь островов, главы, этапы и задачи разработки игры.
-// Это шаблон, а не догма: всё редактируется в режиме редактирования.
+// Старый стартовый шаблон («Моя игра»). Больше не загружается в приложении:
+// используется только в тестах как большой набор данных для проверки логики.
 import type { Chapter, Island, Priority, Project, Task, ThemeId } from '../types';
 import { APP_ID, SCHEMA_VERSION } from '../types';
-import { BUILTIN_ACHIEVEMENTS } from './achievements';
+import { BUILTIN_ACHIEVEMENTS } from '../data/achievements';
 
 interface TaskSpec {
   title: string;

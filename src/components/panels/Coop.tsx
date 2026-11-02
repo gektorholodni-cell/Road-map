@@ -90,7 +90,7 @@ export function CoopPanel({ onClose }: { onClose: () => void }) {
 
   const where = (islandId?: string) => {
     const i = islandId ? islands.findIndex((x) => x.id === islandId) : -1;
-    return i >= 0 ? `на острове ${i + 1} · ${islands[i].name}` : 'на карте';
+    return i >= 0 ? `в секторе ${i + 1} · ${islands[i].name}` : 'на карте';
   };
 
   if (current && current.room !== invited) {
@@ -151,7 +151,7 @@ export function CoopPanel({ onClose }: { onClose: () => void }) {
   return (
     <Modal onClose={onClose} title={<h2>Совместная игра</h2>} className="coop">
       <p className="muted">
-        <Users size={15} /> Играйте вместе: общий прогресс задач и герои друг друга на островах.
+        <Users size={15} /> Играйте вместе: общий прогресс задач и герои друг друга в секторах.
       </p>
       <label className="field">
         <span>Ваше имя</span>

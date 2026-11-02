@@ -1,5 +1,5 @@
 // Небольшие SVG-примитивы окружения. Все рисуются от «основания» (x, y) вверх.
-// Используются и на карте мира, и в сценах островов.
+// Используются и на карте мира, и в сценах секторов.
 
 interface P {
   x: number;
@@ -269,6 +269,11 @@ export function SharedDefs() {
         <rect width="14" height="24" fill="none" />
         <path d="M2 0 L2 12 M8 6 L8 20 M12 2 L12 10" stroke="#fff" strokeWidth="1.5" opacity=".8" />
       </pattern>
+      <radialGradient id="niiFog">
+        <stop offset="0" stopColor="#c9cfc8" stopOpacity=".8" />
+        <stop offset=".6" stopColor="#9aa29a" stopOpacity=".35" />
+        <stop offset="1" stopColor="#9aa29a" stopOpacity="0" />
+      </radialGradient>
       <radialGradient id="softGlow">
         <stop offset="0" stopColor="#fff" stopOpacity=".9" />
         <stop offset="1" stopColor="#fff" stopOpacity="0" />

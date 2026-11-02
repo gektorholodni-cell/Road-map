@@ -1,4 +1,4 @@
-// Обзор острова: предварительный просмотр с карты и список заданий внутри сцены.
+// Обзор сектора: предварительный просмотр с карты и список заданий внутри сцены.
 import { useState } from 'react';
 import { Ban, Check, ChevronDown, CircleDot, Crosshair, Eye, Flag, Key, Lock, LogIn } from 'lucide-react';
 import type { Island } from '../../types';
@@ -12,7 +12,7 @@ import { THEMES } from '../../data/themes';
 
 interface Props {
   island: Island;
-  /** preview — с карты, задания только для просмотра; scene — список внутри острова. */
+  /** preview — с карты, задания только для просмотра; scene — список внутри сектора. */
   mode: 'preview' | 'scene';
   onClose: () => void;
   onOpenTask: (taskId: string) => void;
@@ -40,9 +40,9 @@ export function IslandOverview({ island, mode, onClose, onOpenTask, onEnter, onG
 
   const manualUnlock = async () => {
     const ok = await confirm(
-      'Открыть остров для свободного исследования?',
+      'Открыть сектор для свободного исследования?',
       <p>
-        Это действие вне обычного прохождения: остров «{island.name}» станет доступен для входа, а его задания — для выполнения, хотя предыдущий остров не завершён.
+        Это действие вне обычного прохождения: сектор «{island.name}» станет доступен для входа, а его задания — для выполнения, хотя предыдущий сектор не завершён.
         Зависимости задач продолжат работать. Отменить можно в редакторе.
       </p>,
       'Открыть вручную',
@@ -75,7 +75,7 @@ export function IslandOverview({ island, mode, onClose, onOpenTask, onEnter, onG
           <>
             {cur && cur.id !== island.id && onGoCurrent && (
               <button className="btn ghost" onClick={onGoCurrent}>
-                <Crosshair size={16} /> Вернуться к текущему острову
+                <Crosshair size={16} /> Вернуться к текущему сектору
               </button>
             )}
             {!unlocked && project.settings.allowManualUnlock && (
@@ -85,7 +85,7 @@ export function IslandOverview({ island, mode, onClose, onOpenTask, onEnter, onG
             )}
             {unlocked && onEnter && (
               <button className="btn primary" onClick={onEnter}>
-                <LogIn size={16} /> Войти на остров
+                <LogIn size={16} /> Войти в сектор
               </button>
             )}
           </>
@@ -116,9 +116,9 @@ export function IslandOverview({ island, mode, onClose, onOpenTask, onEnter, onG
         </div>
       </div>
       {mode === 'preview' && !unlocked && (
-        <div className="notice preview">Все задания видны заранее, но выполнять их можно только после входа на открытый остров.</div>
+        <div className="notice preview">Все задания видны заранее, но выполнять их можно только после входа в открытый сектор.</div>
       )}
-      {mode === 'preview' && unlocked && <div className="notice preview">Чтобы выполнять задания, войдите на остров.</div>}
+      {mode === 'preview' && unlocked && <div className="notice preview">Чтобы выполнять задания, войдите в сектор.</div>}
 
       {island.chapters.map((ch, ci) => {
         const cp = chapterProgress(project, ch);

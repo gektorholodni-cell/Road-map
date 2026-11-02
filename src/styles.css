@@ -1,22 +1,23 @@
 /* Islands Roadmap — стили. Только локальные ресурсы: системные шрифты, SVG и CSS-анимации. */
 
 :root {
-  --bg: #070b18;
-  --panel: rgba(12, 18, 38, 0.72);
-  --panel-strong: rgba(10, 15, 32, 0.92);
-  --line: rgba(255, 255, 255, 0.12);
-  --line-strong: rgba(255, 255, 255, 0.22);
-  --text: #eef2ff;
-  --muted: #9aa6c8;
-  --accent: #7cc7ff;
-  --gold: #ffd36b;
-  --ok: #4fe3b0;
+  /* Стиль «Сектор Ноль»: бетон, натриевые лампы, тревожный красный. */
+  --bg: #0a0c0d;
+  --panel: rgba(18, 21, 22, 0.78);
+  --panel-strong: rgba(14, 16, 17, 0.94);
+  --line: rgba(230, 225, 205, 0.12);
+  --line-strong: rgba(230, 225, 205, 0.24);
+  --text: #ece8dc;
+  --muted: #a29e90;
+  --accent: #ffb347;
+  --gold: #ffcf6b;
+  --ok: #a8f07a;
   --warn: #ffb347;
-  --danger: #ff6b7a;
-  --violet: #b48cff;
+  --danger: #ff5a4a;
+  --violet: #c9a27a;
   --radius: 14px;
   --font: 'Inter', 'Segoe UI', system-ui, -apple-system, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-  --serif: 'Cinzel', 'Trajan Pro', 'Palatino Linotype', 'Book Antiqua', Georgia, 'Times New Roman', serif;
+  --serif: 'Oswald', 'Bebas Neue', 'Roboto Condensed', 'Arial Narrow', 'Franklin Gothic Medium', Impact, sans-serif;
   color-scheme: dark;
 }
 
@@ -3529,4 +3530,104 @@ kbd {
   .poll-question {
     font-size: 19px;
   }
+}
+
+
+/* ---------------------------------------------------------------- Стиль «Сектор Ноль» */
+.p-ash span {
+  width: calc(3px * var(--s));
+  height: calc(3px * var(--s));
+  background: #b9bdb6;
+  opacity: 0.55;
+  animation-name: snowFall;
+  animation-timing-function: linear;
+}
+.p-static span {
+  width: calc(2px * var(--s));
+  height: calc(8px * var(--s));
+  border-radius: 1px;
+  background: #9fe8ff;
+  box-shadow: 0 0 6px #9fe8ff;
+  opacity: 0.5;
+  animation-name: twinkle;
+}
+.scene-fog {
+  position: absolute;
+  inset: 40% -10% -10%;
+  background: radial-gradient(ellipse at 30% 70%, rgba(150, 160, 152, 0.18), transparent 60%), radial-gradient(ellipse at 75% 80%, rgba(150, 160, 152, 0.14), transparent 55%);
+  animation: drift 26s ease-in-out infinite alternate;
+}
+.crt-scan {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, rgba(159, 232, 255, 0.035) 0 2px, transparent 2px 5px);
+  mix-blend-mode: screen;
+}
+/* Лёгкое зерно и виньетка поверх карты и сцен, как в старой плёнке */
+.world-map::after,
+.island-scene::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+  z-index: 1;
+}
+.logo-title {
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Переход в сектор: мигание ламп, телевизионные помехи, туман */
+.tr-nii .tr-tint {
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--glow) 18%, #0a0c0d) 0%, #050606 75%);
+  animation: niiFlicker var(--dur) steps(1, end) both;
+}
+.tr-static {
+  position: absolute;
+  inset: -50%;
+  background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.06) 0 1px, transparent 1px 3px), repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.25) 0 2px, transparent 2px 5px);
+  animation: niiStatic 0.18s steps(3) infinite, fadeOutLate var(--dur) ease both;
+  mix-blend-mode: screen;
+}
+.tr-fog {
+  position: absolute;
+  inset: 30% -20% -20%;
+  background: radial-gradient(ellipse at 40% 60%, rgba(150, 160, 152, 0.35), transparent 65%);
+  animation: fadeOutLate var(--dur) ease both;
+}
+.tr-scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 18%;
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.07), transparent);
+  animation: niiScan 1.1s linear infinite;
+}
+@keyframes niiFlicker {
+  0% { opacity: 0; }
+  6% { opacity: 1; }
+  10% { opacity: 0.3; }
+  14% { opacity: 1; }
+  40% { opacity: 1; }
+  44% { opacity: 0.55; }
+  47% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes niiStatic {
+  0% { transform: translate(0, 0); }
+  33% { transform: translate(-3%, 2%); }
+  66% { transform: translate(2%, -3%); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes niiScan {
+  from { top: -20%; }
+  to { top: 110%; }
+}
+@keyframes fadeOutLate {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
 }

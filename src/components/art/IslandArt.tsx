@@ -1,28 +1,35 @@
-// Летающий остров для карты мира. Рисуется вокруг (0,0) — центра верхней поверхности,
-// радиус поверхности 200 единиц. Часть построек появляется по мере прогресса острова.
+// Парящая плита-объект НИИ для карты мира. Рисуется вокруг (0,0) — центра верхней поверхности,
+// радиус поверхности 200 единиц. Часть построек появляется по мере прогресса сектора.
 import { memo, type ReactNode } from 'react';
 import type { ThemeId } from '../../types';
 import { THEMES } from '../../data/themes';
+import { Banner } from './primitives';
 import {
-  Banner,
-  Campfire,
-  Castle,
-  Column,
-  Coral,
-  Crystal,
-  Gear,
-  House,
-  Jellyfish,
-  Palace,
-  PineTree,
-  Rock,
-  RoundTree,
-  Seaweed,
-  StoneTower,
-  Tent,
-  Waterfall,
-  WoodTower,
-} from './primitives';
+  ALARM,
+  Barrels,
+  Barrier,
+  Block,
+  Booth,
+  Bunker,
+  Chimney,
+  CRT,
+  DeadTree,
+  Dish,
+  ElevatorShaft,
+  Fence,
+  FogBand,
+  HazardSign,
+  LampPost,
+  MainBuilding,
+  Pipes,
+  RadioMast,
+  Rubble,
+  Signboard,
+  Tank,
+  TOXIC,
+  TvStack,
+  Watchtower,
+} from './nii';
 
 interface Props {
   theme: ThemeId;
@@ -40,201 +47,129 @@ const STRATA = [
   'M-176 66 L-120 74 L-60 70 L0 80 L64 72 L124 76 L178 58 L156 92 L104 98 L40 104 L-30 100 L-104 102 L-150 92 Z',
   'M-104 146 L-50 150 L10 160 L70 150 L104 150 L70 170 L20 178 L-40 176 L-88 182 Z',
 ];
+/** Торчащая арматура и обрывки труб под плитой. */
+const REBAR = 'M-150 92 L-162 128 M-136 128 L-128 160 M-56 196 L-64 230 M70 170 L80 204 M124 112 L140 140 M156 92 L172 116';
 
+// Каждый сектор — отдельный объект НИИ «Тишина». Часть построек появляется по мере прогресса.
 function decorations(theme: ThemeId, a: boolean): Deco[] {
   switch (theme) {
-    case 'meadow':
+    case 'meadow': // Проходная
       return [
-        [0, <RoundTree key="t1" x={-140} y={-6} s={1.1} />],
-        [0, <RoundTree key="t2" x={-110} y={22} s={0.9} />],
-        [0, <PineTree key="p1" x={140} y={0} s={1} />],
-        [0, <Campfire key="f" x={-10} y={20} s={1} animated={a} />],
-        [0, <Tent key="tent" x={-60} y={6} s={1} />],
-        [0, <WoodTower key="w" x={80} y={-8} s={1} />],
-        [0.3, <RoundTree key="t3" x={150} y={30} s={0.8} />],
-        [0.6, <Banner key="b" x={30} y={-14} s={0.9} c="#3f6fd8" />],
-        [0.85, <House key="h" x={-40} y={-30} s={0.8} wall="#d9b98a" roof="#8a4a2a" lit />],
+        [0, <Fence key="f1" x={-130} y={-10} w={90} />],
+        [0, <Fence key="f2" x={140} y={-6} w={80} />],
+        [0, <Booth key="b" x={-30} y={4} s={1.2} animated={a} />],
+        [0, <Barrier key="br" x={-2} y={16} s={1} />],
+        [0, <LampPost key="l1" x={-90} y={30} s={1.1} animated={a} />],
+        [0, <DeadTree key="t1" x={150} y={30} s={1.1} />],
+        [0.3, <DeadTree key="t2" x={-160} y={24} s={0.9} />],
+        [0.6, <Signboard key="s" x={90} y={22} s={1} text="КПП-1" />],
+        [0.85, <LampPost key="l2" x={60} y={-20} s={1} animated={a} />],
       ];
-    case 'architecture':
+    case 'architecture': // Чертёжное бюро
       return [
-        [0, <House key="h1" x={-120} y={0} s={1.1} wall="#e8dcc0" roof="#7a4a8a" lit />],
-        [0, <House key="h2" x={110} y={6} s={1} wall="#e8dcc0" roof="#4a6a9a" lit />],
-        [0, <StoneTower key="lib" x={0} y={-16} s={1.1} wall="#efe4c8" roof="#a0503a" h={56} />],
-        [0, <RoundTree key="t" x={-160} y={24} s={0.8} c1="#8fbf5a" />],
-        [0, <Rock key="r" x={160} y={26} s={1.1} c="#a89a80" />],
-        [0.35, <House key="h3" x={-50} y={30} s={0.85} wall="#f0e6cc" roof="#a0503a" lit />],
-        [0.65, <StoneTower key="t2" x={60} y={30} s={0.8} wall="#efe4c8" roof="#4a6a9a" h={40} />],
-        [0.9, <Banner key="b" x={150} y={-4} s={0.8} c="#d9b56a" />],
+        [0, <Block key="b1" x={-80} y={-4} w={100} h={54} cols={7} rows={3} seed={2} animated={a} />],
+        [0, <Block key="b2" x={70} y={4} w={80} h={44} cols={5} rows={3} seed={4} wall="#9a9a8e" animated={a} />],
+        [0, <LampPost key="l" x={-160} y={28} animated={a} />],
+        [0, <Rubble key="r" x={150} y={30} s={1.2} />],
+        [0.35, <Signboard key="s" x={10} y={34} s={1} text="ОКБ" />],
+        [0.65, <Dish key="d" x={70} y={-40} s={0.9} />],
+        [0.9, <LampPost key="l2" x={150} y={-4} animated={a} />],
       ];
-    case 'mechanics':
+    case 'mechanics': // Лаборатория
       return [
-        [0, <Gear key="g1" x={-110} y={-40} r={34} c="#c8a25a" spin={a} />],
-        [0, <Gear key="g2" x={-62} y={-62} r={22} c="#a8824a" spin={a} reverse />],
-        [0, <StoneTower key="ch" x={110} y={0} s={1} wall="#8a8478" roof="#5a4a3a" h={60} glow="#ffb347" />],
-        [0, <Rock key="r1" x={-150} y={28} s={1.4} c="#8a8070" />],
-        [0, <Rock key="r2" x={160} y={30} s={1} c="#7a7060" />],
-        [0, <ellipse key="arena" cx={10} cy={20} rx={60} ry={20} fill="#6b5f50" stroke="#c8a25a" strokeWidth={3} />],
-        [0.4, <Gear key="g3" x={40} y={-56} r={26} c="#d9b06a" spin={a} />],
-        [0.7, <House key="w" x={-30} y={-6} s={0.9} wall="#a89a88" roof="#5a4a3a" lit />],
+        [0, <Block key="lab" x={-50} y={-6} w={90} h={60} cols={5} rows={3} seed={6} lit={TOXIC} animated={a} />],
+        [0, <Chimney key="ch" x={60} y={-14} h={110} animated={a} />],
+        [0, <Tank key="t1" x={120} y={20} />],
+        [0, <Pipes key="p" x={-20} y={34} w={120} />],
+        [0, <Rubble key="r" x={-160} y={26} s={1.2} />],
+        [0.4, <Barrels key="ba" x={-140} y={10} />],
+        [0.7, <Tank key="t2" x={160} y={-10} s={0.8} c="#7f8a74" />],
       ];
-    case 'citadel':
+    case 'citadel': // Сектор Ноль
       return [
-        [0, <Castle key="c" x={0} y={-6} s={1.1} />],
-        [0, <PineTree key="p1" x={-160} y={16} s={0.9} />],
-        [0, <PineTree key="p2" x={160} y={20} s={0.9} />],
-        [0, <House key="h1" x={-110} y={30} s={0.8} wall="#d6d3e6" roof="#4a6fd8" lit />],
-        [0.4, <House key="h2" x={110} y={34} s={0.8} wall="#d6d3e6" roof="#4a6fd8" lit />],
-        [0.6, <Crystal key="cr" x={-150} y={-10} s={0.8} c="#7cc7ff" />],
-        [0.8, <Crystal key="cr2" x={150} y={-12} s={0.8} c="#7cc7ff" />],
+        [0, <MainBuilding key="m" x={0} y={-6} s={1.05} animated={a} />],
+        [0, <ElevatorShaft key="e" x={-130} y={16} animated={a} />],
+        [0, <LampPost key="l1" x={-170} y={30} animated={a} c={ALARM} />],
+        [0, <LampPost key="l2" x={130} y={32} animated={a} />],
+        [0.4, <Barrels key="b" x={160} y={18} />],
+        [0.6, <Fence key="f" x={-60} y={46} w={60} />],
+        [0.8, <HazardSign key="h" x={100} y={44} />],
       ];
-    case 'underwater':
+    case 'underwater': // Офисы с телевизорами
       return [
-        [0, <Column key="c1" x={-60} y={-6} s={1.1} c="#a8d8d0" />],
-        [0, <Column key="c2" x={-30} y={-12} s={1.2} c="#a8d8d0" broken />],
-        [0, <Column key="c3" x={40} y={-10} s={1.1} c="#a8d8d0" broken />],
-        [0, <StoneTower key="t" x={0} y={-20} s={1} wall="#9fd8cf" roof="#2fa8a0" h={50} glow="#5ef2ff" />],
-        [0, <Coral key="co1" x={-140} y={20} s={1.2} c="#ff6fae" />],
-        [0, <Coral key="co2" x={130} y={24} s={1.1} c="#ffa86f" />],
-        [0, <Seaweed key="s1" x={-110} y={30} s={1} />],
-        [0, <Seaweed key="s2" x={160} y={10} s={0.9} />],
-        [0.5, <Crystal key="cr" x={90} y={0} s={0.8} c="#5ef2ff" />],
-        [0.8, <Coral key="co3" x={60} y={36} s={0.8} c="#c86fff" />],
+        [0, <Block key="o" x={-30} y={-10} w={120} h={60} cols={8} rows={3} seed={8} lit={CRT} animated={a} />],
+        [0, <TvStack key="tv1" x={100} y={24} s={1} animated={a} />],
+        [0, <LampPost key="l" x={-150} y={26} animated={a} c={CRT} broken />],
+        [0, <Rubble key="r" x={160} y={-6} />],
+        [0.5, <TvStack key="tv2" x={-120} y={36} s={0.8} animated={a} />],
+        [0.8, <Signboard key="s" x={20} y={40} text="ОТДЕЛ 4" c="#3a6a8a" />],
       ];
-    case 'ice':
+    case 'ice': // Карантин
       return [
-        [0, <path key="m" d="M-170 10 L-120 -90 L-90 -40 L-60 -120 L-10 6 Z" fill="#e8f6ff" />],
-        [0, <path key="m2" d="M-120 -90 L-108 -66 L-118 -60 L-130 -70 Z M-60 -120 L-46 -88 L-60 -80 L-72 -96 Z" fill="#fff" />],
-        [0, <StoneTower key="t1" x={70} y={-6} s={1.1} wall="#dff2ff" roof="#5aa8e0" h={80} glow="#9be7ff" />],
-        [0, <Crystal key="c1" x={140} y={14} s={1.1} c="#9be7ff" />],
-        [0, <Crystal key="c2" x={-20} y={26} s={0.9} c="#bff0ff" />],
-        [0, <PineTree key="p" x={20} y={-10} s={0.9} c1="#5a9ab8" c2="#2a5a78" snow />],
-        [0.5, <StoneTower key="t2" x={130} y={-30} s={0.8} wall="#dff2ff" roof="#5aa8e0" h={60} glow="#9be7ff" />],
-        [0.8, <Crystal key="c3" x={-150} y={30} s={0.8} c="#9be7ff" />],
+        [0, <Watchtower key="w" x={-120} y={6} s={1.1} animated={a} />],
+        [0, <Fence key="f1" x={0} y={-16} w={150} />],
+        [0, <Block key="b" x={60} y={-20} w={70} h={40} cols={4} rows={2} seed={9} wall="#9aa3a6" lit="#cfe8ff" animated={a} />],
+        [0, <HazardSign key="h1" x={-40} y={34} />],
+        [0, <DeadTree key="t" x={160} y={26} />],
+        [0.5, <HazardSign key="h2" x={120} y={40} />],
+        [0.8, <Watchtower key="w2" x={150} y={-14} s={0.8} animated={a} />],
       ];
-    case 'sky':
+    case 'sky': // Радиоцентр: Steam, маркетинг, релиз
       return [
-        [0, <Palace key="p" x={0} y={-4} s={1.2} />],
-        [0, <StoneTower key="t1" x={-140} y={10} s={0.9} wall="#fbf6ea" roof="#f2c75c" h={70} glow="#fff1a8" />],
-        [0, <StoneTower key="t2" x={140} y={14} s={0.9} wall="#fbf6ea" roof="#f2c75c" h={60} glow="#fff1a8" />],
-        [0.4, <Column key="c" x={-80} y={34} s={0.9} c="#fbf6ea" />],
-        [0.6, <Column key="c2" x={80} y={36} s={0.9} c="#fbf6ea" />],
-        [0.85, <Banner key="b" x={40} y={30} s={0.8} c="#f2c75c" />],
+        [0, <RadioMast key="m" x={20} y={-8} h={170} animated={a} />],
+        [0, <Block key="b" x={-90} y={0} w={80} h={44} cols={5} rows={2} seed={12} animated={a} />],
+        [0, <Dish key="d1" x={110} y={16} s={1.1} />],
+        [0, <LampPost key="l" x={-160} y={28} animated={a} />],
+        [0.4, <Dish key="d2" x={150} y={-12} s={0.8} />],
+        [0.6, <Signboard key="s" x={-30} y={40} text="ЭФИР" />],
+        [0.85, <RadioMast key="m2" x={-150} y={-4} h={90} animated={a} />],
       ];
-    case 'cosmos':
+    case 'cosmos': // Бункер: жизнь после релиза
       return [
-        [0, <StoneTower key="t1" x={0} y={-10} s={1.4} wall="#5a3a9a" roof="#e07bff" h={90} glow="#5ef2ff" />],
-        [0, <StoneTower key="t2" x={-70} y={10} s={1} wall="#4a2c8a" roof="#9c7bff" h={60} glow="#5ef2ff" />],
-        [0, <StoneTower key="t3" x={70} y={12} s={1} wall="#4a2c8a" roof="#9c7bff" h={66} glow="#5ef2ff" />],
-        [0, <Crystal key="c1" x={-140} y={18} s={1.2} c="#e07bff" />],
-        [0, <Crystal key="c2" x={140} y={20} s={1.1} c="#5ef2ff" />],
-        [0.5, <Crystal key="c3" x={-30} y={40} s={0.8} c="#ff7bd5" />],
-        [0.8, <Crystal key="c4" x={40} y={44} s={0.7} c="#9c7bff" />],
+        [0, <Bunker key="b" x={0} y={-2} s={1.2} animated={a} />],
+        [0, <RadioMast key="m" x={-120} y={6} h={110} animated={a} />],
+        [0, <Barrels key="ba" x={110} y={26} c="#3e4a3a" />],
+        [0, <LampPost key="l" x={150} y={-6} animated={a} c={TOXIC} />],
+        [0.5, <Fence key="f" x={-40} y={48} w={70} />],
+        [0.8, <HazardSign key="h" x={-170} y={30} />],
       ];
   }
 }
 
-/** Фон позади острова: пузырь воды, облака, туманность. */
+/** Фон позади объекта: свечение окон, прожекторы, помехи. */
 function backdrop(theme: ThemeId, uid: string, a: boolean): ReactNode {
-  switch (theme) {
-    case 'underwater':
-      return (
-        <g>
-          <defs>
-            <radialGradient id={`${uid}-water`} cx="50%" cy="40%" r="60%">
-              <stop offset="0" stopColor="#1fb7c9" stopOpacity=".55" />
-              <stop offset=".7" stopColor="#0a4f7a" stopOpacity=".75" />
-              <stop offset="1" stopColor="#04223f" stopOpacity=".9" />
-            </radialGradient>
-          </defs>
-          <circle cx="0" cy="30" r="290" fill={`url(#${uid}-water)`} />
-          <circle cx="0" cy="30" r="290" fill="none" stroke="#7ff7ff" strokeOpacity=".5" strokeWidth="3" />
-          <path d="M-250 -120 Q-200 -132 -150 -120 T-50 -120 T50 -120 T150 -120 T250 -120" stroke="#bff" strokeOpacity=".5" strokeWidth="3" fill="none" />
-          {[-180, -40, 90, 200].map((x) => (
-            <path key={x} d={`M${x} -260 L${x + 30} 120 L${x - 10} 120 Z`} fill="#bff" opacity=".07" />
-          ))}
-          <Jellyfish x={-190} y={-60} s={1.1} />
-          <Jellyfish x={200} y={-20} s={0.9} c="#ff9cf0" />
-          <Jellyfish x={150} y={-170} s={0.7} />
-          {a &&
-            [-120, -20, 60, 170].map((x, i) => (
-              <circle key={x} cx={x} cy={100} r={4 + (i % 3) * 2} fill="none" stroke="#dff" strokeOpacity=".7" className="anim-bubble" style={{ animationDelay: `${i * 0.9}s` }} />
-            ))}
-        </g>
-      );
-    case 'sky':
-      return (
-        <g>
-          {[-120, -40, 40, 120].map((x, i) => (
-            <path key={x} d={`M${x} -300 L${x + 60} 60 L${x + 20} 60 Z`} fill="#fff4c0" opacity=".12" className={a ? 'anim-pulse' : undefined} style={{ animationDelay: `${i * 0.7}s` }} />
-          ))}
-        </g>
-      );
-    case 'cosmos':
-      return (
-        <g>
-          <defs>
-            <radialGradient id={`${uid}-neb`}>
-              <stop offset="0" stopColor="#e07bff" stopOpacity=".55" />
-              <stop offset=".5" stopColor="#6a3cff" stopOpacity=".25" />
-              <stop offset="1" stopColor="#1a0a40" stopOpacity="0" />
-            </radialGradient>
-            <radialGradient id={`${uid}-portal`}>
-              <stop offset="0" stopColor="#fff" stopOpacity=".95" />
-              <stop offset=".25" stopColor="#ff9cf0" stopOpacity=".8" />
-              <stop offset=".6" stopColor="#6a3cff" stopOpacity=".55" />
-              <stop offset="1" stopColor="#1a0a40" stopOpacity="0" />
-            </radialGradient>
-          </defs>
-          <circle cx="0" cy="-40" r="340" fill={`url(#${uid}-neb)`} />
-          <g transform="translate(150 -170)">
-            <circle r="110" fill={`url(#${uid}-portal)`} />
-            <g className={a ? 'anim-spin-slow' : undefined}>
-              <path d="M0 0 C40 -60 100 -20 90 30 M0 0 C-40 60 -100 20 -90 -30 M0 0 C60 40 20 100 -30 90 M0 0 C-60 -40 -20 -100 30 -90" stroke="#ffd6ff" strokeWidth="5" fill="none" opacity=".75" />
-            </g>
-            <circle r="100" fill="none" stroke="#5ef2ff" strokeWidth="4" opacity=".7" />
+  const th = THEMES[theme];
+  return (
+    <g>
+      <defs>
+        <radialGradient id={`${uid}-haze`}>
+          <stop offset="0" stopColor={th.glow} stopOpacity=".22" />
+          <stop offset="1" stopColor={th.glow} stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <ellipse cx="0" cy="-40" rx="300" ry="200" fill={`url(#${uid}-haze)`} className={a ? 'anim-pulse' : undefined} />
+      {theme === 'ice' &&
+        [-200, 180].map((x, i) => (
+          <g key={x} opacity=".07">
+            <path d={`M${x} -260 L${x + 40} 40 L${x - 20} 40 Z`} fill="#f6f1d8" className={a ? 'anim-pulse' : undefined} style={{ animationDelay: `${i * 1.3}s` }} />
           </g>
-          <circle cx="-240" cy="-140" r="26" fill="#ff8a5a" />
-          <circle cx="-248" cy="-148" r="26" fill="#ffb38a" opacity=".5" />
-          <circle cx="250" cy="120" r="14" fill="#5ef2ff" opacity=".9" />
-        </g>
-      );
-    default:
-      return null;
-  }
+        ))}
+    </g>
+  );
 }
 
-function foreground(theme: ThemeId, a: boolean): ReactNode {
-  switch (theme) {
-    case 'sky':
-      return (
-        <g opacity=".95">
-          {[
-            [-220, 60, 90],
-            [-120, 110, 110],
-            [20, 130, 130],
-            [160, 100, 110],
-            [240, 50, 80],
-          ].map(([x, y, r]) => (
-            <ellipse key={x} cx={x} cy={y} rx={r} ry={r * 0.45} fill="#fff" opacity=".85" className={a ? 'anim-drift' : undefined} />
-          ))}
-        </g>
-      );
-    case 'cosmos':
-      return (
-        <g className={a ? 'anim-orbit' : undefined}>
-          <ellipse cx="0" cy="40" rx="290" ry="70" fill="none" stroke="#5ef2ff" strokeWidth="3" opacity=".55" />
-          <ellipse cx="0" cy="40" rx="320" ry="82" fill="none" stroke="#e07bff" strokeWidth="2" opacity=".4" strokeDasharray="12 18" />
-        </g>
-      );
-    default:
-      return null;
-  }
+function foreground(_theme: ThemeId, a: boolean): ReactNode {
+  return (
+    <g>
+      <FogBand x={-80} y={56} w={360} o={0.45} animated={a} />
+      <FogBand x={120} y={80} w={280} o={0.3} animated={a} />
+    </g>
+  );
 }
 
 function IslandArtImpl({ theme, uid, progress, complete, animated }: Props) {
   const th = THEMES[theme];
   const decos = decorations(theme, animated).filter(([at]) => progress >= at || complete);
-  const hasFalls = theme === 'meadow' || theme === 'architecture' || theme === 'citadel' || theme === 'sky' || theme === 'mechanics';
   return (
     <g>
       <defs>
@@ -259,26 +194,29 @@ function IslandArtImpl({ theme, uid, progress, complete, animated }: Props) {
         <path key={d} d={d} fill="#000" opacity=".16" />
       ))}
       <path d="M40 0 L200 0 L178 58 L156 92 L124 112 L104 150 L70 170 L52 206 L24 220 L4 262 Z" fill="#000" opacity=".18" />
-      {theme === 'ice' && <path d="M-150 92 L-144 130 L-136 96 M-56 196 L-50 236 L-44 200 M70 170 L76 206 L82 172 M124 112 L130 146 L136 114" stroke="#cfefff" strokeWidth="5" fill="none" />}
-      {theme === 'cosmos' && <path d="M-120 60 L-60 120 L-20 100 L30 170 M80 70 L120 120" stroke="#e07bff" strokeWidth="3" fill="none" opacity=".8" className={animated ? 'anim-pulse' : undefined} />}
-      {/* Обломки, парящие под островом */}
+      <path d={REBAR} stroke="#7a4a2e" strokeWidth="3" fill="none" opacity=".8" />
+      {/* Огоньки в трещинах плиты */}
+      <circle cx="-60" cy="120" r="3" fill={th.glow} opacity=".7" className={animated ? 'anim-twinkle' : undefined} />
+      <circle cx="40" cy="150" r="2.5" fill={th.glow} opacity=".6" className={animated ? 'anim-twinkle' : undefined} />
+      {/* Обломки, парящие под сектором */}
       <g className={animated ? 'anim-float' : undefined}>
         <path d="M-150 220 L-130 210 L-120 230 L-138 248 Z" fill={`url(#${uid}-rock)`} />
         <path d="M130 250 L150 244 L156 262 L140 276 Z" fill={`url(#${uid}-rock)`} />
       </g>
-      {hasFalls && <Waterfall x={-150} y={70} h={170} w={14} c={theme === 'sky' ? '#fff6cf' : '#bfefff'} />}
-      {hasFalls && theme !== 'mechanics' && <Waterfall x={120} y={90} h={130} w={10} c={theme === 'sky' ? '#fff6cf' : '#bfefff'} />}
+      {/* Капли с края плиты */}
+      <path d="M-150 92 L-150 150 M118 112 L118 190" stroke="#9fb0b0" strokeWidth="2" strokeDasharray="3 14" opacity=".5" className={animated ? 'anim-fall' : undefined} />
       {/* Поверхность */}
       <path d="M-200 0 A200 70 0 0 0 200 0 L196 16 A196 70 0 0 1 -196 16 Z" fill={th.top[1]} />
       <ellipse cx="0" cy="0" rx="200" ry="70" fill={`url(#${uid}-top)`} />
       <ellipse cx="-30" cy="-14" rx="140" ry="36" fill="#fff" opacity=".08" />
-      {theme === 'meadow' && <path d="M-40 40 Q-10 10 30 20 T90 0" stroke={th.path} strokeWidth="8" fill="none" opacity=".8" strokeLinecap="round" />}
-      {theme === 'architecture' && <path d="M-150 20 L-60 10 L0 30 L80 10 L160 20" stroke={th.path} strokeWidth="10" fill="none" strokeDasharray="14 4" />}
+      {/* Трещины асфальта и разметка */}
+      <path d="M-150 10 L-100 22 L-80 14 L-40 30 M60 -30 L90 -14 L120 -20 M20 44 L50 52" stroke="#000" strokeOpacity=".3" strokeWidth="2" fill="none" />
+      <path d="M-120 40 L120 40" stroke="#d8d2b8" strokeOpacity=".25" strokeWidth="3" strokeDasharray="16 14" />
       {decos.map(([, el]) => el)}
       {foreground(theme, animated)}
       {complete && (
         <g>
-          <Banner x={-180} y={6} s={1} c={th.glow} />
+          <Banner x={-180} y={6} s={1} c={ALARM} />
           {[-120, -40, 50, 130].map((x, i) => (
             <circle key={x} cx={x} cy={-60 - (i % 2) * 30} r="4" fill={th.glow} className={animated ? 'anim-twinkle' : undefined} style={{ animationDelay: `${i * 0.4}s` }} />
           ))}

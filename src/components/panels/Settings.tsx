@@ -6,7 +6,7 @@ import { Modal } from '../ui/Modal';
 import { useConfirm } from '../ui/confirm';
 import { createBackup, deleteBackup, listBackups, readBackup, type BackupMeta } from '../../storage/db';
 import { downloadText, exportProject, parseProject } from '../../storage/io';
-import { buildSeedProject } from '../../data/seed';
+import { buildDefaultProject } from '../../data/defaultProject';
 import { projectProgress } from '../../systems/progress';
 import { formatDate } from '../ui/labels';
 
@@ -31,7 +31,7 @@ export function useDataActions() {
       'Заменить текущий проект?',
       <>
         <p>
-          {source}: «{r.project.name}», островов {r.project.islands.length}, задач {prog.total}, выполнено {prog.done}.
+          {source}: «{r.project.name}», секторов {r.project.islands.length}, задач {prog.total}, выполнено {prog.done}.
         </p>
         <p>Перед заменой будет создана резервная копия текущего проекта.</p>
         {r.warnings.length > 0 && (
@@ -78,7 +78,7 @@ export function useDataActions() {
   const reset = async () => {
     const ok = await confirm(
       'Сбросить проект?',
-      <p>Все задачи, статусы, заметки и достижения вернутся к стартовому шаблону. Перед сбросом будет создана резервная копия.</p>,
+      <p>Все задачи, статусы, заметки и достижения вернутся к исходному проекту «Сектор Ноль». Перед сбросом будет создана резервная копия.</p>,
       'Сбросить',
       true,
     );
@@ -89,9 +89,9 @@ export function useDataActions() {
     } catch {
       /* продолжаем */
     }
-    const fresh = buildSeedProject();
+    const fresh = buildDefaultProject();
     dispatch({ type: 'replace', project: { ...fresh, settings: project.settings } });
-    toast('Проект сброшен к стартовому шаблону.', 'info');
+    toast('Проект сброшен к исходному «Сектор Ноль».', 'info');
   };
 
   return { doExport, importText, pickFile, reset };
@@ -182,12 +182,12 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
             checked={s.allowManualUnlock}
             onChange={async (e) => {
               const v = e.target.checked;
-              if (v && !(await confirm('Разрешить ручное открытие островов?', <p>В предварительном просмотре закрытых островов появится кнопка «Открыть вручную». Это отдельный режим свободного исследования, он не меняет обычное прохождение.</p>, 'Разрешить')))
+              if (v && !(await confirm('Разрешить ручное открытие секторов?', <p>В предварительном просмотре закрытых секторов появится кнопка «Открыть вручную». Это отдельный режим свободного исследования, он не меняет обычное прохождение.</p>, 'Разрешить')))
                 return;
               dispatch({ type: 'settings', patch: { allowManualUnlock: v } });
             }}
           />
-          <span>Разрешить ручное открытие островов для свободного исследования</span>
+          <span>Разрешить ручное открытие секторов для свободного исследования</span>
         </label>
       </section>
       <section>
@@ -200,7 +200,7 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
             <Upload size={16} /> Импорт из JSON
           </button>
           <button className="btn danger" onClick={() => void reset()}>
-            <RotateCcw size={16} /> Сброс к шаблону
+            <RotateCcw size={16} /> Сброс к «Сектор Ноль»
           </button>
         </div>
         <h4>Резервные копии</h4>

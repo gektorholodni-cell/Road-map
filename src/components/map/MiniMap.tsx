@@ -57,7 +57,7 @@ export function MiniMap({ project, world, cam, view, onMove }: Props) {
             <stop offset="1" stopColor="#2a124a" />
           </linearGradient>
         </defs>
-        <rect width={W} height={H} rx="8" fill="url(#miniSky)" opacity=".7" />
+        <rect width={W} height={H} rx="8" fill="#15191b" opacity=".9" />
         {project.islands.slice(0, -1).map((a, i) => {
           const b = project.islands[i + 1];
           const [x1, y1] = toM(a.map.x, a.map.y);

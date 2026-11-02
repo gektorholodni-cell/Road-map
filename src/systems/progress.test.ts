@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildSeedProject } from '../data/seed';
+import { buildSeedProject } from '../test/legacyTemplate';
 import { apply, type Action } from '../state/actions';
 import { sync } from './sync';
 import { isIslandComplete, isIslandUnlocked, islandProgress, islandTaskIds, taskState } from './progress';
@@ -50,7 +50,7 @@ describe('dependencies and unlocking', () => {
   it('second island is locked until first is complete, then unlocks with bridge event', () => {
     let p = buildSeedProject();
     expect(isIslandUnlocked(p, p.islands[1])).toBe(false);
-    expect(taskState(p, p.tasks['i2-t01']).reasons[0]).toContain('Остров закрыт');
+    expect(taskState(p, p.tasks['i2-t01']).reasons[0]).toContain('Сектор закрыт');
     const r = completeIsland(p, 0);
     p = r.p;
     expect(isIslandComplete(p, p.islands[0])).toBe(true);

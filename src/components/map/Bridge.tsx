@@ -1,22 +1,22 @@
-// Мост, энергетическая дорога или портал между соседними островами.
+// Переход между объектами НИИ: стальной мостик, теплотрасса или кабель под током.
 import { memo } from 'react';
 import type { Island } from '../../types';
 import { THEMES } from '../../data/themes';
 import { islandRadius } from './geometry';
 
-type Kind = 'wood' | 'stone' | 'energy' | 'portal';
+type Kind = 'catwalk' | 'pipe' | 'cable';
 
 const kindFor = (to: Island): Kind => {
   switch (to.theme) {
     case 'architecture':
-      return 'wood';
+    case 'citadel':
+    case 'ice':
+      return 'catwalk';
     case 'mechanics':
-      return 'stone';
-    case 'underwater':
     case 'cosmos':
-      return 'portal';
+      return 'pipe';
     default:
-      return 'energy';
+      return 'cable';
   }
 };
 
@@ -40,48 +40,43 @@ function BridgeImpl({ from, to, state, animated }: Props) {
   const x2 = to.map.x - ux * rb * 0.72;
   const y2 = to.map.y - uy * rb * 0.25 + 12;
   const kind = kindFor(to);
-  const sag = kind === 'wood' || kind === 'stone' ? 70 : -90;
+  const sag = kind === 'cable' ? 110 : 60;
   const mx = (x1 + x2) / 2;
   const my = (y1 + y2) / 2 + sag;
   const d = `M${x1} ${y1} Q${mx} ${my} ${x2} ${y2}`;
   const glow = THEMES[to.theme].glow;
   const id = `br-${from.id}-${to.id}`;
   const lit = state !== 'dormant';
-  const color = lit ? glow : '#8a8fb0';
+  const color = lit ? glow : '#6a706c';
 
   return (
     <g className={`bridge state-${state}`} opacity={state === 'dormant' ? 0.45 : 1}>
       <path id={id} d={d} fill="none" stroke="none" />
-      {kind === 'wood' && (
+      {kind === 'catwalk' && (
         <g>
-          <path d={d} stroke="#3a2614" strokeWidth="26" fill="none" opacity=".55" />
-          <path d={d} stroke="#9a6a3c" strokeWidth="20" fill="none" strokeDasharray="8 5" />
-          <path d={d} stroke="#5a3d26" strokeWidth="3" fill="none" transform="translate(0 -12)" />
+          <path d={d} stroke="#0c0e10" strokeWidth="26" fill="none" opacity=".6" />
+          <path d={d} stroke="#4a4e4a" strokeWidth="18" fill="none" />
+          <path d={d} stroke="#2a2d2b" strokeWidth="18" fill="none" strokeDasharray="3 9" />
+          <path d={d} stroke="#6a6e68" strokeWidth="2.5" fill="none" transform="translate(0 -14)" />
         </g>
       )}
-      {kind === 'stone' && (
+      {kind === 'pipe' && (
         <g>
-          <path d={d} stroke="#2a2420" strokeWidth="30" fill="none" opacity=".5" />
-          <path d={d} stroke="#b9b0a0" strokeWidth="22" fill="none" />
-          <path d={d} stroke="#8a8070" strokeWidth="22" fill="none" strokeDasharray="2 22" />
+          <path d={d} stroke="#0c0e10" strokeWidth="28" fill="none" opacity=".55" />
+          <path d={d} stroke="#7a4a2e" strokeWidth="18" fill="none" />
+          <path d={d} stroke="#a0683e" strokeWidth="4" fill="none" transform="translate(0 -5)" opacity=".7" />
+          <path d={d} stroke="#2a1a10" strokeWidth="22" fill="none" strokeDasharray="4 70" />
         </g>
       )}
-      {(kind === 'energy' || kind === 'portal') && (
+      {kind === 'cable' && (
         <g>
-          <path d={d} stroke={color} strokeWidth="26" fill="none" opacity={lit ? 0.18 : 0.08} />
-          <path d={d} stroke={color} strokeWidth="6" fill="none" opacity={lit ? 0.9 : 0.5} strokeDasharray={lit ? undefined : '10 12'} />
+          <path d={d} stroke="#0c0e10" strokeWidth="6" fill="none" />
+          <path d={d} stroke="#0c0e10" strokeWidth="4" fill="none" transform="translate(0 16)" opacity=".8" />
         </g>
       )}
-      {kind === 'portal' &&
-        [
-          [x1, y1],
-          [x2, y2],
-        ].map(([px, py], i) => (
-          <g key={i} transform={`translate(${px} ${py - 40})`}>
-            <ellipse rx="26" ry="44" fill={color} opacity={lit ? 0.18 : 0.06} />
-            <ellipse rx="26" ry="44" fill="none" stroke={color} strokeWidth="5" opacity={lit ? 0.95 : 0.4} className={lit && animated ? 'anim-pulse' : undefined} />
-          </g>
-        ))}
+      {/* Свет вдоль перехода: горит, когда переход открыт */}
+      <path d={d} stroke={color} strokeWidth="22" fill="none" opacity={lit ? 0.12 : 0.04} />
+      <path d={d} stroke={color} strokeWidth="2.5" fill="none" opacity={lit ? 0.8 : 0.35} strokeDasharray={lit ? undefined : '8 14'} transform="translate(0 -3)" />
       {/* Подсветка маршрута: куда идти дальше */}
       {state === 'route' && <path d={d} stroke="#fff" strokeWidth="5" fill="none" strokeDasharray="14 18" className={animated ? 'anim-dash' : undefined} opacity=".85" />}
       {/* Огни и частицы на завершённых участках */}
@@ -98,7 +93,10 @@ function BridgeImpl({ from, to, state, animated }: Props) {
         [0.2, 0.4, 0.6, 0.8].map((t) => {
           const bx = (1 - t) * (1 - t) * x1 + 2 * (1 - t) * t * mx + t * t * x2;
           const by = (1 - t) * (1 - t) * y1 + 2 * (1 - t) * t * my + t * t * y2;
-          return <circle key={t} cx={bx} cy={by - 18} r="5" fill={glow} className={animated ? 'anim-twinkle' : undefined} />;
+          return <g key={t}>
+              <path d={`M${bx} ${by} L${bx} ${by - 30}`} stroke="#1a1d1f" strokeWidth="2.5" />
+              <circle cx={bx} cy={by - 32} r="4.5" fill={glow} className={animated ? 'anim-flicker' : undefined} />
+            </g>;
         })}
     </g>
   );
