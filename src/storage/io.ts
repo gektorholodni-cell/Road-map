@@ -53,7 +53,7 @@ export function normalize(raw: unknown): ParseResult {
   if (version > SCHEMA_VERSION)
     throw new ImportError(`Файл создан более новой версией приложения (схема ${version}, поддерживается до ${SCHEMA_VERSION}). Обновите приложение.`);
   const data = migrate(raw, version, warnings);
-  if (!Array.isArray(data.islands)) throw new ImportError('В файле нет списка островов.');
+  if (!Array.isArray(data.islands)) throw new ImportError('В файле нет списка секторов.');
   if (!isObj(data.tasks)) throw new ImportError('В файле нет списка задач.');
 
   const now = new Date().toISOString();
@@ -62,10 +62,10 @@ export function normalize(raw: unknown): ParseResult {
   const seen = new Set<string>();
 
   const islands: Island[] = (data.islands as unknown[]).map((ri, ii) => {
-    if (!isObj(ri) || typeof ri.id !== 'string') throw new ImportError(`Остров №${ii + 1} повреждён.`);
+    if (!isObj(ri) || typeof ri.id !== 'string') throw new ImportError(`Сектор №${ii + 1} повреждён.`);
     const islandId = ri.id;
     const chapters: Chapter[] = arr(ri.chapters).map((rc, ci) => {
-      if (!isObj(rc) || typeof rc.id !== 'string') throw new ImportError(`Глава №${ci + 1} острова «${str(ri.name)}» повреждена.`);
+      if (!isObj(rc) || typeof rc.id !== 'string') throw new ImportError(`Глава №${ci + 1} сектора «${str(ri.name)}» повреждена.`);
       const chapterId = rc.id;
       const stages: Stage[] = arr(rc.stages).map((rs, si) => {
         if (!isObj(rs) || typeof rs.id !== 'string') throw new ImportError(`Этап №${si + 1} главы «${str(rc.title)}» повреждён.`);
@@ -109,7 +109,7 @@ export function normalize(raw: unknown): ParseResult {
     const m = isObj(ri.map) ? ri.map : {};
     return {
       id: islandId,
-      name: str(ri.name, `Остров ${ii + 1}`),
+      name: str(ri.name, `Сектор ${ii + 1}`),
       subtitle: str(ri.subtitle),
       description: str(ri.description),
       theme: THEMES.includes(ri.theme as ThemeId) ? (ri.theme as ThemeId) : THEMES[ii % THEMES.length],

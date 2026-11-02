@@ -1,5 +1,5 @@
 // После каждого изменения проект проходит через sync(): фиксирует завершение
-// и открытие островов, выдаёт достижения и сообщает о новых доступных задачах.
+// и открытие секторов, выдаёт достижения и сообщает о новых доступных задачах.
 import type { GameEvent, Project } from '../types';
 import { checkAchievement } from './achievements';
 import { isIslandComplete, isIslandUnlocked, taskState } from './progress';
@@ -12,14 +12,14 @@ export function sync(prev: Project | null, next: Project, now = new Date().toISO
   let islands = next.islands;
   let changed = false;
 
-  // 1. Завершение островов и открытие следующих.
+  // 1. Завершение секторов и открытие следующих.
   islands = islands.map((island) => {
     const complete = isIslandComplete(next, island);
     if (complete && !island.completedAt) {
       changed = true;
       events.push(
         island.everCompleted
-          ? { kind: 'toast', text: `Остров «${island.name}» снова завершён.`, tone: 'success', id: eventId() }
+          ? { kind: 'toast', text: `Сектор «${island.name}» снова завершён.`, tone: 'success', id: eventId() }
           : { kind: 'island_complete', islandId: island.id, id: eventId() },
       );
       return { ...island, completedAt: now, everCompleted: true };

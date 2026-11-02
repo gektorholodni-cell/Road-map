@@ -1,4 +1,4 @@
-// Герои других игроков на этом острове: позиция приходит по сети, движение сглажено переходом.
+// Герои других игроков на этом секторе: позиция приходит по сети, движение сглажено переходом.
 import { useEffect, useState } from 'react';
 import { Hero } from './Hero';
 import { onPositions, peerPositions, usePeers } from '../../multiplayer/room';

@@ -41,7 +41,7 @@ export function PollCreate({ onClose, onCreated = onClose }: { onClose: () => vo
       <p className="muted">Все в комнате увидят вопрос на экране и смогут выбрать вариант.</p>
       <label className="field">
         <span>Вопрос</span>
-        <input id="poll-question" value={question} maxLength={140} placeholder="Например, какой остров берём следующим?" autoFocus onChange={(e) => setQuestion(e.target.value)} />
+        <input id="poll-question" value={question} maxLength={140} placeholder="Например, какой сектор берём следующим?" autoFocus onChange={(e) => setQuestion(e.target.value)} />
       </label>
       <div className="field">
         <span>Варианты</span>

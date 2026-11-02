@@ -1,4 +1,4 @@
-// Режим редактирования: острова, главы, этапы, задачи, подзадачи, зависимости и награды.
+// Режим редактирования: сектора, главы, этапы, задачи, подзадачи, зависимости и награды.
 import { useMemo, useState } from 'react';
 import { ArrowDown, ArrowUp, Award, ChevronRight, GripVertical, Map as MapIcon, Plus, Trash2, X } from 'lucide-react';
 import type { AchievementDef, AchievementIcon, Priority, Rarity, StoredStatus, ThemeId } from '../../types';
@@ -29,7 +29,7 @@ export function Editor({ onClose, initialIslandId }: Props) {
     const i = getIsland(project, id);
     if (!i) return;
     const n = i.chapters.reduce((a, c) => a + c.stages.reduce((b, s) => b + s.taskIds.length, 0), 0);
-    if (await confirm('Удалить остров?', <p>Остров «{i.name}» и все его задачи ({n}) будут удалены. Ссылки на них из других задач будут убраны.</p>, 'Удалить остров', true)) {
+    if (await confirm('Удалить сектор?', <p>Сектор «{i.name}» и все его задачи ({n}) будут удалены. Ссылки на них из других задач будут убраны.</p>, 'Удалить сектор', true)) {
       dispatch({ type: 'island/delete', islandId: id });
       setIslandId(project.islands.find((x) => x.id !== id)?.id);
       setTaskId(null);
@@ -54,9 +54,9 @@ export function Editor({ onClose, initialIslandId }: Props) {
         </button>
       </header>
       <div className="editor-body">
-        {/* Острова */}
+        {/* Сектора */}
         <aside className="ed-col islands glass">
-          <h3>Острова</h3>
+          <h3>Сектора</h3>
           <ul>
             {project.islands.map((i, idx) => (
               <li key={i.id} className={i.id === island?.id ? 'on' : ''}>
@@ -79,14 +79,14 @@ export function Editor({ onClose, initialIslandId }: Props) {
             className="btn ghost"
             onClick={() => {
               const theme = THEME_IDS[project.islands.length % THEME_IDS.length];
-              dispatch({ type: 'island/add', name: 'Новый остров', theme });
+              dispatch({ type: 'island/add', name: 'Новый сектор', theme });
             }}
           >
-            <Plus size={16} /> Добавить остров
+            <Plus size={16} /> Добавить сектор
           </button>
         </aside>
 
-        {/* Структура острова */}
+        {/* Структура сектора */}
         {island ? (
           <main className="ed-col structure glass">
             <section className="ed-island-form">
@@ -112,7 +112,7 @@ export function Editor({ onClose, initialIslandId }: Props) {
                 <label className="field">
                   <span>Доступность</span>
                   <select value={island.unlockRule} onChange={(e) => dispatch({ type: 'island/update', islandId: island.id, patch: { unlockRule: e.target.value as 'sequential' | 'always' } })}>
-                    <option value="sequential">После завершения предыдущего острова</option>
+                    <option value="sequential">После завершения предыдущего сектора</option>
                     <option value="always">Открыт всегда</option>
                   </select>
                 </label>
@@ -132,7 +132,7 @@ export function Editor({ onClose, initialIslandId }: Props) {
                 </label>
                 <span className="muted">Сейчас: {isIslandUnlocked(project, island) ? 'открыт' : 'закрыт'}</span>
                 <button className="btn danger small" onClick={() => void delIsland(island.id)}>
-                  <Trash2 size={14} /> Удалить остров
+                  <Trash2 size={14} /> Удалить сектор
                 </button>
               </div>
             </section>
@@ -241,7 +241,7 @@ export function Editor({ onClose, initialIslandId }: Props) {
           </main>
         ) : (
           <main className="ed-col structure glass">
-            <p>Островов нет. Добавьте первый.</p>
+            <p>Секторов нет. Добавьте первый.</p>
           </main>
         )}
 

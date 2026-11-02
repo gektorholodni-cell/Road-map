@@ -210,7 +210,7 @@ export function apply(p: Project, a: Action, now = new Date().toISOString()): Pr
       const chapterId = uid('chapter');
       const island: Island = {
         id,
-        name: a.name.trim() || 'Новый остров',
+        name: a.name.trim() || 'Новый сектор',
         subtitle: 'Новый этап',
         description: '',
         theme: a.theme,
@@ -231,7 +231,7 @@ export function apply(p: Project, a: Action, now = new Date().toISOString()): Pr
       const island = p.islands.find((i) => i.id === a.islandId);
       if (!island) return p;
       const next = { ...p, islands: p.islands.filter((i) => i.id !== a.islandId) };
-      // Первый остров всегда открыт.
+      // Первый сектор всегда открыт.
       if (next.islands[0] && !next.islands[0].unlockedAt) next.islands = [{ ...next.islands[0], unlockedAt: now }, ...next.islands.slice(1)];
       const session = next.session.islandId === a.islandId ? { ...next.session, view: 'map' as const, islandId: undefined } : next.session;
       return removeTasks({ ...next, session }, islandTaskIds(island));

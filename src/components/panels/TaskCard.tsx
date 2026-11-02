@@ -13,7 +13,7 @@ import { playSound } from '../../systems/sound';
 
 interface Props {
   taskId: string;
-  /** active — задание можно выполнять; preview — только просмотр (закрытый остров или вид с карты). */
+  /** active — задание можно выполнять; preview — только просмотр (закрытый сектор или вид с карты). */
   mode: 'active' | 'preview';
   previewReason?: string;
   onClose: () => void;
@@ -94,7 +94,7 @@ export function TaskCard({ taskId, mode, previewReason, onClose, onOpenTask }: P
       const ok = await confirm(
         'Пропустить задачу?',
         <p>
-          Пропущенная задача не считается выполненной, но не блокирует зависимые задачи и прохождение острова. {task.required && 'Это обязательная задача.'}
+          Пропущенная задача не считается выполненной, но не блокирует зависимые задачи и прохождение сектора. {task.required && 'Это обязательная задача.'}
         </p>,
         'Пропустить',
       );
@@ -187,7 +187,7 @@ export function TaskCard({ taskId, mode, previewReason, onClose, onOpenTask }: P
     >
       {!active && (
         <div className="notice preview">
-          <Lock size={16} /> {previewReason ?? 'Предварительный просмотр. Выполнять задание можно после входа на остров.'}
+          <Lock size={16} /> {previewReason ?? 'Предварительный просмотр. Выполнять задание можно после входа в сектор.'}
         </div>
       )}
       {st.reasons.length > 0 && (

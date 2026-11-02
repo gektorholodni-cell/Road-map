@@ -134,7 +134,7 @@ async function ensureChannel(): Promise<Channel | null> {
   return channel;
 }
 
-/** Сообщает остальным, где вы: на карте или на острове. */
+/** Сообщает остальным, где вы: на карте или в секторе. */
 export function setPresence(view: 'map' | 'island', islandId?: string) {
   const s = coopSettings();
   if (!s) return;
@@ -144,7 +144,7 @@ export function setPresence(view: 'map' | 'island', islandId?: string) {
 
 let lastSent = 0;
 let lastKey = '';
-/** Позиция героя на острове; отправляется не чаще 8 раз в секунду и только при изменении. */
+/** Позиция героя в секторе; отправляется не чаще 8 раз в секунду и только при изменении. */
 export function sendPosition(islandId: string, x: number, y: number, flip: boolean, walking: boolean) {
   if (!channel) return;
   const now = performance.now();

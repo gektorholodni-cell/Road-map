@@ -43,3 +43,21 @@ export function rememberLegacyChoice(p: Project): void {
     /* хранилище недоступно — спросим ещё раз в следующий раз */
   }
 }
+
+/**
+ * У тех, кто уже импортировал «Сектор Ноль» со старыми названиями островов
+ * («Зелёный остров» и т.д.), переименовываем острова в объекты НИИ.
+ * Меняется только название, и только если оно совпадает со старым один в один.
+ */
+export function renameSectorIslands(p: Project, names: string[]): Project {
+  if (!NEW_DEFAULT.test(p.name)) return p;
+  let changed = false;
+  const islands = p.islands.map((i, k) => {
+    if (OLD_TEMPLATE_ISLANDS[k] === i.name && names[k]) {
+      changed = true;
+      return { ...i, name: names[k] };
+    }
+    return i;
+  });
+  return changed ? { ...p, islands } : p;
+}

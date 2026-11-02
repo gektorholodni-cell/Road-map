@@ -117,7 +117,7 @@ export function EventToasts() {
             </div>
           )}
           {e.kind === 'island_unlocked' && (
-            <div className="toast-plain tone-success">Мост активирован: остров «{project.islands.find((i) => i.id === e.islandId)?.name}» открыт</div>
+            <div className="toast-plain tone-success">Мост активирован: сектор «{project.islands.find((i) => i.id === e.islandId)?.name}» открыт</div>
           )}
         </Toast>
       ))}

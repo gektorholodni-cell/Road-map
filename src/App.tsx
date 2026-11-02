@@ -1,5 +1,6 @@
-// Корневой компонент: управляет видами (карта / остров), переходами и окнами.
+// Корневой компонент: управляет видами (карта / сектор), переходами и окнами.
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { alreadySeen, fetchGameProgress, markSeen, progressUpdates } from './systems/gameProgress';
 import { BookOpen, Home, ListChecks, Map as MapIcon, Pencil, Play, Settings, Trophy } from 'lucide-react';
 import { useStore } from './state/store';
 import { WorldMap, type WorldMapHandle } from './components/map/WorldMap';
@@ -44,7 +45,7 @@ function usePrefersReducedMotion() {
 }
 
 export default function App() {
-  const { project, dispatch, events, dismiss, saveState } = useStore();
+  const { project, dispatch, events, dismiss, saveState, toast } = useStore();
   const confirm = useConfirm();
   const data = useDataActions();
   const systemReduced = usePrefersReducedMotion();
@@ -69,7 +70,24 @@ export default function App() {
   const pop = () => setPanels((ps) => ps.slice(0, -1));
   const closeAll = () => setPanels([]);
 
-  // Если остров сцены удалили — вернуться на карту.
+  // Подтягиваем выполненные шаги из репозитория игры (public/progress.json).
+  const projectRef = useRef(project);
+  projectRef.current = project;
+  useEffect(() => {
+    let alive = true;
+    void fetchGameProgress().then((gp) => {
+      if (!alive || !gp || alreadySeen(gp)) return;
+      const ups = progressUpdates(projectRef.current, gp);
+      for (const u of ups) dispatch({ type: 'task/status', taskId: u.taskId, status: u.status });
+      markSeen(gp);
+      if (ups.length) toast(`Из репозитория игры подтянуто шагов: ${ups.length}.`, 'success');
+    });
+    return () => {
+      alive = false;
+    };
+  }, [dispatch, toast]);
+
+  // Если сектор сцены удалили — вернуться на карту.
   useEffect(() => {
     if (sceneId && !scene) setSceneId(null);
   }, [sceneId, scene]);
@@ -80,7 +98,7 @@ export default function App() {
     return () => window.clearTimeout(t);
   }, [arriving, animated]);
 
-  // Завершение острова — экран празднования (без автоматического перехода).
+  // Завершение сектора — экран празднования (без автоматического перехода).
   useEffect(() => {
     for (const e of events) {
       if (e.kind === 'island_complete') {
@@ -110,10 +128,10 @@ export default function App() {
     setTransition({ kind: 'exit', islandId: scene.id, theme: scene.theme, title: scene.name, subtitle: scene.subtitle, nonce: Date.now() });
   }, [scene]);
 
-  // Другие игроки комнаты видят, где вы: на карте или на острове.
+  // Другие игроки комнаты видят, где вы: на карте или в секторе.
   useEffect(() => setPresence(sceneId ? 'island' : 'map', sceneId ?? undefined), [sceneId]);
 
-  // Кнопка «Назад» в Android-сборке: закрывает верхнее окно, затем редактор, затем выходит с острова на карту.
+  // Кнопка «Назад» в Android-сборке: закрывает верхнее окно, затем редактор, затем выходит из сектора на карту.
   const backRef = useRef<() => boolean>(() => false);
   backRef.current = () => {
     if (document.querySelector('[data-modal]')) {
@@ -166,7 +184,7 @@ export default function App() {
     if (isIslandUnlocked(project, island)) {
       void enterIsland(id);
     } else {
-      // Закрытый остров: камера приближается, но внутрь не переносит.
+      // Закрытый сектор: камера приближается, но внутрь не переносит.
       void mapRef.current?.flyTo(id, undefined, animated ? 800 : 0);
       push({ type: 'overview', islandId: id, mode: 'preview' });
     }
@@ -205,15 +223,15 @@ export default function App() {
     if (ok) dispatch({ type: 'chapter/complete', chapterId });
   };
 
-  // Режим карточки задания: выполнять можно только внутри своего открытого острова.
+  // Режим карточки задания: выполнять можно только внутри своего открытого сектора.
   const taskMode = (taskId: string): { mode: 'active' | 'preview'; reason?: string } => {
     const t = project.tasks[taskId];
     const island = t ? getIsland(project, t.islandId) : undefined;
     if (!t || !island) return { mode: 'preview' };
-    if (!isIslandUnlocked(project, island)) return { mode: 'preview', reason: `Остров «${island.name}» закрыт. Задания можно смотреть, но выполнять — только после его открытия и входа на остров.` };
+    if (!isIslandUnlocked(project, island)) return { mode: 'preview', reason: `Сектор «${island.name}» закрыт. Задания можно смотреть, но выполнять — только после его открытия и входа на сектор.` };
     if (scene?.id === island.id) return { mode: 'active' };
-    if (scene) return { mode: 'preview', reason: `Это задание острова «${island.name}». Выполнять его можно, находясь на том острове.` };
-    return { mode: 'preview', reason: `Войдите на остров «${island.name}», чтобы выполнять задания.` };
+    if (scene) return { mode: 'preview', reason: `Это задание сектора «${island.name}». Выполнять его можно, находясь на том секторе.` };
+    return { mode: 'preview', reason: `Войдите в сектор «${island.name}», чтобы выполнять задания.` };
   };
 
   const completeIsland = completeQueue.length ? getIsland(project, completeQueue[0]) : undefined;
@@ -302,7 +320,7 @@ export default function App() {
                   </button>
                   {scene && (
                     <button className="btn ghost" onClick={() => setPanels([{ type: 'overview', islandId: scene.id, mode: 'scene' }])}>
-                      <ListChecks size={16} /> Задания острова
+                      <ListChecks size={16} /> Задания сектора
                     </button>
                   )}
                   <button className="btn ghost" onClick={() => setPanels([{ type: 'achievements' }])}>
@@ -358,7 +376,7 @@ export default function App() {
       <EventToasts />
       {!sceneId && top === undefined && !editor && (
         <button className="sr-only" onClick={goCurrent}>
-          <Home size={14} /> К текущему острову
+          <Home size={14} /> К текущему сектору
         </button>
       )}
     </div>

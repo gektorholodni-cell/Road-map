@@ -31,7 +31,7 @@ export function useDataActions() {
       'Заменить текущий проект?',
       <>
         <p>
-          {source}: «{r.project.name}», островов {r.project.islands.length}, задач {prog.total}, выполнено {prog.done}.
+          {source}: «{r.project.name}», секторов {r.project.islands.length}, задач {prog.total}, выполнено {prog.done}.
         </p>
         <p>Перед заменой будет создана резервная копия текущего проекта.</p>
         {r.warnings.length > 0 && (
@@ -182,12 +182,12 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
             checked={s.allowManualUnlock}
             onChange={async (e) => {
               const v = e.target.checked;
-              if (v && !(await confirm('Разрешить ручное открытие островов?', <p>В предварительном просмотре закрытых островов появится кнопка «Открыть вручную». Это отдельный режим свободного исследования, он не меняет обычное прохождение.</p>, 'Разрешить')))
+              if (v && !(await confirm('Разрешить ручное открытие секторов?', <p>В предварительном просмотре закрытых секторов появится кнопка «Открыть вручную». Это отдельный режим свободного исследования, он не меняет обычное прохождение.</p>, 'Разрешить')))
                 return;
               dispatch({ type: 'settings', patch: { allowManualUnlock: v } });
             }}
           />
-          <span>Разрешить ручное открытие островов для свободного исследования</span>
+          <span>Разрешить ручное открытие секторов для свободного исследования</span>
         </label>
       </section>
       <section>

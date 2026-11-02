@@ -17,9 +17,9 @@ import { usePeers } from '../../multiplayer/room';
 
 
 export interface WorldMapHandle {
-  /** Плавно приближает камеру к острову. */
+  /** Плавно приближает камеру к сектору. */
   flyTo: (islandId: string, zoom?: number, ms?: number) => Promise<void>;
-  /** Мгновенно ставит камеру на остров (для возвращения со сцены). */
+  /** Мгновенно ставит камеру на сектор (для возвращения со сцены). */
   jumpTo: (islandId: string, zoom: number) => void;
   fitAll: (ms?: number) => Promise<void>;
 }
@@ -32,7 +32,7 @@ interface Props {
   onIslandClick: (id: string) => void;
 }
 
-/** Отступы под шапку и нижние панели, чтобы острова не прятались под интерфейсом. */
+/** Отступы под шапку и нижние панели, чтобы сектора не прятались под интерфейсом. */
 const hudInset = (w: number, h: number) =>
   w < 600 ? { top: 70, right: 8, bottom: 120, left: 8 } : w < 860 ? { top: 90, right: 10, bottom: 150, left: 10 } : { top: Math.min(140, h * 0.14), right: 30, bottom: Math.min(110, h * 0.1), left: 30 };
 
@@ -56,7 +56,7 @@ export const WorldMap = forwardRef<WorldMapHandle, Props>(function WorldMap({ pr
   const [cam, setCam] = useState<Camera>(() => {
     const w = window.innerWidth;
     const h = window.innerHeight;
-    // На телефоне весь мир не помещается читаемо — начинаем с текущего острова.
+    // На телефоне весь мир не помещается читаемо — начинаем с текущего сектора.
     const cur = currentIsland(project);
     if (w < 600 && cur) return centerOn(cur.map.x + islandRadius(cur) * 0.6, cur.map.y, (Math.min(w, h) * 0.3) / islandRadius(cur), w, h);
     return fitCamera(islandsBounds, w, h, hudInset(w, h));
@@ -217,7 +217,7 @@ export const WorldMap = forwardRef<WorldMapHandle, Props>(function WorldMap({ pr
     if (cur) void fly(centerOn(cur.map.x, cur.map.y, Math.max(cam.k, 0.6), size.w, size.h), 700);
   };
 
-  // Ближайший к центру экрана остров — для подписи «Текущая область».
+  // Ближайший к центру экрана сектор — для подписи «Текущая область».
   const centerWorld = { x: (size.w / 2 - cam.x) / cam.k, y: (size.h / 2 - cam.y) / cam.k };
   const nearest = project.islands.reduce<Island | null>(
     (best, i) => (!best || Math.hypot(i.map.x - centerWorld.x, i.map.y - centerWorld.y) < Math.hypot(best.map.x - centerWorld.x, best.map.y - centerWorld.y) ? i : best),
@@ -242,7 +242,7 @@ export const WorldMap = forwardRef<WorldMapHandle, Props>(function WorldMap({ pr
       onPointerCancel={onPointerUp}
       aria-label="Карта мира. Перетаскивайте мышью, колёсико — масштаб."
     >
-      <svg className="world-svg" width={size.w} height={size.h} role="img" aria-label="Летающие острова">
+      <svg className="world-svg" width={size.w} height={size.h} role="img" aria-label="Летающие сектора">
         <SharedDefs />
         <g transform={`translate(${cam.x} ${cam.y}) scale(${cam.k})`}>
           <WorldBackdrop world={world} animated={animated} />
@@ -276,7 +276,7 @@ export const WorldMap = forwardRef<WorldMapHandle, Props>(function WorldMap({ pr
         </g>
       </svg>
 
-      {/* Подписи островов в экранных координатах — читаемы при любом масштабе */}
+      {/* Подписи секторов в экранных координатах — читаемы при любом масштабе */}
       <div className="map-labels">
         {project.islands.map((island, idx) => {
           const st = islandMapState(project, island);
@@ -336,7 +336,7 @@ export const WorldMap = forwardRef<WorldMapHandle, Props>(function WorldMap({ pr
             <button className="icon-btn glass" onClick={() => void zoomBy(1 / 1.3)} aria-label="Отдалить" title="Отдалить (−)">
               <Minus size={18} />
             </button>
-            <button className="icon-btn glass" onClick={focusCurrent} aria-label="К текущему острову" title="К текущему острову">
+            <button className="icon-btn glass" onClick={focusCurrent} aria-label="К текущему сектору" title="К текущему сектору">
               <Crosshair size={18} />
             </button>
           </div>
@@ -355,7 +355,7 @@ export const WorldMap = forwardRef<WorldMapHandle, Props>(function WorldMap({ pr
           </div>
         </div>
       )}
-      <span className="sr-only">{project.islands.filter((i) => isIslandUnlocked(project, i)).length} островов открыто</span>
+      <span className="sr-only">{project.islands.filter((i) => isIslandUnlocked(project, i)).length} секторов открыто</span>
     </div>
   );
 });

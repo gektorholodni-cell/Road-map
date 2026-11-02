@@ -4,7 +4,10 @@ import type { Project } from './types';
 import { clearProject, createBackup, loadRaw, saveProject } from './storage/db';
 import { downloadText, parseProject } from './storage/io';
 import { buildDefaultProject } from './data/defaultProject';
-import { isLegacyProject, legacyChoiceMade, rememberLegacyChoice } from './data/legacy';
+import { isLegacyProject, legacyChoiceMade, rememberLegacyChoice, renameSectorIslands } from './data/legacy';
+import defaultRaw from './data/default-project.json';
+
+const SECTOR_NAMES = defaultRaw.islands.map((i) => i.name);
 import { projectProgress } from './systems/progress';
 import { StoreProvider } from './state/store';
 import { ConfirmProvider } from './components/ui/confirm';
@@ -33,7 +36,7 @@ export function Boot() {
         }
         const r = parseProject(raw);
         if (r.ok && isLegacyProject(r.project) && !legacyChoiceMade(r.project)) setState({ kind: 'legacy', project: r.project });
-        else if (r.ok) setState({ kind: 'ready', project: r.project });
+        else if (r.ok) setState({ kind: 'ready', project: renameSectorIslands(r.project, SECTOR_NAMES) });
         else setState({ kind: 'corrupt', error: r.error, raw });
       })
       .catch((e: Error) => {

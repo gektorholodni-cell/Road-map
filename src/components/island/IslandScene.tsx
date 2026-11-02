@@ -1,4 +1,4 @@
-// Сцена острова: окружение, управляемый персонаж и задания в виде игровых объектов.
+// Сцена сектора: окружение, управляемый персонаж и задания в виде игровых объектов.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowLeft, Bot, ListChecks, Lock, Menu, Trophy, Unlock } from 'lucide-react';
 import type { Island } from '../../types';
@@ -295,7 +295,7 @@ export function IslandScene({ island, animated, paused, arriving, onExit, onOpen
       {animated && <SceneParticles theme={island.theme} />}
       <div className="scene-vignette" aria-hidden />
 
-      {/* HUD острова */}
+      {/* HUD сектора */}
       <div className="scene-hud top">
         <button className="btn glass back" onClick={onExit} title="Вернуться на карту (M)">
           <ArrowLeft size={18} /> На карту
@@ -304,13 +304,13 @@ export function IslandScene({ island, animated, paused, arriving, onExit, onOpen
           <div className="st-name">
             {island.name}
             {island.manuallyUnlocked && !island.unlockedAt && (
-              <span className="chip warn" title="Остров открыт вручную, вне обычного прохождения">
+              <span className="chip warn" title="Сектор открыт вручную, вне обычного прохождения">
                 <Unlock size={12} /> свободное исследование
               </span>
             )}
           </div>
           <div className="st-sub">{island.subtitle}</div>
-          <div className="st-bar" aria-label={`Прогресс острова ${pct(progress.ratio)}`}>
+          <div className="st-bar" aria-label={`Прогресиз сектора ${pct(progress.ratio)}`}>
             <i style={{ width: pct(progress.ratio), background: theme.glow }} />
           </div>
           <div className="st-meta">
@@ -319,7 +319,7 @@ export function IslandScene({ island, animated, paused, arriving, onExit, onOpen
           </div>
         </div>
         <div className="hud-actions">
-          <button className="icon-btn glass" onClick={onOpenList} aria-label="Список заданий острова" title="Задания острова">
+          <button className="icon-btn glass" onClick={onOpenList} aria-label="Список заданий сектора" title="Задания сектора">
             <ListChecks size={18} />
           </button>
           <button className="icon-btn glass" onClick={onOpenAchievements} aria-label="Журнал достижений" title="Достижения">

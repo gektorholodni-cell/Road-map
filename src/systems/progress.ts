@@ -1,5 +1,5 @@
 // Система прогресса: вычисляет итоговые статусы, причины блокировки,
-// прогресс глав/островов/проекта и открытие островов.
+// прогресс глав/секторов/проекта и открытие секторов.
 import type { Chapter, Island, Project, Task, TaskStatus } from '../types';
 
 export interface Progress {
@@ -36,13 +36,13 @@ export function islandTasks(p: Project, island: Island): Task[] {
     .filter(Boolean);
 }
 
-/** Остров открыт для прохождения (по ходу пути, по правилу или вручную). */
+/** Сектор открыт для прохождения (по ходу пути, по правилу или вручную). */
 export function isIslandUnlocked(p: Project, island: Island): boolean {
   const idx = islandIndex(p, island.id);
   return idx === 0 || island.unlockRule === 'always' || island.manuallyUnlocked || !!island.unlockedAt;
 }
 
-/** Все обязательные задачи острова закрыты (выполнены или осознанно пропущены). */
+/** Все обязательные задачи сектора закрыты (выполнены или осознанно пропущены). */
 export function isIslandComplete(p: Project, island: Island): boolean {
   const tasks = islandTasks(p, island);
   const required = tasks.filter((t) => t.required);
@@ -90,7 +90,7 @@ export interface TaskState {
   islandLocked: boolean;
 }
 
-/** Остров, который нужно завершить, чтобы открыть данный. */
+/** Сектор, который нужно завершить, чтобы открыть данный. */
 export function previousIsland(p: Project, island: Island): Island | undefined {
   const idx = islandIndex(p, island.id);
   return idx > 0 ? p.islands[idx - 1] : undefined;
@@ -99,10 +99,10 @@ export function previousIsland(p: Project, island: Island): Island | undefined {
 export function unlockConditionText(p: Project, island: Island): string {
   if (isIslandUnlocked(p, island)) {
     if (island.manuallyUnlocked && !island.unlockedAt && islandIndex(p, island.id) !== 0) return 'Открыт вручную для свободного исследования.';
-    return 'Остров открыт.';
+    return 'Сектор открыт.';
   }
   const prev = previousIsland(p, island);
-  return prev ? `Завершите все обязательные задачи острова «${prev.name}».` : 'Остров откроется автоматически.';
+  return prev ? `Завершите все обязательные задачи сектора «${prev.name}».` : 'Сектор откроется автоматически.';
 }
 
 export function taskState(p: Project, task: Task): TaskState {
@@ -112,11 +112,11 @@ export function taskState(p: Project, task: Task): TaskState {
   const reasons: string[] = [];
   if (islandLocked && island) {
     const prev = previousIsland(p, island);
-    reasons.push(prev ? `Остров закрыт: сначала завершите остров «${prev.name}».` : 'Остров закрыт.');
+    reasons.push(prev ? `Сектор закрыт: сначала завершите сектор «${prev.name}».` : 'Сектор закрыт.');
   }
   for (const d of unmetDeps) {
     const other = d.islandId !== task.islandId ? getIsland(p, d.islandId) : undefined;
-    reasons.push(other ? `Сначала завершите задачу «${d.title}» (остров «${other.name}»).` : `Сначала завершите задачу «${d.title}».`);
+    reasons.push(other ? `Сначала завершите задачу «${d.title}» (сектор «${other.name}»).` : `Сначала завершите задачу «${d.title}».`);
   }
 
   let status: TaskStatus;
@@ -160,7 +160,7 @@ export function wouldCreateCycle(p: Project, taskId: string, depId: string): boo
   return false;
 }
 
-/** Текущий остров маршрута: первый открытый незавершённый. */
+/** Текущий сектор маршрута: первый открытый незавершённый. */
 export function currentIsland(p: Project): Island | undefined {
   return (
     p.islands.find((i) => isIslandUnlocked(p, i) && !isIslandComplete(p, i)) ??
@@ -176,7 +176,7 @@ export function islandMapState(p: Project, island: Island): IslandMapState {
   return isIslandUnlocked(p, island) ? 'open' : 'locked';
 }
 
-/** Состояние моста от острова index к index+1. */
+/** Состояние моста от сектора index к index+1. */
 export function bridgeState(p: Project, fromIndex: number): 'active' | 'route' | 'dormant' {
   const from = p.islands[fromIndex];
   const to = p.islands[fromIndex + 1];

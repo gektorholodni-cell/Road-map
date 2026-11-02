@@ -112,7 +112,7 @@ export const localAssistant: AssistantProvider = {
         else if (s === 'in_progress') parts.push('уже в работе — лучше довести до конца');
         if (t.priority === 'critical' || t.priority === 'high') parts.push(`приоритет ${t.priority === 'critical' ? 'критический' : 'высокий'}`);
         if (opens > 0) parts.push(`откроет задач: ${opens}`);
-        if (t.required) parts.push('обязательна для прохождения острова');
+        if (t.required) parts.push('обязательна для прохождения сектора');
         return { taskId: t.id, reason: parts.join(', ') || 'доступна сейчас' };
       });
   },
@@ -172,7 +172,7 @@ export const localAssistant: AssistantProvider = {
     const cur = currentIsland(p);
     if (cur) {
       const blockers = islandTasks(p, cur).filter((t) => t.required && t.status !== 'done' && t.status !== 'skipped' && dependents(p, t.id).length >= 2);
-      if (blockers.length) lines.push(`Фокус на острове «${cur.name}»: больше всего задач открывают ${blockers.slice(0, 3).map((b) => `«${b.title}»`).join(', ')}.`);
+      if (blockers.length) lines.push(`Фокус в секторе «${cur.name}»: больше всего задач открывают ${blockers.slice(0, 3).map((b) => `«${b.title}»`).join(', ')}.`);
     }
     return lines;
   },

@@ -22,7 +22,7 @@ export function AssistantPanel({ onClose, onOpenTask, contextIslandId }: { onClo
 
   const taskSelect = (
     <label className="field">
-      <span>Задача острова «{island?.name}»</span>
+      <span>Задача сектора «{island?.name}»</span>
       <select value={taskId} onChange={(e) => setTaskId(e.target.value)}>
         {islandTaskList.map((t) => (
           <option key={t.id} value={t.id}>
@@ -80,7 +80,7 @@ export function AssistantPanel({ onClose, onOpenTask, contextIslandId }: { onClo
               </div>
             </li>
           ))}
-          {next.length === 0 && <li className="muted">Доступных задач нет — проверьте закрытые острова или зависимости.</li>}
+          {next.length === 0 && <li className="muted">Доступных задач нет — проверьте закрытые сектора или зависимости.</li>}
         </ol>
       )}
 
@@ -146,10 +146,10 @@ export function AssistantPanel({ onClose, onOpenTask, contextIslandId }: { onClo
                       className="btn ghost small"
                       onClick={() => {
                         dispatch({ type: 'task/add', stageId: stage.id, title: g.suggestedTitle, description: g.why, criteria: '', required: false });
-                        toast(`Задача добавлена на остров «${target.name}» как необязательная.`, 'success');
+                        toast(`Задача добавлена в сектор «${target.name}» как необязательная.`, 'success');
                       }}
                     >
-                      <Plus size={14} /> Добавить «{g.suggestedTitle}» на остров «{target.name}»
+                      <Plus size={14} /> Добавить «{g.suggestedTitle}» в сектор «{target.name}»
                     </button>
                   </div>
                 )}

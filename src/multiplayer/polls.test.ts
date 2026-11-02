@@ -3,7 +3,7 @@ import { currentPoll, mergePoll, parsePoll, tally, type Poll } from './polls';
 
 const base: Poll = {
   id: 'v-test-1',
-  question: 'Какой остров дальше?',
+  question: 'Какой сектор дальше?',
   options: ['Лес', 'Пустыня', 'Лёд'],
   by: { id: 'p-author', name: 'Айдын', color: '#ffd25b' },
   at: 1000,

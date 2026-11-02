@@ -1,5 +1,5 @@
 // Типизированные модели данных Islands Roadmap.
-// Иерархия: Проект → Остров → Глава → Этап → Задача → Подзадача.
+// Иерархия: Проект → Сектор → Глава → Этап → Задача → Подзадача.
 
 export const SCHEMA_VERSION = 1;
 export const APP_ID = 'islands-roadmap';
@@ -7,7 +7,7 @@ export const APP_ID = 'islands-roadmap';
 /** Статус, который хранится в задаче и меняется пользователем. */
 export type StoredStatus = 'todo' | 'in_progress' | 'review' | 'done' | 'skipped';
 
-/** Итоговый статус с учётом зависимостей и блокировки острова. */
+/** Итоговый статус с учётом зависимостей и блокировки сектора. */
 export type TaskStatus = 'locked' | 'available' | 'in_progress' | 'review' | 'done' | 'skipped';
 
 export type Priority = 'low' | 'medium' | 'high' | 'critical';
@@ -40,7 +40,7 @@ export interface Task {
   criteria: string;
   status: StoredStatus;
   priority: Priority;
-  /** Обязательная задача влияет на прохождение острова. */
+  /** Обязательная задача влияет на прохождение сектора. */
   required: boolean;
   /** Идентификаторы задач, которые нужно завершить (или пропустить) прежде. */
   dependsOn: string[];
@@ -80,14 +80,14 @@ export interface Island {
   theme: ThemeId;
   completionCriteria: string;
   chapters: Chapter[];
-  /** sequential — открывается после предыдущего острова; always — открыт всегда. */
+  /** sequential — открывается после предыдущего сектора; always — открыт всегда. */
   unlockRule: 'sequential' | 'always';
   /** Ручное открытие для свободного исследования (отдельно от прохождения). */
   manuallyUnlocked: boolean;
-  /** Когда остров открылся по ходу прохождения. После открытия он не закрывается снова. */
+  /** Когда сектор открылся по ходу прохождения. После открытия он не закрывается снова. */
   unlockedAt?: string;
   completedAt?: string;
-  /** Остров уже проходили — повторное завершение не празднуется второй раз. */
+  /** Сектор уже проходили — повторное завершение не празднуется второй раз. */
   everCompleted?: boolean;
   map: IslandMapPlacement;
 }
@@ -137,7 +137,7 @@ export interface AchievementDef {
 
 export interface UnlockedAchievement {
   unlockedAt: string;
-  /** Для «Перфекциониста» и «Без возврата» — остров, на котором получено. */
+  /** Для «Перфекциониста» и «Без возврата» — сектор, на котором получено. */
   islandId?: string;
 }
 
@@ -145,7 +145,7 @@ export interface Settings {
   soundEnabled: boolean;
   /** auto — следовать prefers-reduced-motion. */
   reducedMotion: 'auto' | 'on' | 'off';
-  /** Разрешает вручную открывать острова для свободного исследования. */
+  /** Разрешает вручную открывать сектора для свободного исследования. */
   allowManualUnlock: boolean;
   showMinimap: boolean;
 }
@@ -173,7 +173,7 @@ export interface Project {
   achievements: AchievementDef[];
   unlocked: Record<string, UnlockedAchievement>;
   stats: {
-    /** Сколько раз завершённые задачи острова открывались заново. */
+    /** Сколько раз завершённые задачи сектора открывались заново. */
     reopened: Record<string, number>;
   };
   settings: Settings;

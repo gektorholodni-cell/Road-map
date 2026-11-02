@@ -1,27 +1,33 @@
-// Окружение сцен островов: земля, декорации, дальний фон и частицы для каждого мира.
+// Окружение сцен объектов НИИ: асфальт и бетон, постройки, дальний фон и частицы.
 import { memo, type ReactNode } from 'react';
 import type { ThemeId } from '../../types';
 import { THEMES } from '../../data/themes';
+import { SharedDefs } from '../art/primitives';
 import {
-  Banner,
-  Campfire,
-  Castle,
-  Column,
-  Coral,
-  Crystal,
-  Gear,
-  House,
-  Jellyfish,
-  Palace,
-  PineTree,
-  Rock,
-  RoundTree,
-  Seaweed,
-  SharedDefs,
-  StoneTower,
-  Tent,
-  WoodTower,
-} from '../art/primitives';
+  ALARM,
+  Barrels,
+  Barrier,
+  Block,
+  Booth,
+  Bunker,
+  Chimney,
+  CRT,
+  DeadTree,
+  Dish,
+  ElevatorShaft,
+  Fence,
+  HazardSign,
+  LampPost,
+  MainBuilding,
+  Pipes,
+  RadioMast,
+  Rubble,
+  Signboard,
+  Tank,
+  TOXIC,
+  TvStack,
+  Watchtower,
+} from '../art/nii';
 import { SCENE_H, SCENE_W, WALK, type SceneLayout } from './layout';
 
 function rng(seed: number) {
@@ -42,7 +48,7 @@ export const SceneGround = memo(function SceneGround({ theme, layout, complete }
     const d = Math.sqrt(r()) * 0.95;
     return { x: WALK.cx + Math.cos(a) * WALK.rx * d, y: WALK.cy + Math.sin(a) * WALK.ry * d, s: 4 + r() * 10, l: r() > 0.5 };
   });
-  const floating = theme !== 'underwater';
+  const floating = true;
   const { cx, cy, rx, ry } = WALK;
   return (
     <svg className="scene-ground" width={SCENE_W} height={SCENE_H} viewBox={`0 0 ${SCENE_W} ${SCENE_H}`} aria-hidden>
@@ -63,7 +69,7 @@ export const SceneGround = memo(function SceneGround({ theme, layout, complete }
       </defs>
       {floating && (
         <g>
-          {/* Толща острова и обрыв */}
+          {/* Толща сектора и обрыв */}
           <path
             d={`M${cx - rx} ${cy} A${rx} ${ry} 0 0 0 ${cx + rx} ${cy} L${cx + rx * 0.9} ${cy + 160} L${cx + rx * 0.6} ${cy + ry + 200} L${cx + rx * 0.2} ${cy + ry + 300} L${cx - rx * 0.25} ${cy + ry + 260} L${cx - rx * 0.7} ${cy + ry + 150} L${cx - rx * 0.95} ${cy + 140} Z`}
             fill="url(#sg-rock)"
@@ -71,7 +77,6 @@ export const SceneGround = memo(function SceneGround({ theme, layout, complete }
           <path d={`M${cx - rx * 0.7} ${cy + ry + 150} L${cx - rx * 0.4} ${cy + ry + 100} L${cx} ${cy + ry + 160} L${cx + rx * 0.4} ${cy + ry + 110} L${cx + rx * 0.6} ${cy + ry + 200}`} stroke="#000" strokeOpacity=".2" strokeWidth="14" fill="none" />
         </g>
       )}
-      {!floating && <ellipse cx={cx} cy={cy + 40} rx={rx * 1.25} ry={ry * 1.3} fill="#0b5a66" opacity=".55" />}
       <ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill="url(#sg-ground)" />
       <ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill="none" stroke={th.top[1]} strokeWidth="18" opacity=".6" />
       {complete && <ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill="url(#sg-aura)" className="anim-pulse" />}
@@ -89,7 +94,7 @@ export const SceneGround = memo(function SceneGround({ theme, layout, complete }
           fill="none"
           strokeLinecap="round"
           opacity=".55"
-          strokeDasharray={theme === 'architecture' || theme === 'citadel' ? '40 8' : undefined}
+          strokeDasharray="40 10"
         />
       ))}
       <ellipse cx={layout.spawn.x} cy={layout.spawn.y} rx="90" ry="34" fill={th.path} opacity=".6" />
@@ -100,64 +105,56 @@ export const SceneGround = memo(function SceneGround({ theme, layout, complete }
 
 function groundFeatures(theme: ThemeId): ReactNode {
   const { cx, cy, rx, ry } = WALK;
-  switch (theme) {
-    case 'meadow': {
-      const r = rng(5);
-      return Array.from({ length: 60 }, (_, i) => {
-        const a = r() * Math.PI * 2;
-        const d = 0.3 + r() * 0.65;
-        const c = ['#ffe27a', '#ff9ac0', '#ffffff', '#c9a0ff'][i % 4];
-        return <circle key={i} cx={cx + Math.cos(a) * rx * d} cy={cy + Math.sin(a) * ry * d} r={4} fill={c} opacity=".85" />;
-      });
+  const r = rng(theme.length * 53 + 7);
+  // Трещины асфальта
+  const cracks = Array.from({ length: 14 }, (_, i) => {
+    const a0 = r() * Math.PI * 2;
+    const d0 = 0.2 + r() * 0.7;
+    let px = cx + Math.cos(a0) * rx * d0;
+    let py = cy + Math.sin(a0) * ry * d0;
+    let path = `M${px} ${py}`;
+    for (let k = 0; k < 4; k++) {
+      px += (r() - 0.5) * 140;
+      py += (r() - 0.5) * 60;
+      path += ` L${px} ${py}`;
     }
-    case 'architecture':
-      return <ellipse cx={cx} cy={cy - 40} rx={360} ry={150} fill="#cdbf9f" opacity=".45" stroke="#a89a80" strokeWidth="6" strokeDasharray="30 10" />;
-    case 'mechanics':
-      return (
-        <g opacity=".7">
-          <path d={`M${cx - rx * 0.8} ${cy + 80} L${cx + rx * 0.8} ${cy + 80}`} stroke="#5a4a3a" strokeWidth="10" strokeDasharray="6 22" />
-          <path d={`M${cx - rx * 0.8} ${cy + 70} L${cx + rx * 0.8} ${cy + 70} M${cx - rx * 0.8} ${cy + 90} L${cx + rx * 0.8} ${cy + 90}`} stroke="#8a8478" strokeWidth="4" />
-        </g>
-      );
-    case 'citadel':
-      return <ellipse cx={cx} cy={cy - 30} rx={420} ry={170} fill="#b9b4c9" opacity=".35" stroke="#7cc7ff" strokeWidth="4" strokeOpacity=".5" />;
-    case 'underwater': {
-      const r = rng(9);
-      return (
-        <g>
-          {Array.from({ length: 24 }, (_, i) => {
-            const y = cy - ry * 0.8 + i * 45;
-            return <path key={i} d={`M${cx - rx} ${y} Q${cx - rx / 2} ${y - 18} ${cx} ${y} T${cx + rx} ${y}`} stroke="#bff" strokeOpacity=".07" strokeWidth="6" fill="none" />;
-          })}
-          {Array.from({ length: 20 }, (_, i) => (
-            <ellipse key={`s${i}`} cx={cx + (r() - 0.5) * rx * 1.6} cy={cy + (r() - 0.5) * ry * 1.4} rx={8 + r() * 10} ry={4} fill="#f2e6c2" opacity=".35" />
-          ))}
-        </g>
-      );
-    }
-    case 'ice':
-      return (
-        <g stroke="#9cc9e4" strokeWidth="3" fill="none" opacity=".7">
-          <path d={`M${cx - 600} ${cy - 100} L${cx - 450} ${cy - 40} L${cx - 380} ${cy + 60} L${cx - 220} ${cy + 100}`} />
-          <path d={`M${cx + 300} ${cy - 200} L${cx + 420} ${cy - 80} L${cx + 560} ${cy - 50}`} />
-          <path d={`M${cx + 100} ${cy + 300} L${cx + 250} ${cy + 260} L${cx + 330} ${cy + 330}`} />
-        </g>
-      );
-    case 'sky':
-      return (
-        <g>
-          <ellipse cx={cx} cy={cy - 40} rx={440} ry={180} fill="#f3d27a" opacity=".25" stroke="#f2c75c" strokeWidth="6" />
-          <ellipse cx={cx} cy={cy - 40} rx={300} ry={120} fill="none" stroke="#f2c75c" strokeWidth="3" opacity=".6" />
-        </g>
-      );
-    case 'cosmos':
-      return (
-        <g stroke="#9c7bff" strokeWidth="4" fill="none" opacity=".6" className="anim-pulse">
-          <path d={`M${cx - 700} ${cy} L${cx - 400} ${cy} L${cx - 300} ${cy - 120} L${cx + 300} ${cy - 120} L${cx + 400} ${cy} L${cx + 700} ${cy}`} />
-          <path d={`M${cx - 500} ${cy + 250} L${cx - 200} ${cy + 250} L${cx - 100} ${cy + 150} L${cx + 100} ${cy + 150} L${cx + 200} ${cy + 250} L${cx + 500} ${cy + 250}`} stroke="#5ef2ff" />
-        </g>
-      );
+    return <path key={`c${i}`} d={path} stroke="#000" strokeOpacity=".32" strokeWidth={2 + (i % 3)} fill="none" />;
+  });
+  // Лужи с отражением света
+  const th = THEMES[theme];
+  const puddles = Array.from({ length: theme === 'underwater' ? 12 : 5 }, (_, i) => {
+    const a0 = r() * Math.PI * 2;
+    const d0 = 0.25 + r() * 0.6;
+    const w = 50 + r() * 90;
+    return (
+      <g key={`p${i}`}>
+        <ellipse cx={cx + Math.cos(a0) * rx * d0} cy={cy + Math.sin(a0) * ry * d0} rx={w} ry={w * 0.3} fill="#11161a" opacity=".55" />
+        <ellipse cx={cx + Math.cos(a0) * rx * d0 - w * 0.2} cy={cy + Math.sin(a0) * ry * d0 - 3} rx={w * 0.4} ry={w * 0.08} fill={th.glow} opacity=".14" />
+      </g>
+    );
+  });
+  // Канализационные люки
+  const hatches = [0.3, 0.7].map((t, i) => <ellipse key={`h${i}`} cx={cx - rx * 0.6 + rx * 1.2 * t} cy={cy + ry * 0.45} rx="30" ry="12" fill="#2a2d2b" stroke="#6a6d66" strokeWidth="3" />);
+  let extra: ReactNode = null;
+  if (theme === 'ice') {
+    extra = Array.from({ length: 30 }, (_, i) => (
+      <ellipse key={`s${i}`} cx={cx + (r() - 0.5) * rx * 1.7} cy={cy + (r() - 0.5) * ry * 1.6} rx={40 + r() * 80} ry={10 + r() * 14} fill="#dfe6e8" opacity=".35" />
+    ));
+  } else if (theme === 'citadel' || theme === 'sky') {
+    extra = <path d={`M${cx - rx * 0.7} ${cy + 40} L${cx + rx * 0.7} ${cy + 40}`} stroke={ALARM} strokeOpacity=".35" strokeWidth="8" strokeDasharray="40 30" />;
+  } else if (theme === 'mechanics' || theme === 'cosmos') {
+    extra = Array.from({ length: 6 }, (_, i) => <ellipse key={`t${i}`} cx={cx + (r() - 0.5) * rx * 1.4} cy={cy + (r() - 0.5) * ry * 1.2} rx={30 + r() * 40} ry={10} fill={TOXIC} opacity=".08" />);
   }
+  return (
+    <g>
+      {cracks}
+      {puddles}
+      {hatches}
+      {/* Разметка */}
+      <path d={`M${cx - rx * 0.8} ${cy - ry * 0.1} L${cx + rx * 0.8} ${cy - ry * 0.1}`} stroke="#d8d2b8" strokeOpacity=".16" strokeWidth="10" strokeDasharray="60 50" />
+      {extra}
+    </g>
+  );
 }
 
 // ---------------------------------------------------------------- Декорации (сортируются по глубине)
@@ -172,7 +169,7 @@ export interface Decoration {
   el: ReactNode;
 }
 
-/** Точки на кольце у края острова. */
+/** Точки на кольце у края сектора. */
 function ring(count: number, seed: number, d0 = 0.95, skipTopArc = 0.0): Array<{ x: number; y: number }> {
   const r = rng(seed);
   const pts: Array<{ x: number; y: number }> = [];
@@ -194,132 +191,70 @@ export function sceneDecorations(theme: ThemeId, animated: boolean): Decoration[
   const top = { x: WALK.cx, y: WALK.cy - WALK.ry * 0.78 };
   const list: Decoration[] = [];
   const pts = ring(34, theme.length * 31, 0.97, 22);
+  const edge = (key: string, i: number, el: ReactNode, at = 0) => {
+    const p = pts[i];
+    return deco(key, p.x, p.y, 120, 170, el, at);
+  };
+  const ringItems = (make: (i: number) => ReactNode, lateEvery = 5) => pts.forEach((_, i) => list.push(edge(`e${i}`, i, make(i), i % lateEvery === lateEvery - 1 ? 0.5 : 0)));
   switch (theme) {
-    case 'meadow':
-      list.push(deco('tower', top.x + 220, top.y + 10, 160, 260, <WoodTower x={0} y={0} s={2.2} />));
-      list.push(deco('fire', top.x, top.y + 40, 160, 140, <Campfire x={0} y={0} s={2.2} animated={animated} />));
-      list.push(deco('tent1', top.x - 200, top.y + 20, 140, 100, <Tent x={0} y={0} s={2.2} />));
-      list.push(deco('tent2', top.x - 330, top.y + 60, 120, 90, <Tent x={0} y={0} s={1.8} c="#c9734a" />, 0.4));
-      list.push(deco('banner', top.x + 90, top.y + 30, 90, 150, <Banner x={-20} y={0} s={2} c="#3f6fd8" />, 0.7));
-      pts.forEach((p, i) => list.push(deco(`t${i}`, p.x, p.y, 120, 170, i % 3 === 0 ? <PineTree x={0} y={0} s={2} /> : <RoundTree x={0} y={0} s={2} />, i % 5 === 4 ? 0.5 : 0)));
+    case 'meadow': // Проходная
+      list.push(deco('booth', top.x - 120, top.y + 40, 160, 160, <Booth x={0} y={0} s={2.6} animated={animated} />));
+      list.push(deco('barrier', top.x + 10, top.y + 60, 220, 80, <Barrier x={0} y={0} s={2.4} />));
+      list.push(deco('fence1', top.x - 380, top.y + 30, 260, 90, <Fence x={0} y={0} s={2.4} w={100} />));
+      list.push(deco('fence2', top.x + 380, top.y + 30, 260, 90, <Fence x={0} y={0} s={2.4} w={100} />));
+      list.push(deco('sign', top.x + 220, top.y + 90, 140, 120, <Signboard x={0} y={0} s={2.2} text="КПП-1" />, 0.4));
+      ringItems((i) => (i % 3 === 0 ? <LampPost x={0} y={0} s={2.1} animated={animated} /> : i % 3 === 1 ? <DeadTree x={0} y={0} s={2.4} /> : <Rubble x={0} y={0} s={2.4} />));
       break;
-    case 'architecture':
-      list.push(deco('lib', top.x, top.y + 30, 160, 300, <StoneTower x={0} y={0} s={2.4} wall="#efe4c8" roof="#a0503a" h={70} />));
-      list.push(deco('h1', top.x - 230, top.y + 50, 160, 160, <House x={0} y={0} s={2.6} wall="#e8dcc0" roof="#7a4a8a" lit />));
-      list.push(deco('h2', top.x + 230, top.y + 50, 160, 160, <House x={0} y={0} s={2.6} wall="#e8dcc0" roof="#4a6a9a" lit />));
-      list.push(deco('h3', top.x - 420, top.y + 120, 140, 140, <House x={0} y={0} s={2.2} wall="#f0e6cc" roof="#a0503a" lit />, 0.4));
-      list.push(deco('t2', top.x + 420, top.y + 120, 120, 220, <StoneTower x={0} y={0} s={1.8} wall="#efe4c8" roof="#4a6a9a" h={50} />, 0.7));
-      pts.forEach((p, i) => list.push(deco(`t${i}`, p.x, p.y, 120, 170, i % 2 ? <RoundTree x={0} y={0} s={1.9} c1="#9fca6a" /> : <Rock x={0} y={0} s={2.4} c="#a89a80" />)));
+    case 'architecture': // Чертёжное бюро
+      list.push(deco('b1', top.x, top.y + 40, 320, 220, <Block x={0} y={0} s={2.4} w={120} h={70} cols={8} rows={4} seed={2} animated={animated} />));
+      list.push(deco('b2', top.x - 380, top.y + 110, 220, 160, <Block x={0} y={0} s={2.2} w={80} h={48} cols={5} rows={3} seed={4} wall="#9a9a8e" animated={animated} />));
+      list.push(deco('dish', top.x + 360, top.y + 100, 140, 140, <Dish x={0} y={0} s={2.4} />, 0.4));
+      list.push(deco('sign', top.x + 200, top.y + 130, 140, 120, <Signboard x={0} y={0} s={2.2} text="ОКБ" />, 0.7));
+      ringItems((i) => (i % 2 ? <LampPost x={0} y={0} s={2} animated={animated} /> : <Rubble x={0} y={0} s={2.4} />));
       break;
-    case 'mechanics':
-      list.push(deco('g1', top.x - 120, top.y + 20, 240, 240, <Gear x={0} y={-110} r={100} c="#c8a25a" spin={animated} />));
-      list.push(deco('g2', top.x + 80, top.y - 10, 160, 160, <Gear x={0} y={-70} r={62} c="#a8824a" spin={animated} reverse />));
-      list.push(deco('ch', top.x + 300, top.y + 40, 140, 280, <StoneTower x={0} y={0} s={2.2} wall="#8a8478" roof="#5a4a3a" h={70} glow="#ffb347" />));
-      list.push(deco('g3', top.x - 380, top.y + 80, 160, 160, <Gear x={0} y={-70} r={60} c="#d9b06a" spin={animated} />, 0.5));
-      list.push(
-        deco(
-          'plat',
-          top.x + 520,
-          top.y + 160,
-          200,
-          120,
-          <g className={animated ? 'anim-platform' : undefined}>
-            <rect x="-70" y="-50" width="140" height="22" rx="4" fill="#8a8478" stroke="#c8a25a" strokeWidth="4" />
-          </g>,
-        ),
-      );
-      pts.forEach((p, i) => list.push(deco(`r${i}`, p.x, p.y, 110, 80, <Rock x={0} y={0} s={2.4 + (i % 3) * 0.4} c={i % 2 ? '#8a8070' : '#6f6458'} />)));
+    case 'mechanics': // Лаборатория
+      list.push(deco('lab', top.x - 60, top.y + 40, 300, 220, <Block x={0} y={0} s={2.4} w={100} h={66} cols={6} rows={3} seed={6} lit={TOXIC} animated={animated} />));
+      list.push(deco('chimney', top.x + 250, top.y + 20, 120, 330, <Chimney x={0} y={0} s={2.2} h={120} animated={animated} />));
+      list.push(deco('tank1', top.x - 380, top.y + 90, 140, 160, <Tank x={0} y={0} s={2.4} />));
+      list.push(deco('pipes', top.x + 420, top.y + 140, 260, 100, <Pipes x={0} y={0} s={2.2} w={110} />, 0.4));
+      list.push(deco('tank2', top.x + 520, top.y + 220, 120, 140, <Tank x={0} y={0} s={2} c="#7f8a74" />, 0.7));
+      ringItems((i) => (i % 2 ? <Barrels x={0} y={0} s={2.2} /> : <Rubble x={0} y={0} s={2.4} />));
       break;
-    case 'citadel':
-      list.push(deco('castle', top.x, top.y + 40, 360, 330, <Castle x={0} y={0} s={2.6} />));
-      list.push(deco('h1', top.x - 360, top.y + 110, 140, 140, <House x={0} y={0} s={2.2} wall="#d6d3e6" roof="#4a6fd8" lit />));
-      list.push(deco('h2', top.x + 360, top.y + 110, 140, 140, <House x={0} y={0} s={2.2} wall="#d6d3e6" roof="#4a6fd8" lit />, 0.3));
-      list.push(deco('cr1', top.x - 520, top.y + 200, 120, 140, <Crystal x={0} y={0} s={2} c="#7cc7ff" />, 0.6));
-      list.push(deco('cr2', top.x + 520, top.y + 200, 120, 140, <Crystal x={0} y={0} s={2} c="#7cc7ff" />, 0.8));
-      pts.forEach((p, i) =>
-        list.push(
-          deco(
-            `l${i}`,
-            p.x,
-            p.y,
-            100,
-            170,
-            i % 2 ? (
-              <PineTree x={0} y={0} s={2} />
-            ) : (
-              <g>
-                <rect x="-3" y="-90" width="6" height="90" fill="#3e4258" />
-                <circle cx="0" cy="-96" r="10" fill="#ffd97a" className={animated ? 'anim-flicker' : undefined} />
-                <circle cx="0" cy="-96" r="24" fill="#ffd97a" opacity=".2" />
-              </g>
-            ),
-          ),
-        ),
-      );
+    case 'citadel': // Сектор Ноль
+      list.push(deco('main', top.x, top.y + 40, 380, 360, <MainBuilding x={0} y={0} s={2.3} animated={animated} />));
+      list.push(deco('elev', top.x - 360, top.y + 110, 100, 280, <ElevatorShaft x={0} y={0} s={2.4} animated={animated} />));
+      list.push(deco('haz', top.x + 360, top.y + 120, 90, 120, <HazardSign x={0} y={0} s={2.4} />, 0.3));
+      list.push(deco('bar', top.x - 520, top.y + 200, 100, 110, <Barrels x={0} y={0} s={2.2} />, 0.6));
+      ringItems((i) => (i % 2 ? <LampPost x={0} y={0} s={2.1} animated={animated} c={i % 4 === 1 ? ALARM : undefined} /> : <Fence x={0} y={0} s={2} w={50} />));
       break;
-    case 'underwater':
-      list.push(
-        deco(
-          'ruins',
-          top.x,
-          top.y + 40,
-          360,
-          280,
-          <g>
-            <StoneTower x={0} y={0} s={2.4} wall="#9fd8cf" roof="#2fa8a0" h={60} glow="#5ef2ff" />
-            <Column x={-110} y={0} s={2.2} c="#a8d8d0" />
-            <Column x={110} y={0} s={2.2} c="#a8d8d0" broken />
-          </g>,
-        ),
-      );
-      list.push(deco('c1', top.x - 330, top.y + 90, 120, 160, <Column x={0} y={0} s={2.4} c="#a8d8d0" broken />));
-      list.push(deco('c2', top.x + 330, top.y + 90, 120, 160, <Column x={0} y={0} s={2.4} c="#a8d8d0" />, 0.4));
-      pts.forEach((p, i) =>
-        list.push(
-          deco(
-            `u${i}`,
-            p.x,
-            p.y,
-            120,
-            170,
-            i % 3 === 0 ? <Coral x={0} y={0} s={2.2} c={['#ff6fae', '#ffa86f', '#c86fff'][i % 3]} /> : i % 3 === 1 ? <Seaweed x={0} y={0} s={2.2} /> : <Coral x={0} y={0} s={2} c="#ffa86f" />,
-            i % 6 === 5 ? 0.5 : 0,
-          ),
-        ),
-      );
+    case 'underwater': // Офисы с телевизорами
+      list.push(deco('office', top.x, top.y + 40, 380, 220, <Block x={0} y={0} s={2.4} w={140} h={66} cols={9} rows={3} seed={8} lit={CRT} animated={animated} />));
+      list.push(deco('tv1', top.x - 360, top.y + 100, 180, 160, <TvStack x={0} y={0} s={2.4} animated={animated} />));
+      list.push(deco('tv2', top.x + 360, top.y + 100, 180, 160, <TvStack x={0} y={0} s={2.2} animated={animated} />, 0.4));
+      list.push(deco('sign', top.x + 180, top.y + 140, 140, 120, <Signboard x={0} y={0} s={2.2} text="ОТДЕЛ 4" c="#3a6a8a" />, 0.7));
+      ringItems((i) => (i % 3 === 0 ? <TvStack x={0} y={0} s={1.3} animated={animated} /> : i % 3 === 1 ? <LampPost x={0} y={0} s={2} c={CRT} broken={i % 2 === 0} animated={animated} /> : <Rubble x={0} y={0} s={2.2} />));
       break;
-    case 'ice':
-      list.push(deco('t1', top.x, top.y + 40, 160, 330, <StoneTower x={0} y={0} s={2.5} wall="#dff2ff" roof="#5aa8e0" h={90} glow="#9be7ff" />));
-      list.push(deco('t2', top.x - 260, top.y + 80, 130, 260, <StoneTower x={0} y={0} s={2} wall="#dff2ff" roof="#5aa8e0" h={70} glow="#9be7ff" />, 0.4));
-      list.push(deco('t3', top.x + 260, top.y + 80, 130, 260, <StoneTower x={0} y={0} s={2} wall="#dff2ff" roof="#5aa8e0" h={70} glow="#9be7ff" />, 0.7));
-      pts.forEach((p, i) => list.push(deco(`i${i}`, p.x, p.y, 120, 170, i % 2 ? <Crystal x={0} y={0} s={2} c="#9be7ff" /> : <PineTree x={0} y={0} s={2} c1="#5a9ab8" c2="#2a5a78" snow />)));
+    case 'ice': // Карантин
+      list.push(deco('tower', top.x, top.y + 40, 160, 320, <Watchtower x={0} y={0} s={2.6} animated={animated} />));
+      list.push(deco('b', top.x - 320, top.y + 90, 220, 140, <Block x={0} y={0} s={2.2} w={80} h={40} cols={5} rows={2} seed={9} wall="#9aa3a6" lit="#cfe8ff" animated={animated} />, 0.3));
+      list.push(deco('haz', top.x + 300, top.y + 100, 90, 120, <HazardSign x={0} y={0} s={2.4} />));
+      list.push(deco('tower2', top.x + 480, top.y + 180, 120, 260, <Watchtower x={0} y={0} s={2} animated={animated} />, 0.7));
+      ringItems((i) => (i % 2 ? <Fence x={0} y={0} s={2} w={60} /> : <DeadTree x={0} y={0} s={2.4} />));
       break;
-    case 'sky':
-      list.push(deco('palace', top.x, top.y + 40, 340, 320, <Palace x={0} y={0} s={2.6} />));
-      list.push(deco('t1', top.x - 330, top.y + 100, 130, 260, <StoneTower x={0} y={0} s={2} wall="#fbf6ea" roof="#f2c75c" h={70} glow="#fff1a8" />));
-      list.push(deco('t2', top.x + 330, top.y + 100, 130, 260, <StoneTower x={0} y={0} s={2} wall="#fbf6ea" roof="#f2c75c" h={70} glow="#fff1a8" />, 0.5));
-      pts.forEach((p, i) => list.push(deco(`s${i}`, p.x, p.y, 100, 150, i % 2 ? <Column x={0} y={0} s={2.2} c="#fbf6ea" /> : <Banner x={-10} y={0} s={1.8} c="#f2c75c" />, i % 4 === 3 ? 0.5 : 0)));
+    case 'sky': // Радиоцентр
+      list.push(deco('mast', top.x, top.y + 40, 160, 420, <RadioMast x={0} y={0} s={2.3} h={170} animated={animated} />));
+      list.push(deco('b', top.x - 300, top.y + 90, 220, 140, <Block x={0} y={0} s={2.2} w={80} h={44} cols={5} rows={2} seed={12} animated={animated} />));
+      list.push(deco('dish1', top.x + 300, top.y + 90, 140, 140, <Dish x={0} y={0} s={2.6} />));
+      list.push(deco('dish2', top.x + 480, top.y + 180, 120, 120, <Dish x={0} y={0} s={2} />, 0.5));
+      list.push(deco('sign', top.x - 160, top.y + 150, 140, 120, <Signboard x={0} y={0} s={2.2} text="ЭФИР" />, 0.7));
+      ringItems((i) => (i % 3 === 0 ? <RadioMast x={0} y={0} s={1.2} h={80} animated={animated} /> : <LampPost x={0} y={0} s={2} animated={animated} />));
       break;
-    case 'cosmos':
-      list.push(
-        deco(
-          'portal',
-          top.x,
-          top.y + 40,
-          420,
-          420,
-          <g>
-            <circle cx="0" cy="-190" r="170" fill="url(#cosmosPortal)" />
-            <g className={animated ? 'anim-spin-slow' : undefined} style={{ transformOrigin: '0px -190px' }}>
-              <path d="M0 -190 C60 -280 150 -220 135 -145 M0 -190 C-60 -100 -150 -160 -135 -235 M0 -190 C90 -130 30 -40 -45 -55 M0 -190 C-90 -250 -30 -340 45 -325" stroke="#ffd6ff" strokeWidth="8" fill="none" opacity=".7" />
-            </g>
-            <circle cx="0" cy="-190" r="160" fill="none" stroke="#5ef2ff" strokeWidth="8" opacity=".8" />
-            <StoneTower x={-150} y={0} s={2} wall="#4a2c8a" roof="#9c7bff" h={70} glow="#5ef2ff" />
-            <StoneTower x={150} y={0} s={2} wall="#4a2c8a" roof="#9c7bff" h={70} glow="#5ef2ff" />
-          </g>,
-        ),
-      );
-      pts.forEach((p, i) => list.push(deco(`c${i}`, p.x, p.y, 120, 170, <Crystal x={0} y={0} s={2} c={['#e07bff', '#5ef2ff', '#9c7bff'][i % 3]} />, i % 5 === 4 ? 0.5 : 0)));
+    case 'cosmos': // Бункер
+      list.push(deco('bunker', top.x, top.y + 40, 320, 200, <Bunker x={0} y={0} s={2.6} animated={animated} />));
+      list.push(deco('mast', top.x - 330, top.y + 100, 120, 300, <RadioMast x={0} y={0} s={2} h={120} animated={animated} />));
+      list.push(deco('bar', top.x + 300, top.y + 100, 110, 110, <Barrels x={0} y={0} s={2.4} c="#3e4a3a" />));
+      list.push(deco('haz', top.x + 480, top.y + 180, 90, 120, <HazardSign x={0} y={0} s={2.4} />, 0.5));
+      ringItems((i) => (i % 2 ? <LampPost x={0} y={0} s={2} c={TOXIC} animated={animated} /> : <Rubble x={0} y={0} s={2.4} />));
       break;
   }
   return list;
@@ -329,75 +264,50 @@ export function sceneDecorations(theme: ThemeId, animated: boolean): Decoration[
 
 export const SceneBackdrop = memo(function SceneBackdrop({ theme, animated }: { theme: ThemeId; animated: boolean }) {
   const th = THEMES[theme];
-  const r = rng(77);
-  const stars = Array.from({ length: 120 }, () => ({ x: r() * 1600, y: r() * 1000, s: 0.6 + r() * 2 }));
+  const r = rng(77 + theme.length);
+  const far = Array.from({ length: 14 }, (_, i) => ({ x: i * 120 + r() * 40 - 40, w: 90 + r() * 70, h: 120 + r() * 220 }));
+  const near = Array.from({ length: 9 }, (_, i) => ({ x: i * 190 + r() * 60 - 60, w: 140 + r() * 80, h: 80 + r() * 150 }));
+  const lit = far.flatMap((b, i) =>
+    Array.from({ length: 6 }, (_, k) => ({ x: b.x + 12 + (k % 3) * 26, y: 700 - b.h + 20 + Math.floor(k / 3) * 34 + (i % 3) * 30, on: r() > 0.7, f: r() > 0.9 })),
+  );
   return (
     <svg className="scene-backdrop-svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" aria-hidden>
       <defs>
         <linearGradient id="bd-sky" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor={th.sceneSky[2]} />
-          <stop offset=".55" stopColor={th.sceneSky[1]} />
+          <stop offset=".6" stopColor={th.sceneSky[1]} />
           <stop offset="1" stopColor={th.sceneSky[0]} />
         </linearGradient>
-        <radialGradient id="cosmosPortal">
-          <stop offset="0" stopColor="#fff" stopOpacity=".95" />
-          <stop offset=".3" stopColor="#ff9cf0" stopOpacity=".8" />
-          <stop offset=".7" stopColor="#6a3cff" stopOpacity=".5" />
-          <stop offset="1" stopColor="#1a0a40" stopOpacity="0" />
-        </radialGradient>
         <radialGradient id="bd-glow">
-          <stop offset="0" stopColor={th.glow} stopOpacity=".7" />
+          <stop offset="0" stopColor={th.glow} stopOpacity=".35" />
           <stop offset="1" stopColor={th.glow} stopOpacity="0" />
         </radialGradient>
+        <linearGradient id="bd-fog" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#8e978f" stopOpacity="0" />
+          <stop offset=".5" stopColor="#8e978f" stopOpacity=".28" />
+          <stop offset="1" stopColor="#8e978f" stopOpacity=".05" />
+        </linearGradient>
       </defs>
-      <rect width="1600" height="1000" fill={theme === 'underwater' || theme === 'cosmos' ? th.sceneSky[1] : 'url(#bd-sky)'} />
-      {theme === 'underwater' && (
-        <g>
-          <rect width="1600" height="1000" fill="url(#bd-sky)" transform="rotate(180 800 500)" />
-          {[200, 520, 900, 1250].map((x, i) => (
-            <path key={x} d={`M${x} 0 L${x + 120} 0 L${x + 300} 1000 L${x - 60} 1000 Z`} fill="#bff" opacity=".06" className={animated ? 'anim-pulse' : undefined} style={{ animationDelay: `${i}s` }} />
-          ))}
-          <g opacity=".35">
-            <Jellyfish x={180} y={260} s={2.4} />
-            <Jellyfish x={1420} y={200} s={2} c="#ff9cf0" />
-          </g>
+      <rect width="1600" height="1000" fill="url(#bd-sky)" />
+      <circle cx="1240" cy="200" r="70" fill="#d9d6c6" opacity=".18" />
+      <ellipse cx="800" cy="720" rx="900" ry="360" fill="url(#bd-glow)" className={animated ? 'anim-pulse' : undefined} />
+      {far.map((b, i) => (
+        <rect key={`f${i}`} x={b.x} y={700 - b.h} width={b.w} height={b.h + 400} fill="#0f1316" opacity=".8" />
+      ))}
+      {lit.map((w, i) =>
+        w.on ? <rect key={`w${i}`} x={w.x} y={w.y} width="12" height="14" fill="#ffb347" opacity=".45" className={animated && w.f ? 'anim-flicker' : undefined} /> : null,
+      )}
+      <rect x="0" y="560" width="1600" height="300" fill="url(#bd-fog)" />
+      {near.map((b, i) => (
+        <rect key={`n${i}`} x={b.x} y={820 - b.h} width={b.w} height={b.h + 300} fill="#080a0c" opacity=".85" />
+      ))}
+      {(theme === 'sky' || theme === 'citadel') && <circle cx="300" cy="380" r="5" fill={ALARM} className={animated ? 'anim-twinkle' : undefined} />}
+      {theme === 'ice' && (
+        <g opacity=".06">
+          <path d="M1100 0 L1300 1000 L900 1000 Z" fill="#f6f1d8" className={animated ? 'anim-pulse' : undefined} />
         </g>
       )}
-      {(theme === 'cosmos' || theme === 'citadel' || theme === 'ice') &&
-        stars.map((s, i) => <circle key={i} cx={s.x} cy={s.y * (theme === 'cosmos' ? 1 : 0.5)} r={s.s} fill="#fff" opacity={theme === 'cosmos' ? 0.8 : 0.4} className={animated && i % 4 === 0 ? 'anim-twinkle' : undefined} />)}
-      {theme === 'cosmos' && (
-        <g>
-          <ellipse cx="1250" cy="220" rx="380" ry="140" fill="#c64bff" opacity=".25" transform="rotate(-18 1250 220)" />
-          <ellipse cx="300" cy="700" rx="420" ry="200" fill="#2fd6ff" opacity=".12" />
-          <circle cx="220" cy="200" r="70" fill="#ff8a5a" />
-          <circle cx="200" cy="185" r="70" fill="#ffb38a" opacity=".45" />
-          <ellipse cx="220" cy="200" rx="120" ry="22" fill="none" stroke="#ffd6b0" strokeWidth="4" opacity=".7" />
-          <circle cx="1450" cy="760" r="34" fill="#5ef2ff" opacity=".8" />
-        </g>
-      )}
-      {(theme === 'meadow' || theme === 'architecture' || theme === 'mechanics') && (
-        <g>
-          <circle cx="1250" cy="260" r="120" fill="url(#bd-glow)" />
-          <path d="M0 760 L180 660 L360 720 L560 620 L760 700 L980 610 L1200 690 L1400 630 L1600 700 L1600 1000 L0 1000 Z" fill="#000" opacity=".12" />
-        </g>
-      )}
-      {theme === 'ice' && <path d="M0 800 L160 520 L300 700 L460 420 L640 690 L820 480 L1000 700 L1180 460 L1380 680 L1600 540 L1600 1000 L0 1000 Z" fill="#e8f6ff" opacity=".5" />}
-      {theme === 'citadel' && (
-        <g fill="#1c2034" opacity=".55">
-          <rect x="120" y="520" width="40" height="300" />
-          <path d="M110 520 L140 440 L170 520 Z" />
-          <rect x="1400" y="480" width="50" height="340" />
-          <path d="M1390 480 L1425 390 L1460 480 Z" />
-        </g>
-      )}
-      {(theme === 'sky' || theme === 'meadow' || theme === 'architecture') &&
-        [
-          [160, 820, 260],
-          [560, 880, 320],
-          [1050, 860, 300],
-          [1450, 830, 260],
-        ].map(([x, y, rr], i) => <ellipse key={i} cx={x} cy={y} rx={rr} ry={rr * 0.35} fill="#fff" opacity={theme === 'sky' ? 0.9 : 0.45} className={animated ? 'anim-drift' : undefined} />)}
-      {theme === 'sky' && <circle cx="800" cy="120" r="160" fill="url(#bd-glow)" />}
+      <rect x="0" y="820" width="1600" height="180" fill="url(#bd-fog)" />
     </svg>
   );
 });
@@ -407,7 +317,7 @@ export const SceneBackdrop = memo(function SceneBackdrop({ theme, animated }: { 
 export const SceneParticles = memo(function SceneParticles({ theme }: { theme: ThemeId }) {
   const r = rng(theme.length * 11 + 3);
   const kind =
-    theme === 'underwater' ? 'bubble' : theme === 'ice' ? 'snow' : theme === 'cosmos' ? 'star' : theme === 'mechanics' ? 'spark' : theme === 'sky' ? 'mote' : theme === 'citadel' ? 'magic' : 'firefly';
+    theme === 'ice' ? 'snow' : theme === 'mechanics' ? 'spark' : theme === 'underwater' ? 'static' : 'ash';
   const count = kind === 'snow' ? 70 : 34;
   return (
     <div className={`scene-particles p-${kind}`} aria-hidden>
@@ -423,8 +333,8 @@ export const SceneParticles = memo(function SceneParticles({ theme }: { theme: T
           }}
         />
       ))}
-      {theme === 'underwater' && <div className="caustics" />}
-      {theme === 'sky' && <div className="sunrays" />}
+      <div className="scene-fog" />
+      {theme === 'underwater' && <div className="crt-scan" />}
     </div>
   );
 });
